@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nakivale Market Hub</title>
+<style>
+body{font-family:Arial;margin:0;background:#f5f5f5}
+header{background:#0a7a0a;color:white;padding:15px;text-align:center}
+.products{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
+.card{background:white;padding:10px;border-radius:8px;box-shadow:0 2px 5px #ccc}
+.card img{width:100%;height:120px;object-fit:cover;border-radius:5px}
+button{background:#0a7a0a;color:white;border:0;padding:8px 12px;border-radius:5px;width:100%;margin-top:5px}
+.vendor{background:#fff3cd;padding:10px;margin:10px;border-radius:8px}
+input,select{width:100%;padding:8px;margin:5px 0;border:1px solid #ccc;border-radius:5px;box-sizing:border-box}
+</style>
+</head>
+<body>
+<header>
+<h2>🛒 Nakivale Market Hub</h2>
+<p>Multi-vendor - Buy & Sell in Nakivale</p>
+</header>
+
+<div class="vendor">
+<h3>Add Your Product (For Traders)</h3>
+<input id="pname" placeholder="Product name e.g. Maize">
+<input id="pprice" placeholder="Price e.g. 5000 UGX" type="number">
+<input id="pvendor" placeholder="Your name / Shop name">
+<input id="pimg" placeholder="Image link (optional)">
+<button onclick="addProduct()">Add Product to Market</button>
+</div>
+
+<div id="list" class="products"></div>
+
+<script>
+let products = JSON.parse(localStorage.getItem('nakivale')||'[]');
+if(products.length==0){
+products=[
+{name:"Maize Flour 5kg",price:15000,vendor:"Mama Grace",img:"https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b"},
+{name:"Tomatoes",price:3000,vendor:"John - Zone 3",img:"https://images.unsplash.com/photo-1561136594-7f68413baa99"},
+{name:"Second Hand Shirt",price:8000,vendor:"Kisembo Shop",img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"}
+];
+}
+function show(){
+let div=document.getElementById('list');
+div.innerHTML='';
+products.forEach((p,i)=>{
+div.innerHTML+=`<div class="card"><img src="${p.img||'https://via.placeholder.com/150'}"><h4>${p.name}</h4><p>UGX ${p.price}</p><small>By: ${p.vendor}</small><button onclick="buy(${i})">Buy - Call Vendor</button></div>`;
+});
+localStorage.setItem('nakivale',JSON.stringify(products));
+}
+function addProduct(){
+let n=document.getElementById('pname').value;
+let pr=document.getElementById('pprice').value;
+let v=document.getElementById('pvendor').value;
+let im=document.getElementById('pimg').value;
+if(!n||!pr||!v){alert("Fill name, price, vendor");return}
+products.unshift({name:n,price:pr,vendor:v,img:im});
+show();
+document.getElementById('pname').value='';document.getElementById('pprice').value='';document.getElementById('pvendor').value='';document.getElementById('pimg').value='';
+alert("Product added! Saved on this device and will show at school if you login same browser, but for all devices we need backend later.");
+}
+function buy(i){
+alert("Contact vendor: "+products[i].vendor+" for "+products[i].name+" - In real market we will add phone number & chat");
+}
+show();
+</script>
+</body>
+</html>

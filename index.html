@@ -1,68 +1,120 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nakivale Market Hub</title>
 <style>
-body{font-family:Arial;margin:0;background:#f5f5f5}
-header{background:#0a7a0a;color:white;padding:15px;text-align:center}
-.products{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
-.card{background:white;padding:10px;border-radius:8px;box-shadow:0 2px 5px #ccc}
-.card img{width:100%;height:120px;object-fit:cover;border-radius:5px}
-button{background:#0a7a0a;color:white;border:0;padding:8px 12px;border-radius:5px;width:100%;margin-top:5px}
-.vendor{background:#fff3cd;padding:10px;margin:10px;border-radius:8px}
-input,select{width:100%;padding:8px;margin:5px 0;border:1px solid #ccc;border-radius:5px;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#fefce8}
+.header{background:#15803d;color:white;padding:14px;text-align:center;position:sticky;top:0;z-index:10}
+.header h1{font-size:18px}
+.header p{font-size:12px;opacity:.9;margin-top:4px}
+.container{max-width:600px;margin:auto;padding:12px}
+.card{background:white;border-radius:12px;padding:14px;box-shadow:0 2px 8px rgba(0,0,0,.08);margin-bottom:12px}
+.card h2{font-size:16px;margin-bottom:10px}
+input{width:100%;padding:12px;margin:6px 0;border:1.5px solid #ddd;border-radius:8px;font-size:14px}
+.btn{width:100%;padding:13px;background:#16a34a;color:white;border:none;border-radius:8px;font-weight:bold;font-size:15px;cursor:pointer}
+.products{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.product{background:white;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.product img{width:100%;height:140px;object-fit:cover;background:#eee}
+.p-info{padding:10px}
+.p-info h3{font-size:14px;min-height:36px}
+.price{color:#15803d;font-weight:bold;margin:6px 0;font-size:14px}
+.vendor{font-size:11px;color:#666;margin-bottom:8px}
+.buy-btn{width:100%;padding:9px;background:#15803d;color:white;border:none;border-radius:6px;font-size:13px;font-weight:bold}
+.delete-btn{width:100%;padding:6px;background:#fee2e2;color:#dc2626;border:none;border-radius:6px;font-size:11px;margin-top:6px}
 </style>
 </head>
 <body>
-<header>
-<h2>🛒 Nakivale Market Hub</h2>
-<p>Multi-vendor - Buy & Sell in Nakivale</p>
-</header>
-
-<div class="vendor">
-<h3>Add Your Product (For Traders)</h3>
-<input id="pname" placeholder="Product name e.g. Maize">
-<input id="pprice" placeholder="Price e.g. 5000 UGX" type="number">
-<input id="pvendor" placeholder="Your name / Shop name">
-<input id="pimg" placeholder="Image link (optional)">
-<button onclick="addProduct()">Add Product to Market</button>
+<div class="header">
+<h1>Nakivale Market Hub</h1>
+<p>Buy & Sell in Nakivale Settlement</p>
 </div>
-
-<div id="list" class="products"></div>
-
+<div class="container">
+<div class="card">
+<h2>Add Your Product</h2>
+<input id="name" placeholder="Product name e.g. Maize 5kg">
+<input id="price" placeholder="Price e.g. 15000 UGX">
+<input id="shop" placeholder="Your Shop / Your Name">
+<input id="phone" placeholder="Phone number e.g. 256772123456">
+<label style="font-size:12px;color:#555;margin-top:8px;display:block">Take photo from phone or gallery:</label>
+<input id="imageFile" type="file" accept="image/*">
+<div style="font-size:11px;color:#888;text-align:center;margin:6px">OR paste image link (optional)</div>
+<input id="imageLink" placeholder="Image link (optional)">
+<button class="btn" onclick="addProduct()">Add Product to Market</button>
+</div>
+<div style="display:flex;gap:8px;margin-bottom:12px">
+<input id="search" placeholder="Search e.g. maize, shirt..." oninput="render()" style="margin:0">
+<button onclick="clearAll()" style="padding:10px 12px;background:#ef4444;color:white;border:none;border-radius:8px;font-size:12px">Clear</button>
+</div>
+<div id="products" class="products"></div>
+</div>
 <script>
-let products = JSON.parse(localStorage.getItem('nakivale')||'[]');
-if(products.length==0){
-products=[
-{name:"Maize Flour 5kg",price:15000,vendor:"Mama Grace",img:"https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b"},
-{name:"Tomatoes",price:3000,vendor:"John - Zone 3",img:"https://images.unsplash.com/photo-1561136594-7f68413baa99"},
-{name:"Second Hand Shirt",price:8000,vendor:"Kisembo Shop",img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab"}
-];
+let products = JSON.parse(localStorage.getItem('nakivale_products_v3') || '[]');
+if(products.length===0){
+ products = [
+  {id:1,name:"Maize Flour 5kg",price:"UGX 15000",shop:"Mama Grace",phone:"256700000001",img:"https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400"},
+  {id:2,name:"Tomatoes",price:"UGX 3000",shop:"John - Zone 3",phone:"256700000002",img:"https://images.unsplash.com/photo-1561136594-7f68413baa99?w=400"},
+  {id:3,name:"Second Hand Shirt",price:"UGX 8000",shop:"Kisembo Shop",phone:"256700000003",img:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400"}
+ ];
+ save();
 }
-function show(){
-let div=document.getElementById('list');
-div.innerHTML='';
-products.forEach((p,i)=>{
-div.innerHTML+=`<div class="card"><img src="${p.img||'https://via.placeholder.com/150'}"><h4>${p.name}</h4><p>UGX ${p.price}</p><small>By: ${p.vendor}</small><button onclick="buy(${i})">Buy - Call Vendor</button></div>`;
+function save(){localStorage.setItem('nakivale_products_v3', JSON.stringify(products));}
+let selectedImageData = null;
+document.getElementById('imageFile').addEventListener('change', function(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){ selectedImageData = ev.target.result; }
+  reader.readAsDataURL(file);
 });
-localStorage.setItem('nakivale',JSON.stringify(products));
-}
 function addProduct(){
-let n=document.getElementById('pname').value;
-let pr=document.getElementById('pprice').value;
-let v=document.getElementById('pvendor').value;
-let im=document.getElementById('pimg').value;
-if(!n||!pr||!v){alert("Fill name, price, vendor");return}
-products.unshift({name:n,price:pr,vendor:v,img:im});
-show();
-document.getElementById('pname').value='';document.getElementById('pprice').value='';document.getElementById('pvendor').value='';document.getElementById('pimg').value='';
-alert("Product added! Saved on this device and will show at school if you login same browser, but for all devices we need backend later.");
+ const name = document.getElementById('name').value.trim();
+ const price = document.getElementById('price').value.trim();
+ const shop = document.getElementById('shop').value.trim();
+ let phone = document.getElementById('phone').value.trim().replace(/[^0-9]/g,'');
+ const link = document.getElementById('imageLink').value.trim();
+ if(!name || !price || !shop){ alert("Please fill product name, price and shop name"); return; }
+ if(!phone){ alert("Please add phone number e.g. 256772123456"); return; }
+ let img = selectedImageData || link || "https://via.placeholder.com/400x300?text="+encodeURIComponent(name);
+ products.unshift({id:Date.now(),name,price,shop,phone,img});
+ save(); render();
+ document.getElementById('name').value=""; document.getElementById('price').value=""; document.getElementById('shop').value=""; document.getElementById('phone').value=""; document.getElementById('imageLink').value=""; document.getElementById('imageFile').value=""; selectedImageData=null;
+ alert("Product Added!");
 }
-function buy(i){
-alert("Contact vendor: "+products[i].vendor+" for "+products[i].name+" - In real market we will add phone number & chat");
+function render(){
+ const q = document.getElementById('search').value.toLowerCase();
+ const container = document.getElementById('products');
+ container.innerHTML="";
+ const filtered = products.filter(p=>p.name.toLowerCase().includes(q) || p.shop.toLowerCase().includes(q));
+ filtered.forEach(p=>{
+  const div = document.createElement('div');
+  div.className="product";
+  div.innerHTML=`
+    <img src="${p.img}" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+    <div class="p-info">
+      <h3>${p.name}</h3>
+      <div class="price">${p.price}</div>
+      <div class="vendor">By: ${p.shop}</div>
+      <button class="buy-btn" onclick="callVendor('${p.phone}','${p.name.replace(/'/g,"")}')">Call Vendor</button>
+      <button class="delete-btn" onclick="removeProduct(${p.id})">Remove</button>
+    </div>
+  `;
+  container.appendChild(div);
+ });
 }
-show();
+function callVendor(phone, productName){
+  const msg = encodeURIComponent(`Hello! I saw ${productName} on Nakivale Market Hub. Is it still available?`);
+  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+}
+function removeProduct(id){
+ if(confirm("Remove this product?")){ products = products.filter(p=>p.id!==id); save(); render(); }
+}
+function clearAll(){
+ if(confirm("Clear ALL products?")){ products=[]; save(); render(); }
+}
+render();
 </script>
 </body>
 </html>

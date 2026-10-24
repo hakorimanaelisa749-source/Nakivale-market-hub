@@ -2,125 +2,124 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
 <title>Nakivale Market Hub</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#f5f5f5;padding-bottom:80px}
-header{background:#15803d;color:white;padding:14px;text-align:center;position:sticky;top:0;z-index:10}
-.momo{background:#facc15;padding:10px;text-align:center;font-weight:bold;margin:8px;border-radius:10px}
-.momo a{color:black;text-decoration:none}
-.momo span{font-size:12px;display:block;font-weight:normal}
-.section{display:none;padding:10px}.section.active{display:block}
-.card{background:white;padding:14px;border-radius:12px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.1)}
-input,select{width:100%;padding:10px;margin:5px 0;border:1px solid #ccc;border-radius:8px}
-.btn-green{width:100%;padding:12px;background:#15803d;color:white;border:none;border-radius:8px;font-weight:bold;font-size:16px}
-.products{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.product{background:white;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.1)}
-.product img{width:100%;height:120px;object-fit:cover}
-.pinfo{padding:8px;font-size:13px}
-.call{width:100%;background:#15803d;color:white;border:none;padding:6px;border-radius:6px;margin-top:4px}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;display:flex;justify-content:space-around;padding:8px 0 12px;border-top:1px solid #ddd;z-index:99}
-.bottom-nav button{border:none;background:none;display:flex;flex-direction:column;align-items:center;font-size:11px;color:#6b7280;gap:2px}
-.bottom-nav button.active{color:#15803d;font-weight:bold}
-.bottom-nav button span.icon{font-size:22px}
-.search{display:flex;gap:6px;margin:10px}
-.search input{flex:1}
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto}
+body{background:#f5f7f5;padding-bottom:95px}
+header{background:#15803d;color:white;padding:14px 16px;text-align:center;position:sticky;top:0;z-index:20}
+header h1{font-size:20px;font-weight:800}
+header p{font-size:11px;opacity:.9}
+.momo{background:linear-gradient(90deg,#facc15,#fde047);color:#422006;text-align:center;padding:10px;border-radius:12px;margin:10px 12px;font-weight:700;font-size:14px;line-height:1.3}
+.momo small{display:block;font-weight:500;font-size:11px}
+.cat-wrap{overflow-x:auto;white-space:nowrap;padding:8px 12px 4px;scrollbar-width:none}
+.cat-wrap::-webkit-scrollbar{display:none}
+.cat{border:1px solid #d1d5db;background:white;padding:7px 14px;border-radius:20px;font-size:13px;margin-right:6px;display:inline-block}
+.cat.active{background:#15803d;color:white;border-color:#15803d}
+.topbar{display:flex;gap:8px;padding:10px 12px}
+.search{flex:1;padding:11px 14px;border-radius:10px;border:1px solid #d1d5db;background:white}
+.addBtn{background:#15803d;color:white;border:none;padding:11px 18px;border-radius:10px;font-weight:700;font-size:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 12px}
+.card{background:white;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.08);border:1px solid #eee}
+.card img{width:100%;height:130px;object-fit:cover;background:#f0f0f0}
+.card-body{padding:8px 9px}
+.card-title{font-size:13px;font-weight:700;line-height:1.2;height:32px;overflow:hidden}
+.card-price{color:#15803d;font-weight:800;font-size:13px;margin:2px 0}
+.card-shop{font-size:10px;color:#6b7280}
+.card-actions{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+.btn-call{background:#15803d;color:white;border:none;padding:7px;border-radius:8px;font-size:12px;font-weight:700}
+.btn-remove{background:#ffe4e6;color:#9f1239;border:none;padding:4px;border-radius:6px;font-size:10px}
+.empty{text-align:center;padding:30px;color:#9ca3af;font-size:14px;grid-column:1/-1}
+.fab{position:fixed;right:16px;bottom:90px;background:#15803d;color:white;border:none;width:56px;height:56px;border-radius:28px;font-size:28px;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:15}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:8px 0 10px;z-index:25}
+.bnav{border:none;background:none;text-align:center;font-size:10px;color:#6b7280}
+.bnav.active{color:#15803d;font-weight:700}
+.bnav span{display:block;font-size:20px}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:40;display:none;align-items:flex-end}
+.modal-bg.open{display:flex}
+.modal{background:white;width:100%;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px;animation:slide .25s}
+@keyframes slide{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal h3{font-size:18px}
+.modal small{color:#6b7280}
+.inp{width:100%;padding:12px 12px;border:1px solid #d1d5db;border-radius:10px;margin-top:10px;font-size:14px}
+.row{display:flex;gap:8px}
+.row .inp{flex:1}
+.preview{width:100%;height:160px;background:#f3f4f6;border:1px dashed #d1d5db;border-radius:10px;margin-top:10px;display:none;object-fit:cover}
+.camLabel{background:#f3f4f6;border:1px dashed #9ca3af;border-radius:10px;padding:12px;text-align:center;margin-top:10px;display:block;font-size:13px}
+.submit{background:#15803d;color:white;border:none;width:100%;padding:13px;border-radius:12px;font-weight:800;margin-top:12px;font-size:15px}
+.closeX{background:#f3f4f6;border:none;padding:6px 10px;border-radius:8px;float:right}
+.infoBox{background:#f0fdf4;border:1px solid #bbf7d0;padding:10px;border-radius:10px;margin-top:10px;font-size:12px}
 </style>
 </head>
 <body>
-
 <header>
-<h1 style="font-size:19px">Nakivale Market Hub</h1>
-<p style="font-size:11px">Buy & Sell in Nakivale Settlement</p>
+<h1>Nakivale Market Hub</h1>
+<p>Buy & Sell in Nakivale Settlement • Trusted Vendors</p>
 </header>
-
-<div class="momo">
-<a href="tel:+256783663151">MoMo Pay: +256783663151 • 5% commission</a>
-<span>Pay instantly • Commission applies to each sale</span>
+<div class="momo">MoMo Pay: +256783663151 • 5% commission<small>Pay instantly • Commission applies to each sale • Use same MoMo</small></div>
+<div class="cat-wrap" id="catWrap"></div>
+<div class="topbar">
+<input id="search" class="search" placeholder="Search e.g. Samsung, maize, shirt..." oninput="render()">
+<button class="addBtn" onclick="openModal()">+ Add Product</button>
 </div>
-
-<!-- HOME -->
-<div id="home" class="section active">
-<div class="card">
-<h3>Add Your Product</h3>
-<p style="font-size:12px;color:gray;margin-bottom:8px">Fill details to list your product</p>
-<input id="pname" placeholder="Product Name e.g. Fresh Beans - 1kg">
-<select id="pcat"><option>Grains & Cereals</option><option>Vegetables</option><option>Clothes</option><option>Baskets & Crafts</option><option>Charcoal & Firewood</option><option>Other</option></select>
-<input id="pprice" placeholder="Price (UGX) e.g. 4500">
-<input id="pshop" placeholder="Your Shop / Name">
-<input id="pphone" placeholder="WhatsApp e.g. 256783663151">
-<input type="file" id="pfile" accept="image/*">
-<input id="pimg" placeholder="Or image link (optional)">
-<button class="btn-green" onclick="addProduct()">Submit Product for Listing</button>
-</div>
-<div class="search"><input id="search" placeholder="Search e.g. maize, shirt..." oninput="render()"><button onclick="clearSearch()" style="background:#ef4444;color:white;border:none;padding:0 14px;border-radius:8px">Clear</button></div>
-<div id="plist" class="products"></div>
-</div>
-
-<div id="market" class="section">
-<div class="card"><h3>All Market Products</h3></div>
-<div id="mlist" class="products"></div>
-</div>
-
-<div id="how" class="section">
-<div class="card"><h3 style="color:#15803d">1. Seller Posts</h3><p>Seller adds product with price & photo.</p></div>
-<div class="card"><h3 style="color:#15803d">2. Buyer Contacts</h3><p>Buyer clicks Call Vendor → WhatsApp opens.</p></div>
-<div class="card"><h3 style="color:#15803d">3. Pay MoMo +256783663151</h3><p>Buyer sends to MoMo + 5% commission. Example: 20,000 product = pay 21,000 (1,000 is Hub fee).</p></div>
-<div class="card"><h3 style="color:#15803d">4. Delivery in Nakivale</h3><p>Meet at Base Camp, Juru, Rubondo etc.</p></div>
-</div>
-
-<div id="pay" class="section">
-<div class="card" style="text-align:center">
-<h2>Pay with MoMo</h2><br>
-<h2 style="color:#15803d"><a href="tel:+256783663151" style="color:#15803d;text-decoration:none">+256783663151</a></h2>
-<p>Hakorimana Elisa - Owner</p><br>
-<div style="background:#fef9c3;padding:12px;border-radius:8px;text-align:left;font-size:14px">
-<b>Steps:</b><br>
-1. *165# MTN → Send Money<br>
-2. To: 0783663151<br>
-3. Amount = Price + 5%<br>
-4. Reference: Product name<br>
-5. Screenshot to vendor
-</div><br>
-<a href="https://wa.me/256783663151?text=Hello%20confirm%20payment%20for%20Nakivale%20Market" style="display:block;background:#25D366;color:white;padding:12px;border-radius:8px;text-decoration:none;font-weight:bold">WhatsApp Confirm Payment</a>
-</div>
-</div>
-
-<!-- BOTTOM BUTTONS -->
+<div class="grid" id="grid"></div>
+<button class="fab" onclick="openModal()">+</button>
 <div class="bottom-nav">
-<button class="active" onclick="showSec('home',this)"><span class="icon">🏠</span>Home</button>
-<button onclick="showSec('market',this)"><span class="icon">🛍️</span>Market</button>
-<button onclick="showSec('how',this)"><span class="icon">❓</span>How it Works</button>
-<button onclick="showSec('pay',this)"><span class="icon">💳</span>Pay</button>
+<button class="bnav active" onclick="scrollToTop()"><span>🏠</span>Home</button>
+<button class="bnav" onclick="document.getElementById('grid').scrollIntoView()"><span>🛍️</span>Market</button>
+<button class="bnav" onclick="showHow()"><span>❓</span>How It Works</button>
+<button class="bnav" onclick="showPay()"><span>💳</span>Pay</button>
 </div>
-
+<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()">
+<div class="modal">
+<button class="closeX" onclick="closeModal()">✕</button>
+<h3>Add Your Product</h3>
+<small>Fill details • Photo from camera or gallery</small>
+<input id="pName" class="inp" placeholder="Product Name e.g. Samsung Galaxy A10">
+<select id="pCat" class="inp">
+<option value="Other">Choose Category</option>
+<option>Phones & Tablets</option>
+<option>Electronics</option>
+<option>Household</option>
+<option>Fashion & Clothes</option>
+<option>Shoes & Bags</option>
+<option>Food & Grains</option>
+<option>Beauty & Health</option>
+<option>Kids & Toys</option>
+<option>Services</option>
+<option>Other</option>
+</select>
+<div class="row">
+<input id="pPrice" class="inp" type="number" placeholder="Price (UGX) e.g. 45000">
+<input id="pShop" class="inp" placeholder="Your Shop / Name e.g. Elisa">
+</div>
+<input id="pWa" class="inp" placeholder="WhatsApp e.g. 256783663151">
+<label class="camLabel">📷 Take Photo or Choose from Gallery
+<input id="pFile" type="file" accept="image/*" capture="environment" hidden onchange="previewFile(this)">
+</label>
+<img id="preview" class="preview">
+<input id="pLink" class="inp" placeholder="Or paste image link (optional)">
+<div class="infoBox">✓ Photo tip: Take clear photo in daylight • Commission 5% will be added</div>
+<button class="submit" onclick="submitProduct()">Submit Product for Listing</button>
+<div style="height:20px"></div>
+</div>
+</div>
 <script>
-let products=JSON.parse(localStorage.getItem('nakivale_v2')||'[]');
-function showSec(id,btn){
- document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- document.querySelectorAll('.bottom-nav button').forEach(b=>b.classList.remove('active'));
- btn.classList.add('active');
- if(id==='market') document.getElementById('mlist').innerHTML=document.getElementById('plist').innerHTML||'<p style=text-align:center;color:gray>Empty, add on Home</p>';
- window.scrollTo(0,0);
-}
-function addProduct(){
- let n=document.getElementById('pname').value.trim(), pr=document.getElementById('pprice').value.trim(), s=document.getElementById('pshop').value.trim(), ph=document.getElementById('pphone').value.trim(), link=document.getElementById('pimg').value.trim(), f=document.getElementById('pfile').files[0];
- if(!n||!pr||!s){alert('Fill Name, Price, Shop');return}
- let save=(img)=>{ products.unshift({name:n,price:pr,shop:s,phone:ph,img:img||'https://via.placeholder.com/200?text='+encodeURIComponent(n)}); localStorage.setItem('nakivale_v2',JSON.stringify(products)); render(); ['pname','pprice','pshop','pphone','pimg'].forEach(i=>document.getElementById(i).value=''); document.getElementById('pfile').value=''; alert('Added!'); };
- if(f){let r=new FileReader();r.onload=e=>save(e.target.result);r.readAsDataURL(f);} else save(link);
-}
-function render(){
- let q=document.getElementById('search').value.toLowerCase();
- let fil=products.filter(p=>p.name.toLowerCase().includes(q));
- let h=fil.map((p,i)=>`<div class="product"><img src="${p.img}" onerror="this.src='https://via.placeholder.com/200'"><div class="pinfo"><b>${p.name}</b><br><span style="color:#15803d;font-weight:bold">${p.price} UGX</span><br><span style="font-size:11px;color:gray">By ${p.shop}</span><button class="call" onclick="callV('${p.phone}','${p.name}')">Call Vendor</button><button onclick="delP(${products.indexOf(p)})" style="width:100%;margin-top:4px;background:#fee2e2;color:#b91c1c;border:none;padding:3px;border-radius:5px;font-size:10px">Remove</button></div></div>`).join('');
- document.getElementById('plist').innerHTML=h||'<p style=text-align:center;color:gray>No products yet</p>';
-}
-function callV(ph,name){ let num=ph.replace(/\D/g,''); if(!num.startsWith('256')) num='256'+num.slice(-9); let t=encodeURIComponent(`Hello I want ${name}. I will pay MoMo +256783663151 with 5% commission`); window.open(`https://wa.me/${num}?text=${t}`,'_blank'); }
-function delP(i){ if(confirm('Delete?')){ products.splice(i,1); localStorage.setItem('nakivale_v2',JSON.stringify(products)); render(); } }
-function clearSearch(){ document.getElementById('search').value=''; render(); }
-render();
+const CATS=["All","Phones & Tablets","Electronics","Household","Fashion & Clothes","Food & Grains","Beauty & Health","Shoes & Bags"];
+let products=JSON.parse(localStorage.getItem("nakivale_v3")||"[]");
+let activeCat="All";
+function initCats(){const w=document.getElementById("catWrap");w.innerHTML=CATS.map(c=>`<button class="cat ${c===activeCat?'active':''}" onclick="setCat('${c}')">${c}</button>`).join("");}
+function setCat(c){activeCat=c;initCats();render();}
+function openModal(){document.getElementById("modalBg").classList.add("open")}
+function closeModal(){document.getElementById("modalBg").classList.remove("open")}
+function previewFile(input){if(input.files&&input.files[0]){const r=new FileReader();r.onload=e=>{const img=document.getElementById("preview");img.src=e.target.result;img.style.display="block";};r.readAsDataURL(input.files[0]);}}
+function submitProduct(){const name=document.getElementById("pName").value.trim();const cat=document.getElementById("pCat").value;const price=document.getElementById("pPrice").value.trim();const shop=document.getElementById("pShop").value.trim();const wa=document.getElementById("pWa").value.trim();const link=document.getElementById("pLink").value.trim();const preview=document.getElementById("preview").src;if(!name||!price||!shop){alert("Please fill Name, Price, Shop");return;}let img=link||preview;if(!img||preview===""&&!link){img="https://via.placeholder.com/300x300?text="+encodeURIComponent(name);}if(document.getElementById("preview").style.display==="block")img=document.getElementById("preview").src;else if(link)img=link;const prod={id:Date.now(),name,cat,price,shop,wa,img};products.unshift(prod);localStorage.setItem("nakivale_v3",JSON.stringify(products));closeModal();["pName","pPrice","pShop","pWa","pLink"].forEach(id=>document.getElementById(id).value="");document.getElementById("preview").style.display="none";document.getElementById("pFile").value="";render();}
+function render(){const q=document.getElementById("search").value.toLowerCase();const grid=document.getElementById("grid");let list=products.filter(p=>{const matchCat=activeCat==="All"||p.cat===activeCat;const matchQ=!q||p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)||p.shop.toLowerCase().includes(q);return matchCat&&matchQ;});if(list.length===0){grid.innerHTML=`<div class="empty">No products yet<br><small>Tap + Add Product to list your first item</small></div>`;return;}grid.innerHTML=list.map(p=>`<div class="card"><img src="${p.img}" onerror="this.src='https://via.placeholder.com/300?text=No+Image'"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${p.price} UGX • ${p.cat}</div><div class="card-shop">By ${p.shop}</div><div class="card-actions"><button class="btn-call" onclick="window.open('https://wa.me/${p.wa.replace(/[^0-9]/g,'')}?text=Hi I want ${encodeURIComponent(p.name)}','_blank')">Call / WhatsApp Vendor</button><button class="btn-remove" onclick="removeProd(${p.id})">Remove</button></div></div></div>`).join("");}
+function removeProd(id){if(confirm("Remove this product?")){products=products.filter(p=>p.id!==id);localStorage.setItem("nakivale_v3",JSON.stringify(products));render();}}
+function scrollToTop(){window.scrollTo({top:0,behavior:"smooth"})}
+function showHow(){alert("How It Works:\n1. Tap + Add Product\n2. Take photo with camera\n3. Add price & WhatsApp\n4. Buyer taps Call Vendor\n5. Pay MoMo +256783663151 - 5% commission");}
+function showPay(){alert("MoMo Pay: +256783663151\nName: Elisa Hakorimana\n5% commission on each sale\nPay after buyer confirms.");}
+initCats();render();
 </script>
 </body>
 </html>

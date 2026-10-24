@@ -20,7 +20,7 @@ header h1{font-size:20px;font-weight:800}
 .addBtn{background:#15803d;color:white;border:none;padding:11px 18px;border-radius:10px;font-weight:700}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 12px}
 .card{background:white;border-radius:14px;overflow:hidden;border:1px solid #eee}
-.card img{width:100%;height:135px;object-fit:cover;background:#f3f4f6}
+.card img{width:100%;height:135px;object-fit:contain;background:white}
 .card-body{padding:8px}
 .card-title{font-size:13px;font-weight:700;height:32px;overflow:hidden}
 .card-price{color:#15803d;font-weight:800;font-size:13px}
@@ -42,10 +42,16 @@ header h1{font-size:20px;font-weight:800}
 .modal{background:white;width:100%;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px}
 .inp{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;margin-top:10px;font-size:14px}
 .row{display:flex;gap:8px}.row .inp{flex:1}
-.preview{width:100%;height:160px;object-fit:cover;border-radius:10px;margin-top:10px;display:none;border:1px dashed #ccc}
+.preview{width:100%;height:160px;object-fit:contain;border-radius:10px;margin-top:10px;display:none;border:1px dashed #ccc;background:white}
 .camLabel{background:#f3f4f6;border:1px dashed #9ca3af;border-radius:10px;padding:12px;text-align:center;margin-top:10px;display:block;font-size:13px}
 .submit{background:#15803d;color:white;border:none;width:100%;padding:13px;border-radius:12px;font-weight:800;margin-top:12px}
 .closeX{background:#f3f4f6;border:none;padding:6px 10px;border-radius:8px;float:right}
+/* FULL SCREEN PRODUCT VIEW */
+.view-bg{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:50;display:none;align-items:center;justify-content:center;padding:12px}
+.view-bg.open{display:flex}
+.view-box{background:white;width:100%;max-width:420px;border-radius:20px;overflow:hidden;max-height:95vh;overflow-y:auto}
+.view-box img{width:100%;max-height:60vh;object-fit:contain;background:white}
+.view-info{padding:16px}
 </style>
 </head>
 <body>
@@ -68,10 +74,10 @@ header h1{font-size:20px;font-weight:800}
 <h2>❓ How It Works</h2>
 <ol>
 <li><b>Tap + Add Product</b> button</li>
-<li><b>Take clear photo</b> - white background sells 3x faster</li>
+<li><b>Choose Photo</b> - Gallery or Camera both work now</li>
 <li><b>Add Price, Shop Name, WhatsApp</b></li>
 <li><b>Tap Submit</b> - product live instantly</li>
-<li><b>Buyer taps Call Vendor</b> → your WhatsApp</li>
+<li><b>Buyer taps product</b> → sees full screen, then Call Vendor</li>
 <li><b>Pay 5% commission</b> via MoMo +256783663151</li>
 </ol>
 <button class="submit" onclick="showPage('Home')">Go to Market</button>
@@ -89,10 +95,10 @@ header h1{font-size:20px;font-weight:800}
 </div>
 <div style="background:#fffbeb;border:1px solid #fde68a;padding:12px;border-radius:10px;margin-top:12px;font-size:13px;line-height:1.6">
 <b>How to pay:</b><br>
-• MTN MoMo → Send Money<br>
-• Number: 0783663151<br>
-• Amount: 5% of sale<br>
-• Send screenshot to WhatsApp to confirm
+- MTN MoMo → Send Money<br>
+- Number: 0783663151<br>
+- Amount: 5% of sale<br>
+- Send screenshot to WhatsApp to confirm
 </div>
 <button class="submit" onclick="window.open('https://wa.me/256783663151?text=MoMo Payment confirmation','_blank')">Confirm on WhatsApp</button>
 </div>
@@ -106,6 +112,7 @@ header h1{font-size:20px;font-weight:800}
 <button class="bnav" id="bPay" onclick="showPage('Pay')"><span>💳</span>Pay</button>
 </div>
 
+<!-- ADD PRODUCT MODAL -->
 <div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()">
 <div class="modal">
 <button class="closeX" onclick="closeModal()">✕</button>
@@ -114,26 +121,44 @@ header h1{font-size:20px;font-weight:800}
 <select id="pCat" class="inp"><option>Phones & Tablets</option><option>Electronics</option><option>Household</option><option>Fashion & Clothes</option><option>Food & Grains</option><option>Beauty & Health</option><option>Other</option></select>
 <div class="row"><input id="pPrice" class="inp" type="number" placeholder="Price UGX"><input id="pShop" class="inp" placeholder="Shop Name"></div>
 <input id="pWa" class="inp" placeholder="WhatsApp 256...">
-<label class="camLabel">📷 Take Photo or Choose Gallery<input id="pFile" type="file" accept="image/*" capture="environment" hidden onchange="previewFile(this)"></label>
+<!-- FIXED: NO capture attribute = Gallery + Camera both work -->
+<label class="camLabel">📷 Tap to Choose Photo - Camera or Gallery<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label>
 <img id="preview" class="preview">
-<input id="pLink" class="inp" placeholder="Or paste image link">
+<input id="pLink" class="inp" placeholder="Or paste image link (optional)">
 <button class="submit" onclick="submitProduct()">Submit</button>
 <div style="height:20px"></div>
 </div>
 </div>
 
+<!-- FULL SCREEN PRODUCT VIEW -->
+<div class="view-bg" id="viewBg" onclick="if(event.target==this)closeView()">
+<div class="view-box">
+<img id="viewImg" src="">
+<div class="view-info">
+<h2 id="viewName" style="font-size:18px"></h2>
+<p id="viewCat" style="color:#6b7280;font-size:13px;margin:4px 0"></p>
+<p id="viewPrice" style="color:#15803d;font-weight:800;font-size:20px;margin:8px 0"></p>
+<p id="viewShop" style="font-size:13px"></p>
+<button class="submit" id="viewCall" style="margin-top:12px">💬 Call Vendor on WhatsApp</button>
+<button class="submit" style="background:#f3f4f6;color:#111;margin-top:8px" onclick="closeView()">Close</button>
+</div>
+</div>
+</div>
+
 <script>
 const CATS=["All","Phones & Tablets","Electronics","Household","Fashion & Clothes","Food & Grains","Beauty & Health","Shoes & Bags"];
-let products=JSON.parse(localStorage.getItem("nakivale_v4")||"[]");
+let products=JSON.parse(localStorage.getItem("nakivale_v5")||"[]");
 let activeCat="All";
 function initCats(){let h=CATS.map(c=>`<button class="cat ${c===activeCat?'active':''}" onclick="setCat('${c}')">${c}</button>`).join("");document.getElementById("catWrap").innerHTML=h;}
 function setCat(c){activeCat=c;initCats();render();}
 function openModal(){document.getElementById("modalBg").classList.add("open")}
 function closeModal(){document.getElementById("modalBg").classList.remove("open")}
 function previewFile(i){if(i.files&&i.files[0]){let r=new FileReader();r.onload=e=>{let img=document.getElementById("preview");img.src=e.target.result;img.style.display="block";};r.readAsDataURL(i.files[0]);}}
-function submitProduct(){let n=document.getElementById("pName").value.trim(),c=document.getElementById("pCat").value,p=document.getElementById("pPrice").value.trim(),s=document.getElementById("pShop").value.trim(),w=document.getElementById("pWa").value.trim(),l=document.getElementById("pLink").value.trim();if(!n||!p||!s){alert("Fill Name, Price, Shop");return;}let img=l||document.getElementById("preview").src;if(document.getElementById("preview").style.display==="block")img=document.getElementById("preview").src;else if(!l)img="https://via.placeholder.com/300?text="+encodeURIComponent(n);let prod={id:Date.now(),name:n,cat:c,price:p,shop:s,wa:w,img:img};products.unshift(prod);localStorage.setItem("nakivale_v4",JSON.stringify(products));closeModal();["pName","pPrice","pShop","pWa","pLink"].forEach(id=>document.getElementById(id).value="");document.getElementById("preview").style.display="none";render();showPage('Home');}
-function render(){let q=(document.getElementById("search")?.value||"").toLowerCase();let list=products.filter(p=>{let mc=activeCat==="All"||p.cat===activeCat;let mq=!q||p.name.toLowerCase().includes(q)||p.shop.toLowerCase().includes(q);return mc&&mq;});let html=list.length?list.map(p=>`<div class="card"><img src="${p.img}" onerror="this.src='https://via.placeholder.com/300'"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${p.price} UGX • ${p.cat}</div><div style="font-size:10px;color:#6b7280">By ${p.shop}</div><button class="btn-call" onclick="window.open('https://wa.me/${p.wa.replace(/[^0-9]/g,'')}?text=Hi I want ${encodeURIComponent(p.name)}','_blank')">Call Vendor</button><button class="btn-remove" onclick="removeProd(${p.id})">Remove</button></div></div>`).join(""):`<div class="empty">No products yet<br><small>Tap + Add to list first item</small></div>`;document.getElementById("grid").innerHTML=html;document.getElementById("grid2").innerHTML=html;}
-function removeProd(id){if(confirm("Remove?")){products=products.filter(p=>p.id!==id);localStorage.setItem("nakivale_v4",JSON.stringify(products));render();}}
+function submitProduct(){let n=document.getElementById("pName").value.trim(),c=document.getElementById("pCat").value,p=document.getElementById("pPrice").value.trim(),s=document.getElementById("pShop").value.trim(),w=document.getElementById("pWa").value.trim(),l=document.getElementById("pLink").value.trim();if(!n||!p||!s){alert("Fill Name, Price, Shop");return;}let img=l||document.getElementById("preview").src;if(document.getElementById("preview").style.display==="block")img=document.getElementById("preview").src;else if(!l)img="https://via.placeholder.com/400x400?text="+encodeURIComponent(n);let prod={id:Date.now(),name:n,cat:c,price:p,shop:s,wa:w,img:img};products.unshift(prod);localStorage.setItem("nakivale_v5",JSON.stringify(products));closeModal();["pName","pPrice","pShop","pWa","pLink"].forEach(id=>document.getElementById(id).value="");document.getElementById("pFile").value="";document.getElementById("preview").style.display="none";document.getElementById("preview").src="";render();showPage('Home');}
+function render(){let q=(document.getElementById("search")?.value||"").toLowerCase();let list=products.filter(p=>{let mc=activeCat==="All"||p.cat===activeCat;let mq=!q||p.name.toLowerCase().includes(q)||p.shop.toLowerCase().includes(q);return mc&&mq;});let html=list.length?list.map(p=>`<div class="card" onclick="openView(${p.id})"><img src="${p.img}" onerror="this.src='https://via.placeholder.com/300'"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${p.price} UGX</div><div style="font-size:10px;color:#6b7280">By ${p.shop} • ${p.cat}</div></div></div>`).join(""):`<div class="empty">No products yet<br><small>Tap + Add to list first item</small></div>`;document.getElementById("grid").innerHTML=html;document.getElementById("grid2").innerHTML=html;}
+function openView(id){let p=products.find(x=>x.id===id);if(!p)return;document.getElementById("viewImg").src=p.img;document.getElementById("viewName").innerText=p.name;document.getElementById("viewCat").innerText=p.cat;document.getElementById("viewPrice").innerText=p.price+" UGX";document.getElementById("viewShop").innerText="Shop: "+p.shop+" | WA: "+p.wa;document.getElementById("viewCall").onclick=()=>{window.open('https://wa.me/'+p.wa.replace(/[^0-9]/g,'')+'?text=Hi I want '+encodeURIComponent(p.name),'_blank')};document.getElementById("viewBg").classList.add("open");}
+function closeView(){document.getElementById("viewBg").classList.remove("open");}
+function removeProd(id){if(confirm("Remove?")){products=products.filter(p=>p.id!==id);localStorage.setItem("nakivale_v5",JSON.stringify(products));render();closeView();}}
 function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page'+name).classList.add('active');document.querySelectorAll('.bnav').forEach(b=>b.classList.remove('active'));document.getElementById('b'+name).classList.add('active');window.scrollTo(0,0);}
 initCats();render();
 </script>

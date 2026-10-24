@@ -6,15 +6,14 @@
 <title>Nakivale Market Hub</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
-body{background:#f5f7f5;padding-bottom:100px}
-header{background:#15803d;color:white;padding:14px 16px;text-align:center;position:sticky;top:0;z-index:20}
+body{background:#f5f7f5;padding-bottom:90px}
+header{background:#15803d;color:white;padding:14px;text-align:center;position:sticky;top:0;z-index:20}
 header h1{font-size:20px;font-weight:800}
 .momo{background:linear-gradient(90deg,#facc15,#fde047);color:#422006;text-align:center;padding:10px;border-radius:12px;margin:10px 12px;font-weight:700;font-size:14px}
-.momo small{display:block;font-weight:500;font-size:11px}
 .cat-wrap{overflow-x:auto;white-space:nowrap;padding:8px 12px 4px}
 .cat-wrap::-webkit-scrollbar{display:none}
 .cat{border:1px solid #d1d5db;background:white;padding:7px 14px;border-radius:20px;font-size:13px;margin-right:6px;display:inline-block}
-.cat.active{background:#15803d;color:white;border-color:#15803d}
+.cat.active{background:#15803d;color:white}
 .topbar{display:flex;gap:8px;padding:10px 12px}
 .search{flex:1;padding:11px 14px;border-radius:10px;border:1px solid #d1d5db}
 .addBtn{background:#15803d;color:white;border:none;padding:11px 18px;border-radius:10px;font-weight:700}
@@ -27,86 +26,97 @@ header h1{font-size:20px;font-weight:800}
 .card-shop{font-size:10px;color:#6b7280}
 .btn-call{background:#15803d;color:white;border:none;padding:7px;border-radius:8px;font-size:12px;width:100%;margin-top:5px}
 .btn-remove{background:#ffe4e6;color:#9f1239;border:none;padding:4px;border-radius:6px;font-size:10px;width:100%;margin-top:4px}
-.empty{text-align:center;padding:30px;color:#9ca3af;font-size:14px;grid-column:1/-1}
+.empty{text-align:center;padding:30px;color:#9ca3af;grid-column:1/-1}
 .fab{position:fixed;right:16px;bottom:90px;background:#15803d;color:white;border:none;width:56px;height:56px;border-radius:28px;font-size:28px;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:15}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:8px 0;z-index:25}
-.bnav{border:none;background:none;text-align:center;font-size:10px;color:#6b7280;padding:4px 12px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:6px 0;z-index:25}
+.bnav{border:none;background:none;text-align:center;font-size:10px;color:#6b7280;padding:6px 14px}
 .bnav.active{color:#15803d;font-weight:700}
-.bnav span{display:block;font-size:20px}
+.bnav span{display:block;font-size:22px}
+.page{display:none;padding:12px}
+.page.active{display:block}
+.howBox,.payBox{background:white;border-radius:16px;padding:18px;border:1px solid #e5e7eb;margin-top:10px}
+.howBox h2,.payBox h2{font-size:18px;margin-bottom:10px}
+.howBox ol{padding-left:18px;line-height:1.8;font-size:14px}
+.payBig{background:#15803d;color:white;padding:20px;border-radius:14px;text-align:center;margin-top:10px}
+.payBig h1{font-size:22px}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:40;display:none;align-items:flex-end}
 .modal-bg.open{display:flex}
 .modal{background:white;width:100%;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px}
 .inp{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;margin-top:10px;font-size:14px}
-.row{display:flex;gap:8px}
-.row .inp{flex:1}
+.row{display:flex;gap:8px}.row .inp{flex:1}
 .preview{width:100%;height:160px;object-fit:cover;border-radius:10px;margin-top:10px;display:none;border:1px dashed #ccc}
 .camLabel{background:#f3f4f6;border:1px dashed #9ca3af;border-radius:10px;padding:12px;text-align:center;margin-top:10px;display:block;font-size:13px}
 .submit{background:#15803d;color:white;border:none;width:100%;padding:13px;border-radius:12px;font-weight:800;margin-top:12px}
 .closeX{background:#f3f4f6;border:none;padding:6px 10px;border-radius:8px;float:right}
-.section{background:white;margin:12px;border-radius:12px;padding:14px;border:1px solid #e5e7eb}
-.section h3{font-size:16px;margin-bottom:6px}
 </style>
 </head>
 <body>
-<header id="homeSec">
-<h1>Nakivale Market Hub</h1>
-<p style="font-size:11px">Buy & Sell in Nakivale Settlement • Trusted Vendors</p>
-</header>
+<header><h1>Nakivale Market Hub</h1><p style="font-size:11px">Buy & Sell in Nakivale • Trusted Vendors</p></header>
 
-<div class="momo" id="paySec">MoMo Pay: +256783663151 • 5% commission<small>Pay instantly • Commission applies to each sale • Use same MoMo</small></div>
-
+<div id="pageHome" class="page active">
+<div class="momo">MoMo Pay: +256783663151 • 5% commission<br><small>Pay instantly • Commission applies to each sale</small></div>
 <div class="cat-wrap" id="catWrap"></div>
-
-<div class="topbar">
-<input id="search" class="search" placeholder="Search e.g. Samsung, maize, shirt..." oninput="render()">
-<button class="addBtn" onclick="openModal()">+ Add Product</button>
+<div class="topbar"><input id="search" class="search" placeholder="Search Samsung, maize, shirt..." oninput="render()"><button class="addBtn" onclick="openModal()">+ Add</button></div>
+<div class="grid" id="grid"></div>
 </div>
 
-<div class="grid" id="marketSec"></div>
-
-<div class="section" id="howSec">
-<h3>❓ How It Works</h3>
-<p style="font-size:13px;line-height:1.5">1. Tap <b>+ Add Product</b><br>2. Take clear photo with camera (white background better)<br>3. Add price & WhatsApp number<br>4. Buyer taps <b>Call Vendor</b> → WhatsApp you<br>5. After sale, buyer pays MoMo <b>+256783663151</b> 5% commission</p>
+<div id="pageMarket" class="page">
+<div class="momo">MoMo Pay: +256783663151 • 5% commission</div>
+<div class="cat-wrap" id="catWrap2"></div>
+<div class="grid" id="grid2"></div>
 </div>
 
-<div class="section">
-<h3>💳 MoMo Payment</h3>
-<p style="font-size:13px;line-height:1.5">Pay to: <b>+256783663151</b><br>Name: Elisa<br>5% of sale price<br>Send screenshot to WhatsApp for confirmation</p>
+<div id="pageHow" class="page">
+<div class="howBox">
+<h2>❓ How It Works</h2>
+<ol>
+<li><b>Tap + Add Product</b> green button</li>
+<li><b>Take photo</b> with camera or choose gallery - use white background</li>
+<li><b>Fill details:</b> Name, Category, Price, Shop, WhatsApp</li>
+<li><b>Submit</b> - product appears instantly</li>
+<li><b>Buyer taps Call Vendor</b> - opens your WhatsApp</li>
+<li><b>Pay commission 5%</b> to MoMo <b>+256783663151</b> after sale</li>
+</ol>
+<div style="background:#f0fdf4;padding:10px;border-radius:10px;margin-top:12px;font-size:13px">💡 Tip: Clean white background sells 3x faster! Send me photo I clean for you.</div>
+<button class="submit" onclick="goHome()">Go to Market</button>
+</div>
+</div>
+
+<div id="pagePay" class="page">
+<div class="payBox">
+<h2>💳 MoMo Pay</h2>
+<p style="font-size:14px;line-height:1.5">Secure payment for Nakivale Market Hub commission</p>
+<div class="payBig">
+<h1>+256783663151</h1>
+<p style="margin-top:6px">Name: Elisa Hakorimana</p>
+<p style="font-size:20px;margin-top:8px">5% Commission</p>
+<small>Pay after each successful sale</small>
+</div>
+<div style="margin-top:14px;font-size:13px;line-height:1.6;background:#fffbeb;padding:12px;border-radius:10px;border:1px solid #fde68a">
+<b>How to pay:</b><br>1. Go to MTN MoMo → Send Money<br>2. Number: 0783663151<br>3. Enter 5% of sale (e.g. 5000 UGX sale = 250 UGX commission)<br>4. Send screenshot to WhatsApp<br>
+</div>
+<button class="submit" onclick="window.open('https://wa.me/256783663151?text=MoMo Payment confirmation','_blank')">Confirm Payment on WhatsApp</button>
+</div>
 </div>
 
 <button class="fab" onclick="openModal()">+</button>
 
 <div class="bottom-nav">
-<button class="bnav active" id="btnHome" onclick="goHome()"><span>🏠</span>Home</button>
-<button class="bnav" id="btnMarket" onclick="goMarket()"><span>🛍️</span>Market</button>
-<button class="bnav" id="btnHow" onclick="goHow()"><span>❓</span>How It Works</button>
-<button class="bnav" id="btnPay" onclick="goPay()"><span>💳</span>Pay</button>
+<button class="bnav active" id="bHome" onclick="showPage('Home')"><span>🏠</span>Home</button>
+<button class="bnav" id="bMarket" onclick="showPage('Market')"><span>🛍️</span>Market</button>
+<button class="bnav" id="bHow" onclick="showPage('How')"><span>❓</span>How It Works</button>
+<button class="bnav" id="bPay" onclick="showPage('Pay')"><span>💳</span>Pay</button>
 </div>
 
 <div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()">
 <div class="modal">
 <button class="closeX" onclick="closeModal()">✕</button>
 <h3>Add Your Product</h3>
-<input id="pName" class="inp" placeholder="Product Name e.g. Samsung Galaxy A10">
-<select id="pCat" class="inp">
-<option value="Other">Choose Category</option>
-<option>Phones & Tablets</option>
-<option>Electronics</option>
-<option>Household</option>
-<option>Fashion & Clothes</option>
-<option>Shoes & Bags</option>
-<option>Food & Grains</option>
-<option>Beauty & Health</option>
-<option>Other</option>
-</select>
-<div class="row">
-<input id="pPrice" class="inp" type="number" placeholder="Price UGX">
-<input id="pShop" class="inp" placeholder="Shop Name">
-</div>
+<input id="pName" class="inp" placeholder="Product Name e.g. Nokia C32">
+<select id="pCat" class="inp"><option>Phones & Tablets</option><option>Electronics</option><option>Household</option><option>Fashion & Clothes</option><option>Food & Grains</option><option>Beauty & Health</option><option>Other</option></select>
+<div class="row"><input id="pPrice" class="inp" type="number" placeholder="Price UGX"><input id="pShop" class="inp" placeholder="Shop Name"></div>
 <input id="pWa" class="inp" placeholder="WhatsApp 256...">
-<label class="camLabel">📷 Take Photo or Choose from Gallery
-<input id="pFile" type="file" accept="image/*" capture="environment" hidden onchange="previewFile(this)">
-</label>
+<label class="camLabel">📷 Take Photo or Choose Gallery<input id="pFile" type="file" accept="image/*" capture="environment" hidden onchange="previewFile(this)"></label>
 <img id="preview" class="preview">
 <input id="pLink" class="inp" placeholder="Or paste image link">
 <button class="submit" onclick="submitProduct()">Submit Product</button>
@@ -118,20 +128,16 @@ header h1{font-size:20px;font-weight:800}
 const CATS=["All","Phones & Tablets","Electronics","Household","Fashion & Clothes","Food & Grains","Beauty & Health","Shoes & Bags"];
 let products=JSON.parse(localStorage.getItem("nakivale_v3")||"[]");
 let activeCat="All";
-function initCats(){document.getElementById("catWrap").innerHTML=CATS.map(c=>`<button class="cat ${c===activeCat?'active':''}" onclick="setCat('${c}')">${c}</button>`).join("");}
-function setCat(c){activeCat=c;initCats();render();updateNav(c);}
-function updateNav(){}
+function initCats(){let html=CATS.map(c=>`<button class="cat ${c===activeCat?'active':''}" onclick="setCat('${c}')">${c}</button>`).join("");document.getElementById("catWrap").innerHTML=html;let w2=document.getElementById("catWrap2");if(w2)w2.innerHTML=html;}
+function setCat(c){activeCat=c;initCats();render();}
 function openModal(){document.getElementById("modalBg").classList.add("open")}
 function closeModal(){document.getElementById("modalBg").classList.remove("open")}
 function previewFile(input){if(input.files&&input.files[0]){const r=new FileReader();r.onload=e=>{const img=document.getElementById("preview");img.src=e.target.result;img.style.display="block";};r.readAsDataURL(input.files[0]);}}
-function submitProduct(){const name=document.getElementById("pName").value.trim();const cat=document.getElementById("pCat").value;const price=document.getElementById("pPrice").value.trim();const shop=document.getElementById("pShop").value.trim();const wa=document.getElementById("pWa").value.trim();const link=document.getElementById("pLink").value.trim();if(!name||!price||!shop){alert("Fill Name, Price, Shop");return;}let img=link||document.getElementById("preview").src;if(document.getElementById("preview").style.display==="block")img=document.getElementById("preview").src;else if(!link)img="https://via.placeholder.com/300?text="+encodeURIComponent(name);const prod={id:Date.now(),name,cat,price,shop,wa,img};products.unshift(prod);localStorage.setItem("nakivale_v3",JSON.stringify(products));closeModal();["pName","pPrice","pShop","pWa","pLink"].forEach(id=>document.getElementById(id).value="");document.getElementById("preview").style.display="none";render();}
-function render(){const q=document.getElementById("search").value.toLowerCase();const grid=document.getElementById("marketSec");let list=products.filter(p=>{const mc=activeCat==="All"||p.cat===activeCat;const mq=!q||p.name.toLowerCase().includes(q)||p.shop.toLowerCase().includes(q);return mc&&mq;});if(list.length===0){grid.innerHTML=`<div class="empty">No products yet<br><small>Tap + Add Product to list your first item</small></div>`;return;}grid.innerHTML=list.map(p=>`<div class="card"><img src="${p.img}" onerror="this.src='https://via.placeholder.com/300'"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${p.price} UGX • ${p.cat}</div><div class="card-shop">By ${p.shop}</div><button class="btn-call" onclick="window.open('https://wa.me/${p.wa.replace(/[^0-9]/g,'')}?text=Hi I want ${encodeURIComponent(p.name)}','_blank')">Call Vendor</button><button class="btn-remove" onclick="removeProd(${p.id})">Remove</button></div></div>`).join("");}
+function submitProduct(){const name=document.getElementById("pName").value.trim();const cat=document.getElementById("pCat").value;const price=document.getElementById("pPrice").value.trim();const shop=document.getElementById("pShop").value.trim();const wa=document.getElementById("pWa").value.trim();const link=document.getElementById("pLink").value.trim();if(!name||!price||!shop){alert("Fill Name, Price, Shop");return;}let img=link||document.getElementById("preview").src;if(document.getElementById("preview").style.display==="block")img=document.getElementById("preview").src;else if(!link)img="https://via.placeholder.com/300?text="+encodeURIComponent(name);const prod={id:Date.now(),name,cat,price,shop,wa,img};products.unshift(prod);localStorage.setItem("nakivale_v3",JSON.stringify(products));closeModal();["pName","pPrice","pShop","pWa","pLink"].forEach(id=>document.getElementById(id).value="");document.getElementById("preview").style.display="none";render();showPage('Home');}
+function render(){const q=(document.getElementById("search")?.value||"").toLowerCase();let list=products.filter(p=>{const mc=activeCat==="All"||p.cat===activeCat;const mq=!q||p.name.toLowerCase().includes(q)||p.shop.toLowerCase().includes(q);return mc&&mq;});let html=list.length?list.map(p=>`<div class="card"><img src="${p.img}" onerror="this.src='https://via.placeholder.com/300'"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${p.price} UGX • ${p.cat}</div><div class="card-shop">By ${p.shop}</div><button class="btn-call" onclick="window.open('https://wa.me/${p.wa.replace(/[^0-9]/g,'')}?text=Hi I want ${encodeURIComponent(p.name)}','_blank')">Call Vendor</button><button class="btn-remove" onclick="removeProd(${p.id})">Remove</button></div></div>`).join(""):`<div class="empty">No products yet<br><small>Tap + Add to list first item</small></div>`;document.getElementById("grid").innerHTML=html;let g2=document.getElementById("grid2");if(g2)g2.innerHTML=html;}
 function removeProd(id){if(confirm("Remove?")){products=products.filter(p=>p.id!==id);localStorage.setItem("nakivale_v3",JSON.stringify(products));render();}}
-function setActive(btn){document.querySelectorAll('.bnav').forEach(b=>b.classList.remove('active'));document.getElementById(btn).classList.add('active');}
-function goHome(){window.scrollTo({top:0,behavior:'smooth'});setActive('btnHome');}
-function goMarket(){document.getElementById('marketSec').scrollIntoView({behavior:'smooth'});setActive('btnMarket');}
-function goHow(){document.getElementById('howSec').scrollIntoView({behavior:'smooth'});setActive('btnHow');}
-function goPay(){document.getElementById('paySec').scrollIntoView({behavior:'smooth'});setActive('btnPay');}
+function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page'+name).classList.add('active');document.querySelectorAll('.bnav').forEach(b=>b.classList.remove('active'));document.getElementById('b'+name).classList.add('active');window.scrollTo(0,0);}
+function goHome(){showPage('Home')}
 initCats();render();
 </script>
 </body>

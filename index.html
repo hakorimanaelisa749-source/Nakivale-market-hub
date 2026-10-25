@@ -10,10 +10,10 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
 body{background:#f5f7f5;padding-bottom:90px}
-header{background:#111827;color:white;padding:14px;text-align:center;position:sticky;top:0;z-index:20;transition:.3s}
+header{background:#111827;color:white;padding:14px;text-align:center;position:sticky;top:0;z-index:20}
 header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{color:#facc15}
 .authBar{display:flex;justify-content:space-between;align-items:center;background:#fefce8;padding:8px 12px;font-size:12px}
-.momo{background:linear-gradient(90deg,#facc15,#fde047);color:#422006;text-align:center;padding:12px;border-radius:14px;margin:10px 12px;font-weight:700;font-size:15px;line-height:1.4}
+.momo{background:linear-gradient(90deg,#facc15,#fde047);color:#422006;text-align:center;padding:12px;border-radius:14px;margin:10px 12px;font-weight:700;font-size:15px}
 .page{display:none}.page.active{display:block}
 .cat-wrap{overflow-x:auto;white-space:nowrap;padding:10px 12px}
 .cat{border:1px solid #d1d5db;background:white;padding:9px 16px;border-radius:22px;font-size:14px;margin-right:7px;display:inline-block}
@@ -25,7 +25,7 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .locFilterBar select{flex:1}
 .changeBtn{background:#facc15;border:none;padding:12px 14px;border-radius:10px;font-weight:800;font-size:12px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 14px}
-.card{background:white;border-radius:16px;overflow:hidden;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.card{background:white;border-radius:16px;overflow:hidden;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.06);cursor:pointer}
 .card img{width:100%;height:165px;object-fit:cover;background:#f3f4f6}
 .card-body{padding:10px}
 .card-title{font-size:15px;font-weight:800;height:38px;overflow:hidden;line-height:1.2}
@@ -48,6 +48,7 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .preview{width:100%;height:180px;object-fit:cover;border-radius:12px;margin-top:12px;display:none;border:1px solid #e5e7eb}
 .camLabel{background:white;border:1px solid #d1d5db;border-radius:12px;padding:14px;text-align:center;margin-top:12px;display:block;font-size:14px;font-weight:600}
 .submit{background:#111827;color:white;border:none;width:100%;padding:14px;border-radius:14px;font-weight:900;margin-top:14px;font-size:15px}
+.submit:disabled{background:#9ca3af}
 .closeX{background:#f3f4f6;border:none;padding:7px 12px;border-radius:10px;float:right;font-size:16px}
 .loginBtn{background:white;color:#111827;border:1px solid #111827;padding:7px 14px;border-radius:20px;font-weight:800;font-size:12px}
 .commissionInfo{font-size:12px;color:#15803d;margin-top:6px;font-weight:700}
@@ -67,6 +68,18 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .googleBtn span{background:white;color:#4285F4;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-weight:900}
 .divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:#9ca3af;font-size:12px}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:#e5e7eb}
+
+/* FULL SCREEN PRODUCT VIEW */
+#productViewBg{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:60;display:none;overflow:auto}
+#productViewBg.open{display:flex;flex-direction:column}
+.pv-img{width:100%;height:55vh;object-fit:contain;background:black}
+.pv-body{background:white;border-radius:24px 24px 0 0;margin-top:-20px;padding:20px;flex:1}
+.pv-title{font-size:22px;font-weight:900;line-height:1.2}
+.pv-price{font-size:20px;font-weight:900;margin-top:8px}
+.pv-meta{font-size:13px;color:#6b7280;margin-top:6px}
+.pv-btn{width:100%;padding:16px;border-radius:14px;border:none;font-weight:900;font-size:16px;margin-top:12px}
+.pv-btn.call{background:#25D366;color:white}
+.pv-btn.close{background:#f3f4f6;color:#111827}
 </style>
 </head>
 <body>
@@ -101,7 +114,7 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <div class="grid" id="grid"></div>
 </div>
 <div id="pageMarket" class="page"><div class="momo" id="momoBar2">VELA Market</div><div class="grid" id="grid2" style="margin-top:12px"></div></div>
-<div id="pageHow" class="page"><div class="box"><h2 id="howTitle">❓ How VELA Works</h2><ol style="padding-left:18px;line-height:2;font-size:15px"><li><b>Choose Location first</b></li><li>Sign In with Google - 1 tap!</li><li>Tap + Add → Choose Location</li><li>Kampala sees ONLY Kampala (NO Nakivale!)</li><li>Pay 5% MoMo 0783663151</li></ol><button class="submit" onclick="showPage('Home')">Go to VELA</button></div></div>
+<div id="pageHow" class="page"><div class="box"><h2>❓ How VELA Works</h2><ol style="padding-left:18px;line-height:2;font-size:15px"><li>Choose Location first</li><li>Sign In with Google - 1 tap!</li><li>Tap + Add → Choose Location</li><li>Kampala sees ONLY Kampala</li><li>Pay 5% MoMo 0783663151</li></ol><button class="submit" onclick="showPage('Home')">Go to VELA</button></div></div>
 <div id="pagePay" class="page"><div class="box"><h2>💳 VELA MoMo</h2><div class="payBig" id="payBigBox"><h1 id="payName">VELA UGANDA</h1><h1 id="payNumber">+256 783 663 151</h1><p id="payComm">5% = Price ÷ 20</p></div><button class="submit" onclick="window.open('https://wa.me/256783663151','_blank')">Confirm WhatsApp</button></div></div>
 <button class="fab" onclick="openModal()">+</button>
 <div class="bottom-nav">
@@ -110,13 +123,31 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <button class="bnav" id="bHow" onclick="showPage('How')"><span>❓</span>How</button>
 <button class="bnav" id="bPay" onclick="showPage('Pay')"><span>💳</span>Pay</button>
 </div>
-<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3>Add Product to VELA</h3><p id="needLoginMsg" style="display:none;color:red;font-size:13px">Please Sign In first!</p><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Electronics</option><option>Household</option><option>Fashion & Clothes</option><option>Food & Grains</option><option>Beauty & Health</option><option>Other</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">📍 Nakivale Base Camp</option><option value="Nakivale Juru">📍 Nakivale Juru</option><option value="Kampala">📍 Kampala - Phones</option><option value="Mbarara">📍 Mbarara</option></select><div class="row"><input id="pPrice" class="inp" type="number" placeholder="Price UGX" oninput="calcComm()"><input id="pShop" class="inp" placeholder="Shop Name"></div><p id="commissionShow" class="commissionInfo"></p><input id="pWa" class="inp" placeholder="WhatsApp 256..."><label class="camLabel">📷 Choose from Gallery<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><input id="pLink" class="inp" placeholder="Or paste image link"><button class="submit" onclick="submitProduct()">Submit to VELA</button></div></div>
 
+<!-- ADD PRODUCT MODAL -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3>Add Product to VELA</h3><p id="needLoginMsg" style="display:none;color:red;font-size:13px">Please Sign In first!</p><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Electronics</option><option>Household</option><option>Fashion & Clothes</option><option>Food & Grains</option><option>Beauty & Health</option><option>Other</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">📍 Nakivale Base Camp</option><option value="Nakivale Juru">📍 Nakivale Juru</option><option value="Kampala">📍 Kampala - Phones</option><option value="Mbarara">📍 Mbarara</option></select><div class="row"><input id="pPrice" class="inp" type="number" placeholder="Price UGX" oninput="calcComm()"><input id="pShop" class="inp" placeholder="Shop Name"></div><p id="commissionShow" class="commissionInfo"></p><input id="pWa" class="inp" placeholder="WhatsApp 256..."><label class="camLabel">📷 Choose from Gallery<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><p id="previewInfo" style="font-size:11px;color:#15803d;margin-top:6px;display:none">✅ Photo compressed - ready to save!</p><input id="pLink" class="inp" placeholder="Or paste image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit to VELA</button><p id="submitMsg" style="font-size:12px;margin-top:8px;color:#ef4444"></p></div></div>
+
+<!-- LOGIN MODAL -->
 <div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>🔐 Sign In to VELA</h3>
 <button class="googleBtn" onclick="signInWithGoogle()"><span>G</span> Continue with Google - 1 Click!</button>
 <p style="font-size:12px;color:#15803d;margin-top:8px;text-align:center;font-weight:700">✅ No Spam - Instant login!</p>
 <div class="divider">OR use Gmail link</div>
-<p style="font-size:14px;color:#6b7280;margin-top:8px">We send LINK to Gmail app. Tap it to sign in.</p><input id="emailInput" class="inp" type="email" placeholder="yourname@gmail.com"><button class="submit" onclick="sendCode()" style="background:#f3f4f6;color:#111827;border:1px solid #d1d5db">Send Login Link to Gmail</button><p id="loginMsg" style="font-size:13px;margin-top:12px;color:#15803d"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
+<p style="font-size:14px;color:#6b7280">We send LINK to Gmail app.</p><input id="emailInput" class="inp" type="email" placeholder="yourname@gmail.com"><button class="submit" onclick="sendCode()" style="background:#f3f4f6;color:#111827;border:1px solid #d1d5db">Send Login Link to Gmail</button><p id="loginMsg" style="font-size:13px;margin-top:12px;color:#15803d"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
+
+<!-- FULL SCREEN PRODUCT VIEW -->
+<div id="productViewBg" onclick="if(event.target==this)closeProductView()">
+<img id="pvImg" class="pv-img" src="">
+<div class="pv-body">
+<button class="closeX" onclick="closeProductView()">✕</button>
+<div id="pvTitle" class="pv-title"></div>
+<div id="pvPrice" class="pv-price"></div>
+<div id="pvMeta" class="pv-meta"></div>
+<div id="pvShop" class="pv-meta"></div>
+<button id="pvCallBtn" class="pv-btn call">💬 Chat Vendor on WhatsApp</button>
+<button class="pv-btn close" onclick="closeProductView()">Close</button>
+<div id="pvRemoveWrap"></div>
+</div>
+</div>
 
 <script>
 const firebaseConfig = {
@@ -131,6 +162,8 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 let currentUser=null;
+let compressedImageData = null;
+
 function chooseLocation(loc){
   localStorage.setItem('vela_city',loc);
   document.getElementById('locationChooser').classList.add('hide');
@@ -151,7 +184,6 @@ function openChooser(){document.getElementById('locationChooser').classList.remo
 })();
 function openLogin(){document.getElementById("loginBg").classList.add("open")}
 function closeLogin(){document.getElementById("loginBg").classList.remove("open")}
-
 function signInWithGoogle(){
   const provider = new firebase.auth.GoogleAuthProvider();
   document.getElementById("loginMsg").innerText = "Opening Google...";
@@ -166,19 +198,14 @@ function signInWithGoogle(){
     }
   });
 }
-auth.getRedirectResult().then((result)=>{
-  if(result && result.user){
-    closeLogin();
-  }
-}).catch(e=>{ console.log(e); });
-
+auth.getRedirectResult().then((result)=>{ if(result && result.user){ closeLogin(); }}).catch(e=>{ console.log(e); });
 function sendCode(){
   const email=document.getElementById("emailInput").value.trim();
   if(!email.includes("@")){alert("Enter valid Gmail");return;}
   document.getElementById("loginMsg").innerText="Sending to "+email+"...";
   auth.sendSignInLinkToEmail(email,{url:window.location.href,handleCodeInApp:true}).then(()=>{
     window.localStorage.setItem('emailForSignIn',email);
-    document.getElementById("loginMsg").innerText="✅ LINK sent to "+email+"! Open Gmail app → tap link.";
+    document.getElementById("loginMsg").innerText="✅ LINK sent to "+email+"!";
   }).catch(e=>{document.getElementById("loginMsg").innerText="Error: "+e.message;});
 }
 if(auth.isSignInWithEmailLink(window.location.href)){
@@ -193,6 +220,7 @@ auth.onAuthStateChanged(u=>{
 function signOut(){auth.signOut();closeLogin();}
 const CATS=["All","Phones & Tablets","Electronics","Household","Fashion & Clothes","Food & Grains","Beauty & Health","Shoes & Bags"];
 let products=[];let activeCat="All";
+
 function updateBranding(){
   const loc=document.getElementById("locationFilter").value;
   const sub=document.getElementById("subTitle");
@@ -201,11 +229,10 @@ function updateBranding(){
   const header=document.getElementById("mainHeader");
   const payBig=document.getElementById("payBigBox");
   const payName=document.getElementById("payName");
-  const payNumber=document.getElementById("payNumber");
   if(loc==="Kampala"){
     sub.innerText="KAMPALA • Phones & Electronics • Trusted";
     momo.innerHTML="VELA KAMPALA • 5% • Fast delivery";
-    momo2.innerHTML="VELA KAMPALA";header.style.background="#1e40af";payBig.style.background="#1e40af";payName.innerText="VELA KAMPALA";payNumber.innerText="+256 783 663 151";document.title="VELA Kampala";
+    momo2.innerHTML="VELA KAMPALA";header.style.background="#1e40af";payBig.style.background="#1e40af";payName.innerText="VELA KAMPALA";document.title="VELA Kampala";
   }else if(loc.includes("Nakivale")){
     sub.innerText="NAKIVALE MARKET";momo.innerHTML="VELA NAKIVALE • MoMo: +256783663151";header.style.background="#15803d";payBig.style.background="#15803d";payName.innerText="VELA NAKIVALE";document.title="VELA Nakivale";
   }else if(loc==="Mbarara"){sub.innerText="MBARARA MARKET";header.style.background="#7c3aed";payBig.style.background="#7c3aed";}
@@ -215,20 +242,73 @@ function initCats(){document.getElementById("catWrap").innerHTML=CATS.map(c=>`<b
 function setCat(c){activeCat=c;initCats();render();}
 function openModal(){if(!currentUser){document.getElementById("needLoginMsg").style.display="block";openLogin();return;}document.getElementById("needLoginMsg").style.display="none";document.getElementById("modalBg").classList.add("open");}
 function closeModal(){document.getElementById("modalBg").classList.remove("open");}
-function previewFile(i){if(i.files&&i.files[0]){let r=new FileReader();r.onload=e=>{let img=document.getElementById("preview");img.src=e.target.result;img.style.display="block";};r.readAsDataURL(i.files[0]);}}
+
+// COMPRESS IMAGE TO FIX CRASH
+function previewFile(input){
+  if(input.files && input.files[0]){
+    const file = input.files[0];
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let w = img.width, h = img.height;
+        const maxSize = 800;
+        if(w > h){ if(w > maxSize){ h *= maxSize/w; w = maxSize; } }
+        else { if(h > maxSize){ w *= maxSize/h; h = maxSize; } }
+        canvas.width = w; canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img,0,0,w,h);
+        compressedImageData = canvas.toDataURL('image/jpeg',0.6);
+        document.getElementById("preview").src = compressedImageData;
+        document.getElementById("preview").style.display="block";
+        document.getElementById("previewInfo").style.display="block";
+        document.getElementById("previewInfo").innerText = "✅ Photo compressed from "+Math.round(file.size/1024)+"KB to "+Math.round(compressedImageData.length*0.75/1024)+"KB - ready!";
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
 function calcComm(){let price=document.getElementById("pPrice").value;if(price){let comm=Math.round(price*0.05);document.getElementById("commissionShow").innerText="VELA Commission: "+comm+" UGX → 0783663151";}}
+
 async function submitProduct(){
   let n=document.getElementById("pName").value.trim(),c=document.getElementById("pCat").value,p=document.getElementById("pPrice").value.trim(),s=document.getElementById("pShop").value.trim(),w=document.getElementById("pWa").value.trim(),l=document.getElementById("pLink").value.trim(),loc=document.getElementById("pLocation").value;
+  let btn = document.getElementById("submitBtn");
+  let msg = document.getElementById("submitMsg");
   if(!n||!p||!s){alert("Fill Name, Price, Shop");return;}
   if(!currentUser){alert("Sign in first");openLogin();return;}
-  let img=l||document.getElementById("preview").src;
-  if(document.getElementById("preview").style.display==="block") img=document.getElementById("preview").src;
-  else if(!l) img="https://via.placeholder.com/400x300?text="+encodeURIComponent(n);
-  let prod={name:n,cat:c,price:p,shop:s,wa:w,img:img,location:loc,ownerEmail:currentUser.email,ownerUid:currentUser.uid,created:Date.now()};
-  await db.collection("vela_products").add(prod);
-  closeModal();["pName","pPrice","pShop","pWa","pLink"].forEach(id=>document.getElementById(id).value="");document.getElementById("preview").style.display="none";document.getElementById("commissionShow").innerText="";
-  alert("✅ Added to VELA "+loc+"!");
+  btn.disabled = true; btn.innerText = "Saving to VELA... Please wait";
+  msg.innerText = "";
+  try{
+    let img = compressedImageData || l;
+    if(!img || img.length < 10){
+      img = "https://via.placeholder.com/400x300?text="+encodeURIComponent(n);
+    }
+    // Check size again
+    if(img.length > 900000){
+      msg.innerText = "Photo still too big, using link method. Please also paste image link or use smaller photo.";
+      img = l || "https://via.placeholder.com/400x300?text="+encodeURIComponent(n);
+    }
+    let prod={name:n,cat:c,price:p,shop:s,wa:w,img:img,location:loc,ownerEmail:currentUser.email,ownerUid:currentUser.uid,created:Date.now()};
+    await db.collection("vela_products").add(prod);
+    closeModal();
+    ["pName","pPrice","pShop","pWa","pLink"].forEach(id=>document.getElementById(id).value="");
+    document.getElementById("preview").style.display="none";
+    document.getElementById("previewInfo").style.display="none";
+    document.getElementById("commissionShow").innerText="";
+    compressedImageData = null;
+    document.getElementById("pFile").value = "";
+    alert("✅ Added to VELA "+loc+"!");
+  }catch(e){
+    console.error(e);
+    msg.innerText = "❌ Failed: "+e.message+" - Try smaller photo or paste image link instead";
+    alert("Save failed: "+e.message+"\n\nTip: Use smaller photo or paste image link");
+  }
+  btn.disabled = false; btn.innerText = "Submit to VELA";
 }
+
 function render(){
   updateBranding();
   let q=(document.getElementById("search")?.value||"").toLowerCase();
@@ -239,9 +319,27 @@ function render(){
     let ml=locFilter==="All"|| (locFilter==="Nakivale" ? (p.location||'').includes("Nakivale") : p.location===locFilter);
     return mc&&mq&&ml;
   });
-  let html=list.length?list.map(p=>`<div class="card"><img src="${p.img}"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${p.price} UGX • ${p.cat}</div><div style="font-size:11px;color:#6b7280;margin-top:3px">By ${p.shop} • 📍 ${p.location}</div><button class="btn-call" onclick="window.open('https://wa.me/${(p.wa||'').replace(/[^0-9]/g,'')}?text=Hi VELA, I want ${encodeURIComponent(p.name)}','_blank')">Call Vendor</button>${currentUser&&p.ownerUid===currentUser.uid?`<button class="btn-remove" onclick="removeProd('${p.docId}')">Remove</button>`:''}</div></div>`).join(""):`<div class="empty">No products in VELA ${locFilter}<br><small>Tap + Add to be first!</small></div>`;
+  let html=list.length?list.map(p=>`<div class="card" onclick="openProductView('${p.docId}')"><img src="${p.img}" loading="lazy"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${p.price} UGX • ${p.cat}</div><div style="font-size:11px;color:#6b7280;margin-top:3px">By ${p.shop} • 📍 ${p.location}</div></div></div>`).join(""):`<div class="empty">No products in VELA ${locFilter}<br><small>Tap + Add to be first!</small></div>`;
   document.getElementById("grid").innerHTML=html;document.getElementById("grid2").innerHTML=html;
 }
+
+function openProductView(docId){
+  const p = products.find(x=>x.docId===docId);
+  if(!p) return;
+  document.getElementById("pvImg").src = p.img;
+  document.getElementById("pvTitle").innerText = p.name;
+  document.getElementById("pvPrice").innerText = p.price + " UGX • " + p.cat;
+  document.getElementById("pvMeta").innerText = "📍 "+p.location;
+  document.getElementById("pvShop").innerText = "🏪 By "+p.shop;
+  document.getElementById("pvCallBtn").onclick = ()=>{ window.open('https://wa.me/'+(p.wa||'').replace(/[^0-9]/g,'')+'?text=Hi VELA, I want '+encodeURIComponent(p.name),'_blank'); };
+  let removeWrap = document.getElementById("pvRemoveWrap");
+  if(currentUser && p.ownerUid===currentUser.uid){
+    removeWrap.innerHTML = `<button class="pv-btn close" style="background:#ffe4e6;color:#9f1239" onclick="removeProd('${p.docId}');closeProductView();">🗑️ Remove Product</button>`;
+  } else { removeWrap.innerHTML = ""; }
+  document.getElementById("productViewBg").classList.add("open");
+}
+function closeProductView(){ document.getElementById("productViewBg").classList.remove("open"); }
+
 async function removeProd(docId){if(confirm("Remove from VELA?")){await db.collection("vela_products").doc(docId).delete();}}
 function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page'+name).classList.add('active');document.querySelectorAll('.bnav').forEach(b=>b.classList.remove('active'));document.getElementById('b'+name).classList.add('active');}
 db.collection("vela_products").orderBy("created","desc").onSnapshot(snap=>{

@@ -9,7 +9,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
-body{background:#f5f7f5;padding-bottom:90px;zoom:1.1}
+body{background:#f5f7f5;padding-bottom:90px}
 header{background:#111827;color:white;padding:14px;text-align:center;position:sticky;top:0;z-index:20;transition:.3s}
 header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{color:#facc15}
 .authBar{display:flex;justify-content:space-between;align-items:center;background:#fefce8;padding:8px 12px;font-size:12px}
@@ -45,8 +45,8 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .modal{background:white;width:100%;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px}
 .inp{width:100%;padding:13px;border:1px solid #d1d5db;border-radius:12px;margin-top:12px;font-size:15px}
 .row{display:flex;gap:10px}.row .inp{flex:1}
-.preview{width:100%;height:180px;object-fit:cover;border-radius:12px;margin-top:12px;display:none;border:2px dashed #ccc}
-.camLabel{background:#f3f4f6;border:2px dashed #9ca3af;border-radius:12px;padding:14px;text-align:center;margin-top:12px;display:block;font-size:14px;font-weight:600}
+.preview{width:100%;height:180px;object-fit:cover;border-radius:12px;margin-top:12px;display:none;border:1px solid #e5e7eb}
+.camLabel{background:white;border:1px solid #d1d5db;border-radius:12px;padding:14px;text-align:center;margin-top:12px;display:block;font-size:14px;font-weight:600}
 .submit{background:#111827;color:white;border:none;width:100%;padding:14px;border-radius:14px;font-weight:900;margin-top:14px;font-size:15px}
 .closeX{background:#f3f4f6;border:none;padding:7px 12px;border-radius:10px;float:right;font-size:16px}
 .loginBtn{background:white;color:#111827;border:1px solid #111827;padding:7px 14px;border-radius:20px;font-weight:800;font-size:12px}
@@ -74,8 +74,8 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <div class="chooseLogo">VELA<span>.</span></div>
 <div class="chooseSub">UGANDA'S MARKETPLACE</div>
 <div class="chooseTitle">Choose Your Location</div>
-<div class="chooseDesc">Where do you want to buy & sell?<br>We show ONLY that city (like Jumia)</div>
-<button class="locBigBtn kampala" onclick="chooseLocation('Kampala')"><div><div>VELA KAMPALA</div><small>Phones & Electronics • No Nakivale</small></div><div>📱</div></button>
+<div class="chooseDesc">Where do you want to buy & sell?<br>We show only your city</div>
+<button class="locBigBtn kampala" onclick="chooseLocation('Kampala')"><div><div>VELA KAMPALA</div><small>Phones & Electronics</small></div><div>📱</div></button>
 <button class="locBigBtn nakivale" onclick="chooseLocation('Nakivale')"><div><div>VELA NAKIVALE</div><small>All zones • Settlement</small></div><div>🏠</div></button>
 <button class="locBigBtn mbarara" onclick="chooseLocation('Mbarara')"><div><div>VELA MBARARA</div><small>City Market</small></div><div>🏬</div></button>
 <button class="locBigBtn uganda" onclick="chooseLocation('All')"><div><div>VELA UGANDA</div><small>See All Cities</small></div><div>🌍</div></button>
@@ -101,7 +101,7 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <div class="grid" id="grid"></div>
 </div>
 <div id="pageMarket" class="page"><div class="momo" id="momoBar2">VELA Market</div><div class="grid" id="grid2" style="margin-top:12px"></div></div>
-<div id="pageHow" class="page"><div class="box"><h2 id="howTitle">❓ How VELA Works</h2><ol style="padding-left:18px;line-height:2;font-size:15px"><li><b>Choose Location first</b> - Big ZOOMED screen</li><li>Sign In with Google - 1 tap, no Spam!</li><li>Tap + Add → Choose Location</li><li>Kampala sees ONLY Kampala (NO Nakivale! Like Jumia)</li><li>Pay 5% MoMo 0783663151</li></ol><button class="submit" onclick="showPage('Home')">Go to VELA</button></div></div>
+<div id="pageHow" class="page"><div class="box"><h2 id="howTitle">❓ How VELA Works</h2><ol style="padding-left:18px;line-height:2;font-size:15px"><li><b>Choose Location first</b></li><li>Sign In with Google - 1 tap!</li><li>Tap + Add → Choose Location</li><li>Kampala sees ONLY Kampala (NO Nakivale!)</li><li>Pay 5% MoMo 0783663151</li></ol><button class="submit" onclick="showPage('Home')">Go to VELA</button></div></div>
 <div id="pagePay" class="page"><div class="box"><h2>💳 VELA MoMo</h2><div class="payBig" id="payBigBox"><h1 id="payName">VELA UGANDA</h1><h1 id="payNumber">+256 783 663 151</h1><p id="payComm">5% = Price ÷ 20</p></div><button class="submit" onclick="window.open('https://wa.me/256783663151','_blank')">Confirm WhatsApp</button></div></div>
 <button class="fab" onclick="openModal()">+</button>
 <div class="bottom-nav">
@@ -110,7 +110,7 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <button class="bnav" id="bHow" onclick="showPage('How')"><span>❓</span>How</button>
 <button class="bnav" id="bPay" onclick="showPage('Pay')"><span>💳</span>Pay</button>
 </div>
-<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3>Add Product to VELA</h3><p id="needLoginMsg" style="display:none;color:red;font-size:13px">Please Sign In first!</p><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Electronics</option><option>Household</option><option>Fashion & Clothes</option><option>Food & Grains</option><option>Beauty & Health</option><option>Other</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">📍 Nakivale Base Camp</option><option value="Nakivale Juru">📍 Nakivale Juru</option><option value="Kampala">📍 Kampala - Phones</option><option value="Mbarara">📍 Mbarara</option></select><div class="row"><input id="pPrice" class="inp" type="number" placeholder="Price UGX" oninput="calcComm()"><input id="pShop" class="inp" placeholder="Shop Name"></div><p id="commissionShow" class="commissionInfo"></p><input id="pWa" class="inp" placeholder="WhatsApp 256..."><label class="camLabel">📷 Take Photo - ZOOMED<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><input id="pLink" class="inp" placeholder="Or paste image link"><button class="submit" onclick="submitProduct()">Submit to VELA Cloud</button></div></div>
+<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3>Add Product to VELA</h3><p id="needLoginMsg" style="display:none;color:red;font-size:13px">Please Sign In first!</p><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Electronics</option><option>Household</option><option>Fashion & Clothes</option><option>Food & Grains</option><option>Beauty & Health</option><option>Other</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">📍 Nakivale Base Camp</option><option value="Nakivale Juru">📍 Nakivale Juru</option><option value="Kampala">📍 Kampala - Phones</option><option value="Mbarara">📍 Mbarara</option></select><div class="row"><input id="pPrice" class="inp" type="number" placeholder="Price UGX" oninput="calcComm()"><input id="pShop" class="inp" placeholder="Shop Name"></div><p id="commissionShow" class="commissionInfo"></p><input id="pWa" class="inp" placeholder="WhatsApp 256..."><label class="camLabel">📷 Choose from Gallery<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><input id="pLink" class="inp" placeholder="Or paste image link"><button class="submit" onclick="submitProduct()">Submit to VELA</button></div></div>
 
 <div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>🔐 Sign In to VELA</h3>
 <button class="googleBtn" onclick="signInWithGoogle()"><span>G</span> Continue with Google - 1 Click!</button>
@@ -152,7 +152,6 @@ function openChooser(){document.getElementById('locationChooser').classList.remo
 function openLogin(){document.getElementById("loginBg").classList.add("open")}
 function closeLogin(){document.getElementById("loginBg").classList.remove("open")}
 
-// --- NEW GOOGLE 1-CLICK LOGIN ---
 function signInWithGoogle(){
   const provider = new firebase.auth.GoogleAuthProvider();
   document.getElementById("loginMsg").innerText = "Opening Google...";
@@ -160,7 +159,6 @@ function signInWithGoogle(){
     document.getElementById("loginMsg").innerText = "✅ Welcome "+result.user.email+"!";
     setTimeout(()=>{ closeLogin(); }, 800);
   }).catch(e=>{
-    // If popup blocked on phone, use redirect
     if(e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user'){
       auth.signInWithRedirect(provider);
     } else {
@@ -206,12 +204,12 @@ function updateBranding(){
   const payNumber=document.getElementById("payNumber");
   if(loc==="Kampala"){
     sub.innerText="KAMPALA • Phones & Electronics • Trusted";
-    momo.innerHTML="VELA KAMPALA • 5% • Fast delivery - No Nakivale shown";
+    momo.innerHTML="VELA KAMPALA • 5% • Fast delivery";
     momo2.innerHTML="VELA KAMPALA";header.style.background="#1e40af";payBig.style.background="#1e40af";payName.innerText="VELA KAMPALA";payNumber.innerText="+256 783 663 151";document.title="VELA Kampala";
   }else if(loc.includes("Nakivale")){
     sub.innerText="NAKIVALE MARKET";momo.innerHTML="VELA NAKIVALE • MoMo: +256783663151";header.style.background="#15803d";payBig.style.background="#15803d";payName.innerText="VELA NAKIVALE";document.title="VELA Nakivale";
   }else if(loc==="Mbarara"){sub.innerText="MBARARA MARKET";header.style.background="#7c3aed";payBig.style.background="#7c3aed";}
-  else{sub.innerText="UGANDA'S MARKETPLACE";momo.innerHTML="VELA UGANDA • Choose city - Filter hides others";header.style.background="#111827";payBig.style.background="#111827";payName.innerText="VELA UGANDA";document.title="VELA - Uganda Marketplace";}
+  else{sub.innerText="UGANDA'S MARKETPLACE";momo.innerHTML="VELA UGANDA • Choose city";header.style.background="#111827";payBig.style.background="#111827";payName.innerText="VELA UGANDA";document.title="VELA - Uganda Marketplace";}
 }
 function initCats(){document.getElementById("catWrap").innerHTML=CATS.map(c=>`<button class="cat ${c===activeCat?'active':''}" onclick="setCat('${c}')">${c}</button>`).join("");}
 function setCat(c){activeCat=c;initCats();render();}
@@ -229,7 +227,7 @@ async function submitProduct(){
   let prod={name:n,cat:c,price:p,shop:s,wa:w,img:img,location:loc,ownerEmail:currentUser.email,ownerUid:currentUser.uid,created:Date.now()};
   await db.collection("vela_products").add(prod);
   closeModal();["pName","pPrice","pShop","pWa","pLink"].forEach(id=>document.getElementById(id).value="");document.getElementById("preview").style.display="none";document.getElementById("commissionShow").innerText="";
-  alert("✅ Added to VELA "+loc+"! ZOOMED image saved!");
+  alert("✅ Added to VELA "+loc+"!");
 }
 function render(){
   updateBranding();
@@ -241,7 +239,7 @@ function render(){
     let ml=locFilter==="All"|| (locFilter==="Nakivale" ? (p.location||'').includes("Nakivale") : p.location===locFilter);
     return mc&&mq&&ml;
   });
-  let html=list.length?list.map(p=>`<div class="card"><img src="${p.img}" onclick="window.open('${p.img}','_blank')" style="cursor:zoom-in"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${p.price} UGX • ${p.cat}</div><div style="font-size:11px;color:#6b7280;margin-top:3px">By ${p.shop} • 📍 ${p.location}</div><button class="btn-call" onclick="window.open('https://wa.me/${(p.wa||'').replace(/[^0-9]/g,'')}?text=Hi VELA, I want ${encodeURIComponent(p.name)}','_blank')">Call Vendor</button>${currentUser&&p.ownerUid===currentUser.uid?`<button class="btn-remove" onclick="removeProd('${p.docId}')">Remove</button>`:''}</div></div>`).join(""):`<div class="empty">No products in VELA ${locFilter}<br><small>Tap + Add to be first! ZOOMED image</small></div>`;
+  let html=list.length?list.map(p=>`<div class="card"><img src="${p.img}"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${p.price} UGX • ${p.cat}</div><div style="font-size:11px;color:#6b7280;margin-top:3px">By ${p.shop} • 📍 ${p.location}</div><button class="btn-call" onclick="window.open('https://wa.me/${(p.wa||'').replace(/[^0-9]/g,'')}?text=Hi VELA, I want ${encodeURIComponent(p.name)}','_blank')">Call Vendor</button>${currentUser&&p.ownerUid===currentUser.uid?`<button class="btn-remove" onclick="removeProd('${p.docId}')">Remove</button>`:''}</div></div>`).join(""):`<div class="empty">No products in VELA ${locFilter}<br><small>Tap + Add to be first!</small></div>`;
   document.getElementById("grid").innerHTML=html;document.getElementById("grid2").innerHTML=html;
 }
 async function removeProd(docId){if(confirm("Remove from VELA?")){await db.collection("vela_products").doc(docId).delete();}}

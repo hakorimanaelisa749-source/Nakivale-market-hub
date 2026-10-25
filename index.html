@@ -63,6 +63,10 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .locBigBtn.nakivale{background:linear-gradient(90deg,#dcfce7,#bbf7d0);border:2px solid #22c55e}
 .locBigBtn.mbarara{background:linear-gradient(90deg,#f3e8ff,#e9d5ff);border:2px solid #a855f7}
 .locBigBtn.uganda{background:linear-gradient(90deg,#fef9c3,#fde68a);border:2px solid #facc15}
+.googleBtn{background:#4285F4;color:white;border:none;width:100%;padding:14px;border-radius:14px;font-weight:900;margin-top:4px;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px}
+.googleBtn span{background:white;color:#4285F4;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-weight:900}
+.divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:#9ca3af;font-size:12px}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e5e7eb}
 </style>
 </head>
 <body>
@@ -97,7 +101,7 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <div class="grid" id="grid"></div>
 </div>
 <div id="pageMarket" class="page"><div class="momo" id="momoBar2">VELA Market</div><div class="grid" id="grid2" style="margin-top:12px"></div></div>
-<div id="pageHow" class="page"><div class="box"><h2 id="howTitle">❓ How VELA Works</h2><ol style="padding-left:18px;line-height:2;font-size:15px"><li><b>Choose Location first</b> - Big ZOOMED screen</li><li>Sign In with Gmail - Link to Gmail app</li><li>Tap + Add → Choose Location</li><li>Kampala sees ONLY Kampala (NO Nakivale! Like Jumia)</li><li>Pay 5% MoMo 0783663151</li></ol><button class="submit" onclick="showPage('Home')">Go to VELA</button></div></div>
+<div id="pageHow" class="page"><div class="box"><h2 id="howTitle">❓ How VELA Works</h2><ol style="padding-left:18px;line-height:2;font-size:15px"><li><b>Choose Location first</b> - Big ZOOMED screen</li><li>Sign In with Google - 1 tap, no Spam!</li><li>Tap + Add → Choose Location</li><li>Kampala sees ONLY Kampala (NO Nakivale! Like Jumia)</li><li>Pay 5% MoMo 0783663151</li></ol><button class="submit" onclick="showPage('Home')">Go to VELA</button></div></div>
 <div id="pagePay" class="page"><div class="box"><h2>💳 VELA MoMo</h2><div class="payBig" id="payBigBox"><h1 id="payName">VELA UGANDA</h1><h1 id="payNumber">+256 783 663 151</h1><p id="payComm">5% = Price ÷ 20</p></div><button class="submit" onclick="window.open('https://wa.me/256783663151','_blank')">Confirm WhatsApp</button></div></div>
 <button class="fab" onclick="openModal()">+</button>
 <div class="bottom-nav">
@@ -107,7 +111,13 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <button class="bnav" id="bPay" onclick="showPage('Pay')"><span>💳</span>Pay</button>
 </div>
 <div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3>Add Product to VELA</h3><p id="needLoginMsg" style="display:none;color:red;font-size:13px">Please Sign In first!</p><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Electronics</option><option>Household</option><option>Fashion & Clothes</option><option>Food & Grains</option><option>Beauty & Health</option><option>Other</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">📍 Nakivale Base Camp</option><option value="Nakivale Juru">📍 Nakivale Juru</option><option value="Kampala">📍 Kampala - Phones</option><option value="Mbarara">📍 Mbarara</option></select><div class="row"><input id="pPrice" class="inp" type="number" placeholder="Price UGX" oninput="calcComm()"><input id="pShop" class="inp" placeholder="Shop Name"></div><p id="commissionShow" class="commissionInfo"></p><input id="pWa" class="inp" placeholder="WhatsApp 256..."><label class="camLabel">📷 Take Photo - ZOOMED<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><input id="pLink" class="inp" placeholder="Or paste image link"><button class="submit" onclick="submitProduct()">Submit to VELA Cloud</button></div></div>
-<div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>🔐 Sign In to VELA</h3><p style="font-size:14px;color:#6b7280;margin-top:8px">We send LINK to Gmail app. Tap it to sign in.</p><input id="emailInput" class="inp" type="email" placeholder="yourname@gmail.com"><button class="submit" onclick="sendCode()">Send Login Link to Gmail</button><p id="loginMsg" style="font-size:13px;margin-top:12px;color:#15803d"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
+
+<div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>🔐 Sign In to VELA</h3>
+<button class="googleBtn" onclick="signInWithGoogle()"><span>G</span> Continue with Google - 1 Click!</button>
+<p style="font-size:12px;color:#15803d;margin-top:8px;text-align:center;font-weight:700">✅ No Spam - Instant login!</p>
+<div class="divider">OR use Gmail link</div>
+<p style="font-size:14px;color:#6b7280;margin-top:8px">We send LINK to Gmail app. Tap it to sign in.</p><input id="emailInput" class="inp" type="email" placeholder="yourname@gmail.com"><button class="submit" onclick="sendCode()" style="background:#f3f4f6;color:#111827;border:1px solid #d1d5db">Send Login Link to Gmail</button><p id="loginMsg" style="font-size:13px;margin-top:12px;color:#15803d"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
+
 <script>
 const firebaseConfig = {
   apiKey: "AIzaSyCLHrYWH31Nu6hZZyl3fXpdrtbJapAVzdI",
@@ -141,6 +151,29 @@ function openChooser(){document.getElementById('locationChooser').classList.remo
 })();
 function openLogin(){document.getElementById("loginBg").classList.add("open")}
 function closeLogin(){document.getElementById("loginBg").classList.remove("open")}
+
+// --- NEW GOOGLE 1-CLICK LOGIN ---
+function signInWithGoogle(){
+  const provider = new firebase.auth.GoogleAuthProvider();
+  document.getElementById("loginMsg").innerText = "Opening Google...";
+  auth.signInWithPopup(provider).then((result)=>{
+    document.getElementById("loginMsg").innerText = "✅ Welcome "+result.user.email+"!";
+    setTimeout(()=>{ closeLogin(); }, 800);
+  }).catch(e=>{
+    // If popup blocked on phone, use redirect
+    if(e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user'){
+      auth.signInWithRedirect(provider);
+    } else {
+      document.getElementById("loginMsg").innerText = "Error: "+e.message;
+    }
+  });
+}
+auth.getRedirectResult().then((result)=>{
+  if(result && result.user){
+    closeLogin();
+  }
+}).catch(e=>{ console.log(e); });
+
 function sendCode(){
   const email=document.getElementById("emailInput").value.trim();
   if(!email.includes("@")){alert("Enter valid Gmail");return;}

@@ -10,10 +10,12 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
 body{background:#f5f7f5;padding-bottom:20px}
-header{background:#111827;color:white;padding:14px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20}
+header{background:#111827;color:white;padding:14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
 header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{color:#facc15}
 .hamburger{font-size:28px;background:none;border:none;color:white;padding:2px 8px}
-.sideMenu{position:fixed;top:0;left:-300px;width:285px;height:100%;background:white;z-index:90;transition:0.3s;padding:0;box-shadow:4px 0 20px rgba(0,0,0,.3);overflow:auto}
+.cartIcon{position:relative;background:none;border:none;color:white;font-size:22px}
+.cartBadge{position:absolute;top:-6px;right:-8px;background:#facc15;color:#111827;font-size:10px;font-weight:900;padding:2px 6px;border-radius:10px}
+.sideMenu{position:fixed;top:0;left:-300px;width:285px;height:100%;background:white;z-index:90;transition:0.3s;box-shadow:4px 0 20px rgba(0,0,0,.3);overflow:auto}
 .sideMenu.open{left:0}
 .sideOverlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:80;display:none}
 .sideOverlay.open{display:block}
@@ -30,11 +32,13 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .search{flex:1;padding:13px 16px;border-radius:12px;border:1px solid #d1d5db;background:white;font-size:16px}
 .addBtn{background:#111827;color:white;border:none;padding:13px 20px;border-radius:12px;font-weight:800}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 14px}
-.card{background:white;border-radius:16px;overflow:hidden;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.06);cursor:pointer}
-.card img{width:100%;height:165px;object-fit:cover;background:#f3f4f6}
+.card{background:white;border-radius:16px;overflow:hidden;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.card img{width:100%;height:165px;object-fit:cover;background:#f3f4f6;cursor:pointer}
 .card-body{padding:10px}
-.card-title{font-size:14px;font-weight:800;height:36px;overflow:hidden;line-height:1.2}
+.card-title{font-size:14px;font-weight:800;height:36px;overflow:hidden;line-height:1.2;cursor:pointer}
 .card-price{font-weight:900;font-size:14px;margin-top:4px}
+.card-add{background:#111827;color:white;border:none;width:100%;padding:8px;border-radius:8px;margin-top:8px;font-weight:800;font-size:13px}
+.card-add.added{background:#15803d}
 .empty{text-align:center;padding:50px;color:#9ca3af;grid-column:1/-1}
 .fab{position:fixed;right:18px;bottom:20px;background:#facc15;color:#111827;border:none;width:60px;height:60px;border-radius:30px;font-size:28px;font-weight:900;box-shadow:0 6px 16px rgba(0,0,0,.3);z-index:15}
 .box{background:white;margin:14px;border-radius:18px;padding:20px;border:1px solid #e5e7eb}
@@ -43,7 +47,6 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .modal-bg.open{display:flex}
 .modal{background:white;width:100%;max-height:92vh;overflow:auto;border-radius:22px 22px 0 0;padding:18px}
 .inp{width:100%;padding:13px;border:1px solid #d1d5db;border-radius:12px;margin-top:12px;font-size:15px}
-.row{display:flex;gap:10px}.row .inp{flex:1}
 .preview{width:100%;height:180px;object-fit:cover;border-radius:12px;margin-top:12px;display:none;border:1px solid #e5e7eb}
 .camLabel{background:white;border:1px solid #d1d5db;border-radius:12px;padding:14px;text-align:center;margin-top:12px;display:block;font-size:14px;font-weight:600}
 .submit{background:#111827;color:white;border:none;width:100%;padding:14px;border-radius:14px;font-weight:900;margin-top:14px}
@@ -51,8 +54,6 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .googleBtn{background:#4285F4;color:white;border:none;width:100%;padding:14px;border-radius:14px;font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px}
 #locationChooser{position:fixed;inset:0;background:linear-gradient(180deg,#111827 0%,#1f2937 100%);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;color:white;text-align:center}
 #locationChooser.hide{display:none}
-.chooseLogo{font-size:54px;font-weight:900;letter-spacing:4px;margin-bottom:6px}
-.chooseLogo span{color:#facc15}
 .locBigBtn{width:100%;max-width:360px;background:white;color:#111827;border:none;padding:18px;border-radius:16px;font-weight:900;font-size:17px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
 #productViewBg{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:60;display:none;overflow:auto}
 #productViewBg.open{display:flex;flex-direction:column}
@@ -60,29 +61,28 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .pv-body{background:white;border-radius:24px 24px 0 0;margin-top:-20px;padding:20px;flex:1}
 .pv-btn{width:100%;padding:16px;border-radius:14px;border:none;font-weight:900;margin-top:12px}
 .pv-btn.call{background:#25D366;color:white}
+.pv-btn.cart{background:#111827;color:white}
+.cartRow{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid #eee;align-items:center}
+.cartRow img{width:60px;height:60px;border-radius:10px;object-fit:cover}
+.qtyBtn{border:1px solid #d1d5db;background:white;width:32px;height:32px;border-radius:8px;font-weight:900}
 </style>
 </head>
 <body>
 <div id="sideOverlay" class="sideOverlay" onclick="toggleMenu()"></div>
 <div id="sideMenu" class="sideMenu">
 <div class="menuHead"><b>VELA.</b><button onclick="toggleMenu()" style="background:none;border:none;color:white;font-size:22px">✕</button></div>
-
-<div class="menuSection">
-<div class="menuTitle">NEED HELP?</div>
+<div class="menuSection"><div class="menuTitle">NEED HELP?</div>
 <button class="menuItem" onclick="toggleMenu();showPage('Home')">🏠 Home</button>
+<button class="menuItem" onclick="toggleMenu();showPage('Cart')">🛒 My Cart (<span id="cartCountMenu">0</span>)</button>
 <button class="menuItem" onclick="toggleMenu();showPage('How')">❓ How it Works</button>
 <button class="menuItem" onclick="toggleMenu();openChooser()">📍 Change City</button>
 </div>
-
-<div class="menuSection">
-<div class="menuTitle">MY VELA ACCOUNT</div>
+<div class="menuSection"><div class="menuTitle">MY VELA ACCOUNT</div>
 <button class="menuItem" id="menuAuth" onclick="toggleMenu();openLogin()">🔐 Sign In</button>
 <button class="menuItem" onclick="toggleMenu();openModal()">➕ Sell on VELA</button>
-<button class="menuItem" onclick="toggleMenu();showPage('Pay')">💳 MoMo Pay - 0783663151</button>
+<button class="menuItem" onclick="toggleMenu();showPage('Pay')">💳 MoMo Pay</button>
 </div>
-
-<div class="menuSection">
-<div class="menuTitle">OUR CATEGORIES</div>
+<div class="menuSection"><div class="menuTitle">OUR CATEGORIES</div>
 <button class="menuItem" onclick="toggleMenu();setCat('Supermarket')">🛒 Supermarket</button>
 <button class="menuItem" onclick="toggleMenu();setCat('Phones & Tablets')">📱 Phones & Tablets</button>
 <button class="menuItem" onclick="toggleMenu();setCat('Home & Office')">🏠 Home & Office</button>
@@ -90,20 +90,17 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <button class="menuItem" onclick="toggleMenu();setCat('Fashion')">👕 Fashion</button>
 <button class="menuItem" onclick="toggleMenu();setCat('All')">🌍 See All</button>
 </div>
-
 <div class="momo">VELA • 0783663151 • 5%</div>
 </div>
 
-<div id="locationChooser">
-<div class="chooseLogo">VELA<span>.</span></div>
-<p style="font-size:12px;letter-spacing:3px;color:#facc15;font-weight:800;margin-bottom:24px">UGANDA'S MARKETPLACE</p>
+<div id="locationChooser"><div style="font-size:54px;font-weight:900;letter-spacing:4px">VELA<span style="color:#facc15">.</span></div><br>
 <button class="locBigBtn" onclick="chooseLocation('Kampala')">VELA KAMPALA <span>📱</span></button>
 <button class="locBigBtn" onclick="chooseLocation('Nakivale')">VELA NAKIVALE <span>🏠</span></button>
 <button class="locBigBtn" onclick="chooseLocation('Mbarara')">VELA MBARARA <span>🏬</span></button>
 <button class="locBigBtn" onclick="chooseLocation('All')">VELA UGANDA <span>🌍</span></button>
 </div>
 
-<header><button class="hamburger" onclick="toggleMenu()">☰</button><h1>VELA<span>.</span></h1><div style="width:40px"></div></header>
+<header><button class="hamburger" onclick="toggleMenu()">☰</button><h1>VELA<span>.</span></h1><button class="cartIcon" onclick="showPage('Cart')">🛒<span id="cartBadge" class="cartBadge" style="display:none">0</span></button></header>
 
 <div id="pageHome" class="page active">
 <div class="momo" id="momoBar">VELA UGANDA • MoMo: +256783663151</div>
@@ -112,44 +109,38 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <div class="grid" id="grid"></div>
 </div>
 
+<div id="pageCart" class="page"><div class="box"><h2>🛒 My Cart</h2><div id="cartList" style="margin-top:16px"></div><div id="cartTotal" style="font-weight:900;font-size:20px;margin-top:16px;border-top:2px solid #111827;padding-top:12px"></div><button id="checkoutBtn" class="submit" style="background:#25D366;display:none" onclick="checkoutCart()">Checkout on WhatsApp</button><button class="submit" style="background:#f3f4f6;color:#111827" onclick="showPage('Home')">Continue Shopping</button></div></div>
+
 <div id="pageMarket" class="page"><div class="grid" id="grid2" style="margin-top:12px"></div></div>
-<div id="pageHow" class="page"><div class="box"><h2>How VELA Works</h2><br><p style="line-height:1.8">1. Choose Location<br>2. Sign In with Google<br>3. Tap + Add<br>4. Pay 5% to MoMo 0783663151</p><button class="submit" onclick="showPage('Home')">Go to VELA</button></div></div>
+<div id="pageHow" class="page"><div class="box"><h2>How VELA Works</h2><br><p style="line-height:1.8">1. Choose Location<br>2. Sign In with Google<br>3. Add to Cart<br>4. Checkout via WhatsApp<br>5. Pay 5% to MoMo 0783663151</p><button class="submit" onclick="showPage('Home')">Go to VELA</button></div></div>
 <div id="pagePay" class="page"><div class="box"><h2>VELA MoMo</h2><div class="payBig"><h1>+256 783 663 151</h1><p>5% commission</p></div></div></div>
 
 <button class="fab" onclick="openModal()">+</button>
 
-<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3>Add Product</h3><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><div class="row"><input id="pPrice" class="inp" type="number" placeholder="Price UGX"><input id="pShop" class="inp" placeholder="Shop Name"></div><input id="pWa" class="inp" placeholder="WhatsApp 256..."><label class="camLabel">📷 Choose Photo<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><input id="pLink" class="inp" placeholder="Or paste image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit</button></div></div>
+<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3>Add Product</h3><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><div style="display:flex;gap:10px"><input id="pPrice" class="inp" type="number" placeholder="Price UGX"><input id="pShop" class="inp" placeholder="Shop Name"></div><input id="pWa" class="inp" placeholder="WhatsApp 256..."><label class="camLabel">📷 Choose Photo<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><input id="pLink" class="inp" placeholder="Or paste image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit</button></div></div>
 
 <div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>Sign In</h3><br><button class="googleBtn" onclick="signInWithGoogle()">Continue with Google</button><p id="loginMsg" style="font-size:13px;margin-top:12px;text-align:center"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
 
-<div id="productViewBg" onclick="if(event.target==this)closeProductView()"><img id="pvImg" class="pv-img"><div class="pv-body"><button class="closeX" onclick="closeProductView()">✕</button><div id="pvTitle" style="font-size:20px;font-weight:900"></div><div id="pvPrice" style="font-weight:900;margin-top:8px"></div><button id="pvCallBtn" class="pv-btn call">Chat on WhatsApp</button><button class="pv-btn" style="background:#f3f4f6" onclick="closeProductView()">Close</button><div id="pvRemoveWrap"></div></div></div>
+<div id="productViewBg" onclick="if(event.target==this)closeProductView()"><img id="pvImg" class="pv-img"><div class="pv-body"><button class="closeX" onclick="closeProductView()">✕</button><div id="pvTitle" style="font-size:20px;font-weight:900"></div><div id="pvPrice" style="font-weight:900;margin-top:8px"></div><button id="pvCallBtn" class="pv-btn call">💬 Chat Vendor</button><button id="pvCartBtn" class="pv-btn cart">🛒 Add to Cart</button><button class="pv-btn" style="background:#f3f4f6" onclick="closeProductView()">Close</button><div id="pvRemoveWrap"></div></div></div>
 
 <script>
-// PRODUCTS DB
-const firebaseConfig = {
-  apiKey: "AIzaSyCLHrYWH31Nu6hZZyl3fXpdrtbJapAVzdI",
-  authDomain: "vela-search.firebaseapp.com",
-  projectId: "vela-search",
-  storageBucket: "vela-search.firebasestorage.app",
-  messagingSenderId: "713874060645",
-  appId: "1:713874060645:web:44ac156cc34ef3cfee5d8c"
-};
+const firebaseConfig={apiKey:"AIzaSyCLHrYWH31Nu6hZZyl3fXpdrtbJapAVzdI",authDomain:"vela-search.firebaseapp.com",projectId:"vela-search",storageBucket:"vela-search.firebasestorage.app",messagingSenderId:"713874060645",appId:"1:713874060645:web:44ac156cc34ef3cfee5d8c"};
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-// VIEWS TRACKING - SILENT, ONLY FOR YOU IN FIREBASE
-const velaUgandaConfig = {
-  apiKey: "AIzaSyDq6aacXor6JdWzl0gAg_QeFqacYXBAG6",
-  authDomain: "vela-uganda.firebaseapp.com",
-  projectId: "vela-uganda",
-  storageBucket: "vela-uganda.firebasestorage.app",
-  messagingSenderId: "980720640671",
-  appId: "1:980720640671:web:c252a0982f919922427Baa"
-};
-const velaUgandaApp = firebase.initializeApp(velaUgandaConfig, "velaUganda");
-const velaUgandaDb = velaUgandaApp.firestore();
+const auth=firebase.auth();const db=firebase.firestore();
+const velaUgandaConfig={apiKey:"AIzaSyDq6aacXor6JdWzl0gAg_QeFqacYXBAG6",authDomain:"vela-uganda.firebaseapp.com",projectId:"vela-uganda",storageBucket:"vela-uganda.firebasestorage.app",messagingSenderId:"980720640671",appId:"1:980720640671:web:c252a0982f919922427Baa"};
+const velaUgandaApp=firebase.initializeApp(velaUgandaConfig,"velaUganda");
+const velaUgandaDb=velaUgandaApp.firestore();
 (async()=>{try{const r=velaUgandaDb.collection("vela_visits").doc("counter");await r.update({count:firebase.firestore.FieldValue.increment(1)});}catch(e){try{await velaUgandaDb.collection("vela_visits").doc("counter").set({count:1},{merge:true});}catch(e2){}}})();
+
+// CART LOGIC
+let cart=JSON.parse(localStorage.getItem('vela_cart')||'[]');
+function saveCart(){localStorage.setItem('vela_cart',JSON.stringify(cart));updateCartBadge();}
+function updateCartBadge(){let totalQty=cart.reduce((s,i)=>s+i.qty,0);document.getElementById('cartBadge').style.display=totalQty?'block':'none';document.getElementById('cartBadge').innerText=totalQty;document.getElementById('cartCountMenu').innerText=totalQty;let btn=document.getElementById('checkoutBtn');if(btn) btn.style.display=totalQty?'block':'none';}
+function addToCart(docId){const p=products.find(x=>x.docId===docId);if(!p)return;let item=cart.find(i=>i.docId===docId);if(item){item.qty++;}else{cart.push({docId:p.docId,name:p.name,price:parseInt(p.price)||0,img:p.img,wa:p.wa||'256783663151',qty:1});}saveCart();render();renderCart();if(navigator.vibrate)navigator.vibrate(40);}
+function removeFromCart(docId){cart=cart.filter(i=>i.docId!==docId);saveCart();render();renderCart();}
+function changeQty(docId,delta){let item=cart.find(i=>i.docId===docId);if(!item)return;item.qty+=delta;if(item.qty<=0)removeFromCart(docId);else{saveCart();renderCart();}}
+function renderCart(){let list=document.getElementById('cartList');let totalEl=document.getElementById('cartTotal');if(cart.length===0){list.innerHTML='<p style="text-align:center;color:#9ca3af;padding:20px">Your cart is empty<br>Add products like Jumia!</p>';totalEl.innerText='';return;}let total=0;list.innerHTML=cart.map(i=>{total+=i.price*i.qty;return `<div class="cartRow"><img src="${i.img}"><div style="flex:1"><div style="font-weight:800;font-size:14px">${i.name}</div><div style="font-size:13px">${i.price} UGX</div><div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button class="qtyBtn" onclick="changeQty('${i.docId}',-1)">-</button><span>${i.qty}</span><button class="qtyBtn" onclick="changeQty('${i.docId}',1)">+</button><button onclick="removeFromCart('${i.docId}')" style="margin-left:10px;border:none;background:#ffe4e6;color:#9f1239;padding:4px 10px;border-radius:8px">Remove</button></div></div></div>`}).join('');totalEl.innerText='Total: '+total.toLocaleString()+' UGX';}
+function checkoutCart(){let total=cart.reduce((s,i)=>s+i.price*i.qty,0);let text='Hello VELA UGANDA, I want to order:\n\n'+cart.map(i=>`• ${i.name} x${i.qty} = ${i.price*i.qty} UGX`).join('\n')+`\n\nTotal: ${total} UGX\n\nMoMo Pay: 0783663151`;window.open('https://wa.me/256783663151?text='+encodeURIComponent(text),'_blank');}
 
 function toggleMenu(){document.getElementById("sideMenu").classList.toggle("open");document.getElementById("sideOverlay").classList.toggle("open");}
 let currentUser=null,compressedImageData=null,products=[],isLoading=true;
@@ -168,15 +159,15 @@ function initCats(){document.getElementById("catWrap").innerHTML=CATS.map(c=>`<b
 function setCat(c){activeCat=c;initCats();render();}
 function openModal(){if(!currentUser){openLogin();return;}document.getElementById("modalBg").classList.add("open");}
 function closeModal(){document.getElementById("modalBg").classList.remove("open");}
-function previewFile(input){if(input.files&&input.files[0]){const file=input.files[0];const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{const canvas=document.createElement('canvas');let w=img.width,h=img.height;const max=800;if(w>h){if(w>max){h*=max/w;w=max;}}else{if(h>max){w*=max/h;h=max;}}canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);compressedImageData=canvas.toDataURL('image/jpeg',0.6);document.getElementById("preview").src=compressedImageData;document.getElementById("preview").style.display="block";};img.src=e.target.result;};reader.readAsDataURL(file);}}
-async function submitProduct(){let n=document.getElementById("pName").value.trim(),c=document.getElementById("pCat").value,p=document.getElementById("pPrice").value.trim(),s=document.getElementById("pShop").value.trim(),w=document.getElementById("pWa").value.trim(),l=document.getElementById("pLink").value.trim(),loc=document.getElementById("pLocation").value;if(!n||!p||!s){alert("Fill Name, Price, Shop");return;}let btn=document.getElementById("submitBtn");btn.disabled=true;btn.innerText="Saving...";try{let img=compressedImageData||l||"https://via.placeholder.com/400x300?text="+encodeURIComponent(n);let prod={name:n,cat:c,price:p,shop:s,wa:w,img:img,location:loc,ownerUid:currentUser.uid,ownerEmail:currentUser.email,created:Date.now()};await db.collection("vela_products").add(prod);closeModal();["pName","pPrice","pShop","pWa","pLink"].forEach(id=>document.getElementById(id).value="");document.getElementById("preview").style.display="none";compressedImageData=null;alert("Added to "+loc);}catch(e){alert(e.message);}btn.disabled=false;btn.innerText="Submit";}
-function render(){let q=(document.getElementById("search")?.value||"").toLowerCase();let list=products.filter(p=>{let mc=activeCat==="All"||p.cat===activeCat;let mq=!q||p.name.toLowerCase().includes(q)||p.shop.toLowerCase().includes(q);return mc&&mq;});let html=list.length?list.map(p=>`<div class="card" onclick="openProductView('${p.docId}')"><img src="${p.img}"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${p.price} UGX</div></div></div>`).join(""):`<div class="empty">No products in ${activeCat}</div>`;document.getElementById("grid").innerHTML=html;const g2=document.getElementById("grid2");if(g2)g2.innerHTML=html;}
-function openProductView(id){const p=products.find(x=>x.docId===id);if(!p)return;document.getElementById("pvImg").src=p.img;document.getElementById("pvTitle").innerText=p.name;document.getElementById("pvPrice").innerText=p.price+" UGX • "+p.cat;document.getElementById("pvCallBtn").onclick=()=>window.open('https://wa.me/'+(p.wa||'').replace(/[^0-9]/g,'')+'?text=Hi VELA, I want '+encodeURIComponent(p.name),'_blank');let rw=document.getElementById("pvRemoveWrap");if(currentUser&&p.ownerUid===currentUser.uid){rw.innerHTML=`<button class="pv-btn" style="background:#ffe4e6;color:#9f1239" onclick="removeProd('${p.docId}');closeProductView();">Remove</button>`;}else rw.innerHTML="";document.getElementById("productViewBg").classList.add("open");}
+function previewFile(input){if(input.files&&input.files[0]){const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{const canvas=document.createElement('canvas');let w=img.width,h=img.height;const max=800;if(w>h){if(w>max){h*=max/w;w=max;}}else{if(h>max){w*=max/h;h=max;}}canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);compressedImageData=canvas.toDataURL('image/jpeg',0.6);document.getElementById("preview").src=compressedImageData;document.getElementById("preview").style.display="block";};img.src=e.target.result;};reader.readAsDataURL(input.files[0]);}}
+async function submitProduct(){let n=document.getElementById("pName").value.trim(),c=document.getElementById("pCat").value,p=document.getElementById("pPrice").value.trim(),s=document.getElementById("pShop").value.trim(),w=document.getElementById("pWa").value.trim(),l=document.getElementById("pLink").value.trim(),loc=document.getElementById("pLocation").value;if(!n||!p||!s){alert("Fill Name, Price, Shop");return;}let btn=document.getElementById("submitBtn");btn.disabled=true;btn.innerText="Saving...";try{let img=compressedImageData||l||"https://via.placeholder.com/400x300?text="+encodeURIComponent(n);let prod={name:n,cat:c,price:p,shop:s,wa:w,img:img,location:loc,ownerUid:currentUser.uid,ownerEmail:currentUser.email,created:Date.now()};await db.collection("vela_products").add(prod);closeModal();["pName","pPrice","pShop","pWa","pLink"].forEach(id=>document.getElementById(id).value="");document.getElementById("preview").style.display="none";compressedImageData=null;alert("Added");}catch(e){alert(e.message);}btn.disabled=false;btn.innerText="Submit";}
+function render(){let q=(document.getElementById("search")?.value||"").toLowerCase();let list=products.filter(p=>{let mc=activeCat==="All"||p.cat===activeCat;let mq=!q||p.name.toLowerCase().includes(q)||p.shop.toLowerCase().includes(q);return mc&&mq;});let html=list.length?list.map(p=>{let inCart=cart.find(i=>i.docId===p.docId);return `<div class="card"><img src="${p.img}" onclick="openProductView('${p.docId}')"><div class="card-body"><div class="card-title" onclick="openProductView('${p.docId}')">${p.name}</div><div class="card-price">${p.price} UGX</div><button class="card-add ${inCart?'added':''}" onclick="addToCart('${p.docId}')">${inCart?'✅ Added x'+inCart.qty:'🛒 Add to Cart'}</button></div></div>`}).join(""):`<div class="empty">No products in ${activeCat}</div>`;document.getElementById("grid").innerHTML=html;const g2=document.getElementById("grid2");if(g2)g2.innerHTML=html;updateCartBadge();}
+function openProductView(id){const p=products.find(x=>x.docId===id);if(!p)return;document.getElementById("pvImg").src=p.img;document.getElementById("pvTitle").innerText=p.name;document.getElementById("pvPrice").innerText=p.price+" UGX • "+p.cat;document.getElementById("pvCallBtn").onclick=()=>window.open('https://wa.me/'+(p.wa||'').replace(/[^0-9]/g,'')+'?text=Hi VELA, I want '+encodeURIComponent(p.name),'_blank');document.getElementById("pvCartBtn").onclick=()=>{addToCart(id);document.getElementById("pvCartBtn").innerText="✅ Added!";setTimeout(()=>document.getElementById("pvCartBtn").innerText="🛒 Add to Cart",1000);};let rw=document.getElementById("pvRemoveWrap");if(currentUser&&p.ownerUid===currentUser.uid){rw.innerHTML=`<button class="pv-btn" style="background:#ffe4e6;color:#9f1239" onclick="removeProd('${p.docId}');closeProductView();">Remove</button>`;}else rw.innerHTML="";document.getElementById("productViewBg").classList.add("open");}
 function closeProductView(){document.getElementById("productViewBg").classList.remove("open");}
 async function removeProd(id){if(confirm("Remove?"))await db.collection("vela_products").doc(id).delete();}
-function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page'+name).classList.add('active');}
+function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page'+name).classList.add('active');if(name==='Cart')renderCart();}
 db.collection("vela_products").orderBy("created","desc").onSnapshot(snap=>{let np=[];snap.forEach(doc=>{let d=doc.data();d.docId=doc.id;np.push(d);});products=np;isLoading=false;try{localStorage.setItem('vela_cache',JSON.stringify(products).substring(0,800000));}catch(e){}render();});
-initCats();render();
+initCats();render();renderCart();updateCartBadge();
 </script>
 </body>
 </html>

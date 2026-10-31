@@ -9,38 +9,34 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
-body{background:#f5f7f5;padding-bottom:90px}
-header{background:#111827;color:white;padding:14px;text-align:center;position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between}
-header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{color:#facc15}
-.hamburger{font-size:28px;background:none;border:none;color:white;padding:4px 10px}
-.sideMenu{position:fixed;top:0;left:-300px;width:280px;height:100%;background:white;z-index:90;transition:0.3s;padding:20px;box-shadow:4px 0 20px rgba(0,0,0,.3);overflow:auto}
+body{background:#f5f7f5;padding-bottom:20px}
+header{background:#111827;color:white;padding:14px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:20}
+header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{color:#facc15}
+.hamburger{font-size:28px;background:none;border:none;color:white;padding:2px 8px}
+.sideMenu{position:fixed;top:0;left:-300px;width:285px;height:100%;background:white;z-index:90;transition:0.3s;padding:0;box-shadow:4px 0 20px rgba(0,0,0,.3);overflow:auto}
 .sideMenu.open{left:0}
 .sideOverlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:80;display:none}
 .sideOverlay.open{display:block}
-.authBar{display:flex;justify-content:space-between;align-items:center;background:#fefce8;padding:8px 12px;font-size:12px}
-.momo{background:linear-gradient(90deg,#facc15,#fde047);color:#422006;text-align:center;padding:12px;border-radius:14px;margin:10px 12px;font-weight:700;font-size:15px}
+.menuHead{background:#111827;color:white;padding:18px;display:flex;justify-content:space-between;align-items:center}
+.menuSection{padding:14px 16px;border-bottom:1px solid #f3f4f6}
+.menuTitle{font-size:11px;color:#f59e0b;font-weight:900;letter-spacing:1px;margin-bottom:8px}
+.menuItem{display:flex;align-items:center;gap:12px;padding:12px 0;font-size:15px;color:#111827;border:none;background:none;width:100%;text-align:left}
+.momo{background:linear-gradient(90deg,#facc15,#fde047);color:#422006;text-align:center;padding:12px;border-radius:14px;margin:12px;font-weight:700;font-size:14px}
 .page{display:none}.page.active{display:block}
-.cat-wrap{overflow-x:auto;white-space:nowrap;padding:10px 12px}
-.cat{border:1px solid #d1d5db;background:white;padding:9px 16px;border-radius:22px;font-size:14px;margin-right:7px;display:inline-block}
+.cat-wrap{overflow-x:auto;white-space:nowrap;padding:12px}
+.cat{border:1px solid #d1d5db;background:white;padding:8px 16px;border-radius:22px;font-size:14px;margin-right:7px;display:inline-block}
 .cat.active{background:#111827;color:white;border-color:#111827}
 .topbar{display:flex;gap:8px;padding:12px 14px}
 .search{flex:1;padding:13px 16px;border-radius:12px;border:1px solid #d1d5db;background:white;font-size:16px}
-.addBtn{background:#111827;color:white;border:none;padding:13px 20px;border-radius:12px;font-weight:800;font-size:15px}
-.locFilterBar{padding:0 14px 10px;display:flex;gap:8px;align-items:center}
-.locFilterBar select{flex:1}
-.changeBtn{background:#facc15;border:none;padding:12px 14px;border-radius:10px;font-weight:800;font-size:12px}
+.addBtn{background:#111827;color:white;border:none;padding:13px 20px;border-radius:12px;font-weight:800}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 14px}
 .card{background:white;border-radius:16px;overflow:hidden;border:1px solid #eee;box-shadow:0 2px 6px rgba(0,0,0,.06);cursor:pointer}
 .card img{width:100%;height:165px;object-fit:cover;background:#f3f4f6}
 .card-body{padding:10px}
-.card-title{font-size:15px;font-weight:800;height:38px;overflow:hidden;line-height:1.2}
-.card-price{color:#111827;font-weight:900;font-size:15px;margin-top:4px}
-.empty{text-align:center;padding:50px;color:#9ca3af;grid-column:1/-1;font-size:15px;line-height:1.6}
-.fab{position:fixed;right:18px;bottom:95px;background:#facc15;color:#111827;border:none;width:62px;height:62px;border-radius:31px;font-size:30px;font-weight:900;box-shadow:0 6px 16px rgba(0,0,0,.3);z-index:15}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:8px 0;z-index:25}
-.bnav{border:none;background:none;text-align:center;font-size:11px;color:#6b7280;padding:6px 16px}
-.bnav.active{color:#111827;font-weight:900}
-.bnav span{display:block;font-size:24px}
+.card-title{font-size:14px;font-weight:800;height:36px;overflow:hidden;line-height:1.2}
+.card-price{font-weight:900;font-size:14px;margin-top:4px}
+.empty{text-align:center;padding:50px;color:#9ca3af;grid-column:1/-1}
+.fab{position:fixed;right:18px;bottom:20px;background:#facc15;color:#111827;border:none;width:60px;height:60px;border-radius:30px;font-size:28px;font-weight:900;box-shadow:0 6px 16px rgba(0,0,0,.3);z-index:15}
 .box{background:white;margin:14px;border-radius:18px;padding:20px;border:1px solid #e5e7eb}
 .payBig{background:#111827;color:white;padding:24px;border-radius:16px;text-align:center;margin-top:14px}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:40;display:none;align-items:flex-end}
@@ -50,110 +46,86 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .row{display:flex;gap:10px}.row .inp{flex:1}
 .preview{width:100%;height:180px;object-fit:cover;border-radius:12px;margin-top:12px;display:none;border:1px solid #e5e7eb}
 .camLabel{background:white;border:1px solid #d1d5db;border-radius:12px;padding:14px;text-align:center;margin-top:12px;display:block;font-size:14px;font-weight:600}
-.submit{background:#111827;color:white;border:none;width:100%;padding:14px;border-radius:14px;font-weight:900;margin-top:14px;font-size:15px}
-.submit:disabled{background:#9ca3af}
-.closeX{background:#f3f4f6;border:none;padding:7px 12px;border-radius:10px;float:right;font-size:16px}
-.loginBtn{background:white;color:#111827;border:1px solid #111827;padding:7px 14px;border-radius:20px;font-weight:800;font-size:12px}
-.commissionInfo{font-size:12px;color:#15803d;margin-top:6px;font-weight:700}
+.submit{background:#111827;color:white;border:none;width:100%;padding:14px;border-radius:14px;font-weight:900;margin-top:14px}
+.closeX{background:#f3f4f6;border:none;padding:7px 12px;border-radius:10px;float:right}
+.googleBtn{background:#4285F4;color:white;border:none;width:100%;padding:14px;border-radius:14px;font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px}
 #locationChooser{position:fixed;inset:0;background:linear-gradient(180deg,#111827 0%,#1f2937 100%);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;color:white;text-align:center}
 #locationChooser.hide{display:none}
 .chooseLogo{font-size:54px;font-weight:900;letter-spacing:4px;margin-bottom:6px}
 .chooseLogo span{color:#facc15}
-.chooseSub{font-size:14px;letter-spacing:3px;color:#facc15;font-weight:800;margin-bottom:28px}
-.chooseTitle{font-size:26px;font-weight:900;margin-bottom:8px}
-.chooseDesc{font-size:14px;color:#9ca3af;margin-bottom:26px;line-height:1.4}
-.locBigBtn{width:100%;max-width:360px;background:white;color:#111827;border:none;padding:20px 18px;border-radius:18px;font-weight:900;font-size:18px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 8px 20px rgba(0,0,0,.3)}
-.locBigBtn.kampala{background:linear-gradient(90deg,#dbeafe,#bfdbfe);border:2px solid #3b82f6}
-.locBigBtn.nakivale{background:linear-gradient(90deg,#dcfce7,#bbf7d0);border:2px solid #22c55e}
-.locBigBtn.mbarara{background:linear-gradient(90deg,#f3e8ff,#e9d5ff);border:2px solid #a855f7}
-.locBigBtn.uganda{background:linear-gradient(90deg,#fef9c3,#fde68a);border:2px solid #facc15}
-.googleBtn{background:#4285F4;color:white;border:none;width:100%;padding:14px;border-radius:14px;font-weight:900;margin-top:4px;font-size:16px;display:flex;align-items:center;justify-content:center;gap:10px}
-.googleBtn span{background:white;color:#4285F4;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-weight:900}
-.divider{display:flex;align-items:center;gap:10px;margin:14px 0;color:#9ca3af;font-size:12px}
-.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e5e7eb}
+.locBigBtn{width:100%;max-width:360px;background:white;color:#111827;border:none;padding:18px;border-radius:16px;font-weight:900;font-size:17px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
 #productViewBg{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:60;display:none;overflow:auto}
 #productViewBg.open{display:flex;flex-direction:column}
 .pv-img{width:100%;height:55vh;object-fit:contain;background:black}
 .pv-body{background:white;border-radius:24px 24px 0 0;margin-top:-20px;padding:20px;flex:1}
-.pv-title{font-size:22px;font-weight:900;line-height:1.2}
-.pv-price{font-size:20px;font-weight:900;margin-top:8px}
-.pv-meta{font-size:13px;color:#6b7280;margin-top:6px}
-.pv-btn{width:100%;padding:16px;border-radius:14px;border:none;font-weight:900;font-size:16px;margin-top:12px}
+.pv-btn{width:100%;padding:16px;border-radius:14px;border:none;font-weight:900;margin-top:12px}
 .pv-btn.call{background:#25D366;color:white}
-.pv-btn.close{background:#f3f4f6;color:#111827}
-.viewsBadge{background:#111827;color:#facc15;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:900;display:inline-block;margin:8px 14px}
 </style>
 </head>
 <body>
 <div id="sideOverlay" class="sideOverlay" onclick="toggleMenu()"></div>
 <div id="sideMenu" class="sideMenu">
-<button class="closeX" onclick="toggleMenu()">✕</button>
-<h3 style="margin-top:40px">VELA Menu ☰</h3>
-<button class="submit" onclick="toggleMenu();openChooser()">📍 Change City</button>
-<button class="submit" style="background:#f3f4f6;color:#111827;border:1px solid #ddd" onclick="toggleMenu();showPage('How')">❓ How it Works</button>
-<button class="submit" style="background:#f3f4f6;color:#111827;border:1px solid #ddd" onclick="toggleMenu();showPage('Pay')">💳 MoMo Pay</button>
-<button class="submit" style="background:#f3f4f6;color:#111827;border:1px solid #ddd" onclick="toggleMenu();openLogin()">🔐 Sign In</button>
-<div style="margin-top:20px;font-size:12px;color:#6b7280">MoMo: 0783663151<br>5% commission</div>
-<div id="viewsInMenu" class="viewsBadge" style="margin-top:20px">👁️ Loading views...</div>
+<div class="menuHead"><b>VELA.</b><button onclick="toggleMenu()" style="background:none;border:none;color:white;font-size:22px">✕</button></div>
+
+<div class="menuSection">
+<div class="menuTitle">NEED HELP?</div>
+<button class="menuItem" onclick="toggleMenu();showPage('Home')">🏠 Home</button>
+<button class="menuItem" onclick="toggleMenu();showPage('How')">❓ How it Works</button>
+<button class="menuItem" onclick="toggleMenu();openChooser()">📍 Change City</button>
+</div>
+
+<div class="menuSection">
+<div class="menuTitle">MY VELA ACCOUNT</div>
+<button class="menuItem" id="menuAuth" onclick="toggleMenu();openLogin()">🔐 Sign In</button>
+<button class="menuItem" onclick="toggleMenu();openModal()">➕ Sell on VELA</button>
+<button class="menuItem" onclick="toggleMenu();showPage('Pay')">💳 MoMo Pay - 0783663151</button>
+</div>
+
+<div class="menuSection">
+<div class="menuTitle">OUR CATEGORIES</div>
+<button class="menuItem" onclick="toggleMenu();setCat('Supermarket')">🛒 Supermarket</button>
+<button class="menuItem" onclick="toggleMenu();setCat('Phones & Tablets')">📱 Phones & Tablets</button>
+<button class="menuItem" onclick="toggleMenu();setCat('Home & Office')">🏠 Home & Office</button>
+<button class="menuItem" onclick="toggleMenu();setCat('Electronics')">🔌 Electronics</button>
+<button class="menuItem" onclick="toggleMenu();setCat('Fashion')">👕 Fashion</button>
+<button class="menuItem" onclick="toggleMenu();setCat('All')">🌍 See All</button>
+</div>
+
+<div class="momo">VELA • 0783663151 • 5%</div>
 </div>
 
 <div id="locationChooser">
 <div class="chooseLogo">VELA<span>.</span></div>
-<div class="chooseSub">UGANDA'S MARKETPLACE</div>
-<div class="chooseTitle">Choose Your Location</div>
-<div class="chooseDesc">Where do you want to buy & sell?<br>We show only your city</div>
-<button class="locBigBtn kampala" onclick="chooseLocation('Kampala')"><div><div>VELA KAMPALA</div><small>Phones & Electronics</small></div><div>📱</div></button>
-<button class="locBigBtn nakivale" onclick="chooseLocation('Nakivale')"><div><div>VELA NAKIVALE</div><small>All zones • Settlement</small></div><div>🏠</div></button>
-<button class="locBigBtn mbarara" onclick="chooseLocation('Mbarara')"><div><div>VELA MBARARA</div><small>City Market</small></div><div>🏬</div></button>
-<button class="locBigBtn uganda" onclick="chooseLocation('All')"><div><div>VELA UGANDA</div><small>See All Cities</small></div><div>🌍</div></button>
-<p style="margin-top:18px;font-size:11px;color:#6b7280">You can change city anytime in ☰ menu</p>
+<p style="font-size:12px;letter-spacing:3px;color:#facc15;font-weight:800;margin-bottom:24px">UGANDA'S MARKETPLACE</p>
+<button class="locBigBtn" onclick="chooseLocation('Kampala')">VELA KAMPALA <span>📱</span></button>
+<button class="locBigBtn" onclick="chooseLocation('Nakivale')">VELA NAKIVALE <span>🏠</span></button>
+<button class="locBigBtn" onclick="chooseLocation('Mbarara')">VELA MBARARA <span>🏬</span></button>
+<button class="locBigBtn" onclick="chooseLocation('All')">VELA UGANDA <span>🌍</span></button>
 </div>
 
-<header id="mainHeader"><button class="hamburger" onclick="toggleMenu()">☰</button><div><h1>VELA<span>.</span></h1><p id="subTitle" style="font-size:11px;letter-spacing:2px;font-weight:700">UGANDA'S MARKETPLACE</p></div><div id="headerViews" style="font-size:11px;background:#facc15;color:#111827;padding:5px 10px;border-radius:20px;font-weight:900">👁️ 0</div></header>
-<div class="authBar"><span id="authStatus">🔴 Not signed in</span><button id="authBtn" class="loginBtn" onclick="openLogin()">Sign In</button></div>
+<header><button class="hamburger" onclick="toggleMenu()">☰</button><h1>VELA<span>.</span></h1><div style="width:40px"></div></header>
+
 <div id="pageHome" class="page active">
-<div class="momo" id="momoBar">VELA UGANDA • MoMo: +256783663151 • 5%</div>
-<span id="vela-views" class="viewsBadge">👁️ Loading views...</span>
+<div class="momo" id="momoBar">VELA UGANDA • MoMo: +256783663151</div>
 <div class="cat-wrap" id="catWrap"></div>
 <div class="topbar"><input id="search" class="search" placeholder="Search in VELA..." oninput="render()"><button class="addBtn" onclick="openModal()">+ Add</button></div>
 <div class="grid" id="grid"></div>
 </div>
-<div id="pageMarket" class="page"><div class="momo" id="momoBar2">VELA Market</div><div class="grid" id="grid2" style="margin-top:12px"></div></div>
-<div id="pageHow" class="page"><div class="box"><h2>❓ How VELA Works</h2><ol style="padding-left:18px;line-height:2;font-size:15px"><li>Choose Location first</li><li>Sign In with Google - 1 tap!</li><li>Tap + Add → Choose Location</li><li>Kampala sees ONLY Kampala</li><li>Pay 5% MoMo 0783663151</li></ol><button class="submit" onclick="showPage('Home')">Go to VELA</button></div></div>
-<div id="pagePay" class="page"><div class="box"><h2>💳 VELA MoMo</h2><div class="payBig" id="payBigBox"><h1 id="payName">VELA UGANDA</h1><h1 id="payNumber">+256 783 663 151</h1><p>5% = Price ÷ 20</p></div><button class="submit" onclick="window.open('https://wa.me/256783663151','_blank')">Confirm WhatsApp</button></div></div>
+
+<div id="pageMarket" class="page"><div class="grid" id="grid2" style="margin-top:12px"></div></div>
+<div id="pageHow" class="page"><div class="box"><h2>How VELA Works</h2><br><p style="line-height:1.8">1. Choose Location<br>2. Sign In with Google<br>3. Tap + Add<br>4. Pay 5% to MoMo 0783663151</p><button class="submit" onclick="showPage('Home')">Go to VELA</button></div></div>
+<div id="pagePay" class="page"><div class="box"><h2>VELA MoMo</h2><div class="payBig"><h1>+256 783 663 151</h1><p>5% commission</p></div></div></div>
+
 <button class="fab" onclick="openModal()">+</button>
-<div class="bottom-nav">
-<button class="bnav active" id="bHome" onclick="showPage('Home')"><span>🏠</span>Home</button>
-<button class="bnav" id="bMarket" onclick="showPage('Market')"><span>🛍️</span>Market</button>
-<button class="bnav" id="bHow" onclick="showPage('How')"><span>❓</span>How</button>
-<button class="bnav" id="bPay" onclick="showPage('Pay')"><span>💳</span>Pay</button>
-</div>
 
-<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3>Add Product to VELA</h3><p id="needLoginMsg" style="display:none;color:red;font-size:13px">Please Sign In first!</p><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Electronics</option><option>Household</option><option>Fashion & Clothes</option><option>Food & Grains</option><option>Beauty & Health</option><option>Other</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">📍 Nakivale Base Camp</option><option value="Nakivale Juru">📍 Nakivale Juru</option><option value="Kampala">📍 Kampala - Phones</option><option value="Mbarara">📍 Mbarara</option></select><div class="row"><input id="pPrice" class="inp" type="number" placeholder="Price UGX" oninput="calcComm()"><input id="pShop" class="inp" placeholder="Shop Name"></div><p id="commissionShow" class="commissionInfo"></p><input id="pWa" class="inp" placeholder="WhatsApp 256..."><label class="camLabel">📷 Choose from Gallery<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><p id="previewInfo" style="font-size:11px;color:#15803d;margin-top:6px;display:none"></p><input id="pLink" class="inp" placeholder="Or paste image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit to VELA</button><p id="submitMsg" style="font-size:12px;margin-top:8px;color:#ef4444"></p></div></div>
+<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3>Add Product</h3><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><div class="row"><input id="pPrice" class="inp" type="number" placeholder="Price UGX"><input id="pShop" class="inp" placeholder="Shop Name"></div><input id="pWa" class="inp" placeholder="WhatsApp 256..."><label class="camLabel">📷 Choose Photo<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><input id="pLink" class="inp" placeholder="Or paste image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit</button></div></div>
 
-<div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>🔐 Sign In to VELA</h3>
-<button class="googleBtn" onclick="signInWithGoogle()"><span>G</span> Continue with Google - 1 Click!</button>
-<p style="font-size:12px;color:#15803d;margin-top:8px;text-align:center;font-weight:700">✅ No Spam - Instant login!</p>
-<p id="loginMsg" style="font-size:13px;margin-top:12px;color:#15803d;text-align:center"></p>
-<button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button>
-</div></div>
+<div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>Sign In</h3><br><button class="googleBtn" onclick="signInWithGoogle()">Continue with Google</button><p id="loginMsg" style="font-size:13px;margin-top:12px;text-align:center"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
 
-<div id="productViewBg" onclick="if(event.target==this)closeProductView()">
-<img id="pvImg" class="pv-img" src="">
-<div class="pv-body">
-<button class="closeX" onclick="closeProductView()">✕</button>
-<div id="pvTitle" class="pv-title"></div>
-<div id="pvPrice" class="pv-price"></div>
-<div id="pvMeta" class="pv-meta"></div>
-<div id="pvShop" class="pv-meta"></div>
-<button id="pvCallBtn" class="pv-btn call">💬 Chat Vendor on WhatsApp</button>
-<button class="pv-btn close" onclick="closeProductView()">Close</button>
-<div id="pvRemoveWrap"></div>
-</div>
-</div>
+<div id="productViewBg" onclick="if(event.target==this)closeProductView()"><img id="pvImg" class="pv-img"><div class="pv-body"><button class="closeX" onclick="closeProductView()">✕</button><div id="pvTitle" style="font-size:20px;font-weight:900"></div><div id="pvPrice" style="font-weight:900;margin-top:8px"></div><button id="pvCallBtn" class="pv-btn call">Chat on WhatsApp</button><button class="pv-btn" style="background:#f3f4f6" onclick="closeProductView()">Close</button><div id="pvRemoveWrap"></div></div></div>
 
 <script>
-// VELA SEARCH - PRODUCTS DB
+// PRODUCTS DB
 const firebaseConfig = {
   apiKey: "AIzaSyCLHrYWH31Nu6hZZyl3fXpdrtbJapAVzdI",
   authDomain: "vela-search.firebaseapp.com",
@@ -166,7 +138,7 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// VELA UGANDA - VIEWS TRACKING DB (YOUR SCREENSHOT)
+// VIEWS TRACKING - SILENT, ONLY FOR YOU IN FIREBASE
 const velaUgandaConfig = {
   apiKey: "AIzaSyDq6aacXor6JdWzl0gAg_QeFqacYXBAG6",
   authDomain: "vela-uganda.firebaseapp.com",
@@ -177,209 +149,33 @@ const velaUgandaConfig = {
 };
 const velaUgandaApp = firebase.initializeApp(velaUgandaConfig, "velaUganda");
 const velaUgandaDb = velaUgandaApp.firestore();
+(async()=>{try{const r=velaUgandaDb.collection("vela_visits").doc("counter");await r.update({count:firebase.firestore.FieldValue.increment(1)});}catch(e){try{await velaUgandaDb.collection("vela_visits").doc("counter").set({count:1},{merge:true});}catch(e2){}}})();
 
-// TRACK VIEWS - COUNTS YOUR VISIT TOO!
-async function trackVelaViews(){
-  try{
-    const ref = velaUgandaDb.collection("vela_visits").doc("counter");
-    await ref.update({ count: firebase.firestore.FieldValue.increment(1) });
-    const snap = await ref.get();
-    const c = snap.data().count || 0;
-    const txt = "👁️ " + c.toLocaleString() + " views";
-    document.getElementById("vela-views").innerText = txt;
-    document.getElementById("headerViews").innerText = txt;
-    document.getElementById("viewsInMenu").innerText = txt;
-  }catch(e){
-    console.log("views error", e);
-    // if doc not exist, create it
-    try{
-      await velaUgandaDb.collection("vela_visits").doc("counter").set({count:1}, {merge:true});
-    }catch(e2){}
-  }
-}
-trackVelaViews();
-
-function toggleMenu(){
-  document.getElementById("sideMenu").classList.toggle("open");
-  document.getElementById("sideOverlay").classList.toggle("open");
-}
-
-let currentUser=null;
-let compressedImageData = null;
-let products = [];
-let isLoading = true;
-try{
-  let cached = localStorage.getItem('vela_cache');
-  if(cached){ products = JSON.parse(cached); isLoading = false; }
-}catch(e){}
-
-function chooseLocation(loc){
-  localStorage.setItem('vela_city',loc);
-  document.getElementById('locationChooser').classList.add('hide');
-  document.getElementById('locationFilter').value = loc;
-  const url = new URL(window.location);
-  url.searchParams.set('loc', loc);
-  window.history.replaceState({}, '', url);
-  render();
-  if(navigator.vibrate) navigator.vibrate(50);
-}
+function toggleMenu(){document.getElementById("sideMenu").classList.toggle("open");document.getElementById("sideOverlay").classList.toggle("open");}
+let currentUser=null,compressedImageData=null,products=[],isLoading=true;
+try{let c=localStorage.getItem('vela_cache');if(c){products=JSON.parse(c);isLoading=false;}}catch(e){}
+function chooseLocation(loc){localStorage.setItem('vela_city',loc);document.getElementById('locationChooser').classList.add('hide');render();}
 function openChooser(){document.getElementById('locationChooser').classList.remove('hide');}
-(function initLocation(){
-  const saved = localStorage.getItem('vela_city');
-  const urlParam = new URLSearchParams(window.location.search).get('loc');
-  if(urlParam){document.getElementById('locationFilter').value = urlParam;document.getElementById('locationChooser').classList.add('hide');localStorage.setItem('vela_city',urlParam);}
-  else if(saved){document.getElementById('locationFilter').value = saved;document.getElementById('locationChooser').classList.add('hide');}
-  else{document.getElementById('locationChooser').classList.remove('hide');}
-})();
+(function(){const s=localStorage.getItem('vela_city');const u=new URLSearchParams(window.location.search).get('loc');if(u){localStorage.setItem('vela_city',u);document.getElementById('locationChooser').classList.add('hide');}else if(s){document.getElementById('locationChooser').classList.add('hide');}})();
 function openLogin(){document.getElementById("loginBg").classList.add("open")}
 function closeLogin(){document.getElementById("loginBg").classList.remove("open")}
-function signInWithGoogle(){
-  const provider = new firebase.auth.GoogleAuthProvider();
-  document.getElementById("loginMsg").innerText = "Opening Google...";
-  auth.signInWithPopup(provider).then((result)=>{
-    document.getElementById("loginMsg").innerText = "✅ Welcome "+result.user.email+"!";
-    setTimeout(()=>{ closeLogin(); }, 800);
-  }).catch(e=>{
-    if(e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user'){
-      auth.signInWithRedirect(provider);
-    } else {
-      document.getElementById("loginMsg").innerText = "Error: "+e.message;
-    }
-  });
-}
-auth.getRedirectResult().then((result)=>{ if(result && result.user){ closeLogin(); }}).catch(e=>{});
-auth.onAuthStateChanged(u=>{
-  currentUser=u;
-  if(u){document.getElementById("authStatus").innerText="🟢 "+u.email;document.getElementById("authBtn").innerText="Signed";document.getElementById("signOutBtn").style.display="block";}
-  else{document.getElementById("authStatus").innerText="🔴 Not signed in";document.getElementById("authBtn").innerText="Sign In";document.getElementById("signOutBtn").style.display="none";}
-});
+function signInWithGoogle(){const p=new firebase.auth.GoogleAuthProvider();auth.signInWithPopup(p).then(r=>{document.getElementById("loginMsg").innerText="Welcome "+r.user.email;setTimeout(closeLogin,800);}).catch(e=>{auth.signInWithRedirect(p);});}
+auth.onAuthStateChanged(u=>{currentUser=u;if(u){document.getElementById("menuAuth").innerText="🟢 "+u.email;document.getElementById("signOutBtn").style.display="block";}else{document.getElementById("menuAuth").innerText="🔐 Sign In";document.getElementById("signOutBtn").style.display="none";}});
 function signOut(){auth.signOut();closeLogin();}
-const CATS=["All","Phones & Tablets","Electronics","Household","Fashion & Clothes","Food & Grains","Beauty & Health","Shoes & Bags"];
+const CATS=["All","Supermarket","Phones & Tablets","Home & Office","Electronics","Fashion"];
 let activeCat="All";
-function updateBranding(){
-  const loc=document.getElementById("locationFilter").value;
-  const sub=document.getElementById("subTitle");
-  const momo=document.getElementById("momoBar");
-  const momo2=document.getElementById("momoBar2");
-  const header=document.getElementById("mainHeader");
-  const payBig=document.getElementById("payBigBox");
-  const payName=document.getElementById("payName");
-  if(loc==="Kampala"){
-    sub.innerText="KAMPALA • Phones & Electronics • Trusted";
-    momo.innerHTML="VELA KAMPALA • 5% • Fast delivery";
-    momo2.innerHTML="VELA KAMPALA";header.style.background="#1e40af";payBig.style.background="#1e40af";payName.innerText="VELA KAMPALA";document.title="VELA Kampala";
-  }else if(loc.includes("Nakivale")){
-    sub.innerText="NAKIVALE MARKET";momo.innerHTML="VELA NAKIVALE • MoMo: +256783663151";header.style.background="#15803d";payBig.style.background="#15803d";payName.innerText="VELA NAKIVALE";document.title="VELA Nakivale";
-  }else if(loc==="Mbarara"){sub.innerText="MBARARA MARKET";header.style.background="#7c3aed";payBig.style.background="#7c3aed";}
-  else{sub.innerText="UGANDA'S MARKETPLACE";momo.innerHTML="VELA UGANDA • Choose city";header.style.background="#111827";payBig.style.background="#111827";payName.innerText="VELA UGANDA";document.title="VELA - Uganda Marketplace";}
-}
 function initCats(){document.getElementById("catWrap").innerHTML=CATS.map(c=>`<button class="cat ${c===activeCat?'active':''}" onclick="setCat('${c}')">${c}</button>`).join("");}
 function setCat(c){activeCat=c;initCats();render();}
-function openModal(){if(!currentUser){document.getElementById("needLoginMsg").style.display="block";openLogin();return;}document.getElementById("needLoginMsg").style.display="none";document.getElementById("modalBg").classList.add("open");}
+function openModal(){if(!currentUser){openLogin();return;}document.getElementById("modalBg").classList.add("open");}
 function closeModal(){document.getElementById("modalBg").classList.remove("open");}
-function previewFile(input){
-  if(input.files && input.files[0]){
-    const file = input.files[0];
-    const reader = new FileReader();
-    reader.onload = e => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        let w = img.width, h = img.height;
-        const maxSize = 800;
-        if(w > h){ if(w > maxSize){ h *= maxSize/w; w = maxSize; } }
-        else { if(h > maxSize){ w *= maxSize/h; h = maxSize; } }
-        canvas.width = w; canvas.height = h;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img,0,0,w,h);
-        compressedImageData = canvas.toDataURL('image/jpeg',0.6);
-        document.getElementById("preview").src = compressedImageData;
-        document.getElementById("preview").style.display="block";
-        document.getElementById("previewInfo").style.display="block";
-        document.getElementById("previewInfo").innerText = "✅ Compressed "+Math.round(file.size/1024)+"KB → "+Math.round(compressedImageData.length*0.75/1024)+"KB - Ready!";
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  }
-}
-function calcComm(){let price=document.getElementById("pPrice").value;if(price){let comm=Math.round(price*0.05);document.getElementById("commissionShow").innerText="VELA Commission: "+comm+" UGX → 0783663151";}}
-async function submitProduct(){
-  let n=document.getElementById("pName").value.trim(),c=document.getElementById("pCat").value,p=document.getElementById("pPrice").value.trim(),s=document.getElementById("pShop").value.trim(),w=document.getElementById("pWa").value.trim(),l=document.getElementById("pLink").value.trim(),loc=document.getElementById("pLocation").value;
-  let btn = document.getElementById("submitBtn");
-  let msg = document.getElementById("submitMsg");
-  if(!n||!p||!s){alert("Fill Name, Price, Shop");return;}
-  if(!currentUser){alert("Sign in first");openLogin();return;}
-  btn.disabled = true; btn.innerText = "Saving... Please wait";
-  msg.innerText = "";
-  try{
-    let img = compressedImageData || l;
-    if(!img || img.length < 10){ img = "https://via.placeholder.com/400x300?text="+encodeURIComponent(n); }
-    if(img.length > 900000){ img = l || "https://via.placeholder.com/400x300?text="+encodeURIComponent(n); }
-    let prod={name:n,cat:c,price:p,shop:s,wa:w,img:img,location:loc,ownerEmail:currentUser.email,ownerUid:currentUser.uid,created:Date.now()};
-    await db.collection("vela_products").add(prod);
-    closeModal();
-    ["pName","pPrice","pShop","pWa","pLink"].forEach(id=>document.getElementById(id).value="");
-    document.getElementById("preview").style.display="none";
-    document.getElementById("previewInfo").style.display="none";
-    document.getElementById("commissionShow").innerText="";
-    compressedImageData = null;
-    document.getElementById("pFile").value = "";
-    alert("✅ Added to VELA "+loc+"!");
-  }catch(e){
-    msg.innerText = "❌ Failed: "+e.message;
-    alert("Save failed: "+e.message+"\nTry smaller photo or paste image link");
-  }
-  btn.disabled = false; btn.innerText = "Submit to VELA";
-}
-function render(){
-  updateBranding();
-  let q=(document.getElementById("search")?.value||"").toLowerCase();
-  let locFilter=document.getElementById("locationFilter")?.value||"All";
-  let list=products.filter(p=>{
-    let mc=activeCat==="All"||p.cat===activeCat;
-    let mq=!q||p.name.toLowerCase().includes(q)||p.shop.toLowerCase().includes(q);
-    let ml=locFilter==="All"|| (locFilter==="Nakivale" ? (p.location||'').includes("Nakivale") : p.location===locFilter);
-    return mc&&mq&&ml;
-  });
-  let gridEl=document.getElementById("grid");
-  let grid2El=document.getElementById("grid2");
-  if(isLoading && products.length===0){
-    let loadHtml=`<div class="empty">⏳ Loading VELA products...<br><small>Connecting to cloud - wait 3 sec</small></div>`;
-    gridEl.innerHTML=loadHtml; grid2El.innerHTML=loadHtml; return;
-  }
-  let html=list.length?list.map(p=>`<div class="card" onclick="openProductView('${p.docId}')"><img src="${p.img}" loading="lazy"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${p.price} UGX • ${p.cat}</div><div style="font-size:11px;color:#6b7280;margin-top:3px">By ${p.shop} • 📍 ${p.location}</div></div></div>`).join(""):`<div class="empty">No products in VELA ${locFilter}<br><small>Tap + Add to be first!</small></div>`;
-  gridEl.innerHTML=html; grid2El.innerHTML=html;
-}
-function openProductView(docId){
-  const p = products.find(x=>x.docId===docId);
-  if(!p) return;
-  document.getElementById("pvImg").src = p.img;
-  document.getElementById("pvTitle").innerText = p.name;
-  document.getElementById("pvPrice").innerText = p.price + " UGX • " + p.cat;
-  document.getElementById("pvMeta").innerText = "📍 "+p.location;
-  document.getElementById("pvShop").innerText = "🏪 By "+p.shop;
-  document.getElementById("pvCallBtn").onclick = ()=>{ window.open('https://wa.me/'+(p.wa||'').replace(/[^0-9]/g,'')+'?text=Hi VELA, I want '+encodeURIComponent(p.name),'_blank'); };
-  let removeWrap = document.getElementById("pvRemoveWrap");
-  if(currentUser && p.ownerUid===currentUser.uid){
-    removeWrap.innerHTML = `<button class="pv-btn close" style="background:#ffe4e6;color:#9f1239" onclick="removeProd('${p.docId}');closeProductView();">🗑️ Remove Product</button>`;
-  } else { removeWrap.innerHTML = ""; }
-  document.getElementById("productViewBg").classList.add("open");
-}
-function closeProductView(){ document.getElementById("productViewBg").classList.remove("open"); }
-async function removeProd(docId){if(confirm("Remove from VELA?")){await db.collection("vela_products").doc(docId).delete();}}
-function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page'+name).classList.add('active');document.querySelectorAll('.bnav').forEach(b=>b.classList.remove('active'));document.getElementById('b'+name).classList.add('active');}
-
-// REALTIME LOAD
-db.collection("vela_products").orderBy("created","desc").onSnapshot(snap=>{
-  let newProducts=[];snap.forEach(doc=>{let d=doc.data();d.docId=doc.id;newProducts.push(d);});
-  products=newProducts; isLoading=false;
-  try{ localStorage.setItem('vela_cache', JSON.stringify(products).substring(0,800000)); }catch(e){}
-  render();
-}, err=>{
-  isLoading=false; render();
-});
-
+function previewFile(input){if(input.files&&input.files[0]){const file=input.files[0];const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{const canvas=document.createElement('canvas');let w=img.width,h=img.height;const max=800;if(w>h){if(w>max){h*=max/w;w=max;}}else{if(h>max){w*=max/h;h=max;}}canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);compressedImageData=canvas.toDataURL('image/jpeg',0.6);document.getElementById("preview").src=compressedImageData;document.getElementById("preview").style.display="block";};img.src=e.target.result;};reader.readAsDataURL(file);}}
+async function submitProduct(){let n=document.getElementById("pName").value.trim(),c=document.getElementById("pCat").value,p=document.getElementById("pPrice").value.trim(),s=document.getElementById("pShop").value.trim(),w=document.getElementById("pWa").value.trim(),l=document.getElementById("pLink").value.trim(),loc=document.getElementById("pLocation").value;if(!n||!p||!s){alert("Fill Name, Price, Shop");return;}let btn=document.getElementById("submitBtn");btn.disabled=true;btn.innerText="Saving...";try{let img=compressedImageData||l||"https://via.placeholder.com/400x300?text="+encodeURIComponent(n);let prod={name:n,cat:c,price:p,shop:s,wa:w,img:img,location:loc,ownerUid:currentUser.uid,ownerEmail:currentUser.email,created:Date.now()};await db.collection("vela_products").add(prod);closeModal();["pName","pPrice","pShop","pWa","pLink"].forEach(id=>document.getElementById(id).value="");document.getElementById("preview").style.display="none";compressedImageData=null;alert("Added to "+loc);}catch(e){alert(e.message);}btn.disabled=false;btn.innerText="Submit";}
+function render(){let q=(document.getElementById("search")?.value||"").toLowerCase();let list=products.filter(p=>{let mc=activeCat==="All"||p.cat===activeCat;let mq=!q||p.name.toLowerCase().includes(q)||p.shop.toLowerCase().includes(q);return mc&&mq;});let html=list.length?list.map(p=>`<div class="card" onclick="openProductView('${p.docId}')"><img src="${p.img}"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${p.price} UGX</div></div></div>`).join(""):`<div class="empty">No products in ${activeCat}</div>`;document.getElementById("grid").innerHTML=html;const g2=document.getElementById("grid2");if(g2)g2.innerHTML=html;}
+function openProductView(id){const p=products.find(x=>x.docId===id);if(!p)return;document.getElementById("pvImg").src=p.img;document.getElementById("pvTitle").innerText=p.name;document.getElementById("pvPrice").innerText=p.price+" UGX • "+p.cat;document.getElementById("pvCallBtn").onclick=()=>window.open('https://wa.me/'+(p.wa||'').replace(/[^0-9]/g,'')+'?text=Hi VELA, I want '+encodeURIComponent(p.name),'_blank');let rw=document.getElementById("pvRemoveWrap");if(currentUser&&p.ownerUid===currentUser.uid){rw.innerHTML=`<button class="pv-btn" style="background:#ffe4e6;color:#9f1239" onclick="removeProd('${p.docId}');closeProductView();">Remove</button>`;}else rw.innerHTML="";document.getElementById("productViewBg").classList.add("open");}
+function closeProductView(){document.getElementById("productViewBg").classList.remove("open");}
+async function removeProd(id){if(confirm("Remove?"))await db.collection("vela_products").doc(id).delete();}
+function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page'+name).classList.add('active');}
+db.collection("vela_products").orderBy("created","desc").onSnapshot(snap=>{let np=[];snap.forEach(doc=>{let d=doc.data();d.docId=doc.id;np.push(d);});products=np;isLoading=false;try{localStorage.setItem('vela_cache',JSON.stringify(products).substring(0,800000));}catch(e){}render();});
 initCats();render();
 </script>
 </body>

@@ -36,7 +36,7 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .card img{width:100%;height:165px;object-fit:cover;background:#f3f4f6;cursor:pointer}
 .card-body{padding:10px}
 .card-title{font-size:14px;font-weight:800;height:36px;overflow:hidden;line-height:1.2;cursor:pointer}
-.card-price{font-weight:900;font-size:15px;margin-top:4px}
+.card-price{font-weight:900;font-size:15px;margin-top:4px;color:#111827}
 .card-rating{font-size:11px;color:#f59e0b;margin-top:3px}
 .card-add{background:#111827;color:white;border:none;width:100%;padding:8px;border-radius:8px;margin-top:8px;font-weight:800;font-size:13px}
 .card-add.added{background:#15803d}
@@ -86,10 +86,10 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <button class="menuItem" onclick="toggleMenu();showPage('Wishlist')">❤️ Wishlist (<span id="wishCountMenu">0</span>)</button>
 <button class="menuItem" onclick="toggleMenu();openChooser()">📍 Change City</button>
 </div>
-<div class="menuSection"><div class="menuTitle">MY VELA BUSINESS</div>
+<div class="menuSection"><div class="menuTitle">MY VELA BUSINESS - NEW!</div>
 <button class="menuItem" id="menuAuth" onclick="toggleMenu();openLogin()">🔐 Sign In</button>
-<button class="menuItem" onclick="toggleMenu();openProfile()">🏪 My Shop Profile</button>
-<button class="menuItem" onclick="toggleMenu();showPage('MyProducts')">📦 My Products</button>
+<button class="menuItem" onclick="toggleMenu();openProfile()">🏪 My Shop Profile - NEW</button>
+<button class="menuItem" onclick="toggleMenu();showPage('MyProducts')">📦 My Products - NEW</button>
 <button class="menuItem" onclick="toggleMenu();openModal()">➕ Sell New Item</button>
 <button class="menuItem" onclick="toggleMenu();showPage('Pay')">💳 MoMo Pay</button>
 </div>
@@ -120,7 +120,7 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <div class="grid" id="grid"></div>
 </div>
 
-<div id="pageMyProducts" class="page"><div class="box"><h2>📦 My Products</h2><div class="statGrid"><div class="stat"><b id="statTotal">0</b><span style="font-size:11px">Products</span></div><div class="stat"><b id="statRatings">0</b><span style="font-size:11px">Avg Rating</span></div><div class="stat"><b id="statCart">0</b><span style="font-size:11px">In Carts</span></div></div><div id="myGrid" class="grid" style="margin-top:16px;padding:0"></div><button class="submit" style="background:#f3f4f6;color:#111827" onclick="showPage('Home')">Back to Shop</button></div></div>
+<div id="pageMyProducts" class="page"><div class="box"><h2>📦 My Products - NEW</h2><div class="statGrid"><div class="stat"><b id="statTotal">0</b><span style="font-size:11px">Products</span></div><div class="stat"><b id="statRatings">0</b><span style="font-size:11px">Avg Rating</span></div><div class="stat"><b id="statCart">0</b><span style="font-size:11px">In Carts</span></div></div><div id="myGrid" class="grid" style="margin-top:16px;padding:0"></div><button class="submit" style="background:#f3f4f6;color:#111827" onclick="showPage('Home')">Back to Shop</button></div></div>
 
 <div id="pageCart" class="page"><div class="box"><h2>🛒 My Cart</h2><div id="cartList" style="margin-top:16px"></div><div id="cartTotal" style="font-weight:900;font-size:20px;margin-top:16px;border-top:2px solid #111827;padding-top:12px"></div><button id="checkoutBtn" class="submit" style="background:#25D366;display:none" onclick="checkoutCart()">Checkout on WhatsApp</button><button class="submit" style="background:#f3f4f6;color:#111827" onclick="showPage('Home')">Continue Shopping</button></div></div>
 
@@ -131,15 +131,24 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 
 <button class="fab" onclick="openModal()">+</button>
 
-<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3 id="modalTitle">Add Product</h3><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><div style="display:flex;gap:10px"><input id="pPrice" class="inp" type="number" placeholder="Price UGX"><input id="pShop" class="inp" placeholder="Shop (auto)" disabled></div><input id="pWa" class="inp" placeholder="WhatsApp (auto)" disabled><label class="camLabel">📷 Choose Photo<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><input id="pLink" class="inp" placeholder="Or paste image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit</button><input type="hidden" id="editId"></div></div>
+<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3 id="modalTitle">Add Product</h3><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><div style="display:flex;gap:10px"><input id="pPrice" class="inp" type="number" placeholder="Price UGX"><input id="pShop" class="inp" placeholder="Shop Name (from profile)"></div><input id="pWa" class="inp" placeholder="WhatsApp (from profile)"><label class="camLabel">📷 Choose Photo<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><input id="pLink" class="inp" placeholder="Or paste image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit</button><input type="hidden" id="editId"></div></div>
 
 <div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>Sign In</h3><br><button class="googleBtn" onclick="signInWithGoogle()">Continue with Google</button><p id="loginMsg" style="font-size:13px;margin-top:12px;text-align:center"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
 
-<div class="modal-bg" id="profileBg" onclick="if(event.target==this)closeProfile()"><div class="modal"><button class="closeX" onclick="closeProfile()">✕</button><h3>🏪 My Shop Profile</h3><p style="font-size:13px;color:#6b7280">Save once, auto-fill forever</p><input id="sShop" class="inp" placeholder="Shop Name"><input id="sWa" class="inp" placeholder="WhatsApp 256..."><select id="sLoc" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><button class="submit" onclick="saveSellerProfile()">Save Profile</button><p id="profileMsg" style="font-size:12px;margin-top:10px;color:#15803d"></p></div></div>
+<div class="modal-bg" id="profileBg" onclick="if(event.target==this)closeProfile()"><div class="modal"><button class="closeX" onclick="closeProfile()">✕</button><h3>🏪 My Shop Profile - NEW FEATURE</h3><p style="font-size:13px;color:#6b7280">Save once, auto-fill forever - no more typing phone every time!</p><input id="sShop" class="inp" placeholder="Shop Name e.g. Muhire sales"><input id="sWa" class="inp" placeholder="WhatsApp e.g. 256783288597"><select id="sLoc" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><button class="submit" onclick="saveSellerProfile()">Save My Profile</button><p id="profileMsg" style="font-size:12px;margin-top:10px;color:#15803d"></p></div></div>
 
-<div id="productViewBg" onclick="if(event.target==this)closeProductView()"><img id="pvImg" class="pv-img"><div class="pv-body"><button class="closeX" onclick="closeProductView()">✕</button><div id="pvTitle" style="font-size:20px;font-weight:900"></div><div id="pvPrice" style="font-weight:900;margin-top:8px;font-size:20px"></div><div id="pvShop" style="font-size:13px;color:#6b7280;margin-top:4px"></div><div id="pvRating" style="margin-top:8px"></div><div id="pvStars" style="margin-top:10px;display:flex;gap:4px"></div><p id="rateMsg" style="font-size:12px;color:#15803d;margin-top:6px"></p><button id="pvCallBtn" class="pv-btn call">💬 Chat Vendor</button><button id="pvCartBtn" class="pv-btn cart">🛒 Add to Cart</button><button class="pv-btn share" onclick="shareProduct()">🔗 Share Product</button><button class="pv-btn" style="background:#f3f4f6" onclick="closeProductView()">Close</button><div id="pvRemoveWrap"></div></div></div>
+<div id="productViewBg" onclick="if(event.target==this)closeProductView()"><img id="pvImg" class="pv-img"><div class="pv-body"><button class="closeX" onclick="closeProductView()">✕</button><div id="pvTitle" style="font-size:20px;font-weight:900"></div><div id="pvPrice" style="font-weight:900;margin-top:8px;font-size:22px"></div><div id="pvShop" style="font-size:13px;color:#6b7280;margin-top:4px"></div><div id="pvRating" style="margin-top:8px"></div><div id="pvStars" style="margin-top:10px;display:flex;gap:4px"></div><p id="rateMsg" style="font-size:12px;color:#15803d;margin-top:6px"></p><button id="pvCallBtn" class="pv-btn call">💬 Chat Vendor</button><button id="pvCartBtn" class="pv-btn cart">🛒 Add to Cart</button><button class="pv-btn share" onclick="shareProduct()">🔗 Share Product</button><button class="pv-btn" style="background:#f3f4f6" onclick="closeProductView()">Close</button><div id="pvRemoveWrap"></div></div></div>
 
 <script>
+// COMMAS FUNCTION - FORCED
+function formatMoney(n){
+  if(n==null||n=="") return "0";
+  let cleaned = String(n).replace(/[^0-9]/g,'');
+  if(cleaned==="") return "0";
+  let num = parseInt(cleaned);
+  return num.toLocaleString('en-US');
+}
+
 const firebaseConfig={apiKey:"AIzaSyCLHrYWH31Nu6hZZyl3fXpdrtbJapAVzdI",authDomain:"vela-search.firebaseapp.com",projectId:"vela-search",storageBucket:"vela-search.firebasestorage.app",messagingSenderId:"713874060645",appId:"1:713874060645:web:44ac156cc34ef3cfee5d8c"};
 firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth();const db=firebase.firestore();
@@ -148,14 +157,7 @@ const velaUgandaApp=firebase.initializeApp(velaUgandaConfig,"velaUganda");
 const velaUgandaDb=velaUgandaApp.firestore();
 (async()=>{try{const r=velaUgandaDb.collection("vela_visits").doc("counter");await r.update({count:firebase.firestore.FieldValue.increment(1)});}catch(e){try{await velaUgandaDb.collection("vela_visits").doc("counter").set({count:1},{merge:true});}catch(e2){}}})();
 
-// FORMAT MONEY WITH COMMAS e.g. 300,000
-function formatMoney(n){
-  if(!n) return "0";
-  let num = parseInt(String(n).replace(/,/g,'')) || 0;
-  return num.toLocaleString('en-US');
-}
-
-// PROFILE
+// PROFILE - FIXED
 function openProfile(){document.getElementById("profileBg").classList.add("open"); loadSellerProfile();}
 function closeProfile(){document.getElementById("profileBg").classList.remove("open");}
 async function loadSellerProfile(){
@@ -179,7 +181,7 @@ async function saveSellerProfile(){
  await db.collection("vela_sellers").doc(currentUser.uid).set(data,{merge:true});
  localStorage.setItem('vela_seller_'+currentUser.uid,JSON.stringify(data));
  document.getElementById("pShop").value=shop;document.getElementById("pWa").value=wa;document.getElementById("pLocation").value=loc;
- document.getElementById("profileMsg").innerText="✅ Saved!";
+ document.getElementById("profileMsg").innerText="✅ Saved! Now Add Product is auto-filled";
  setTimeout(closeProfile,1000);
 }
 
@@ -189,7 +191,7 @@ let wishlist=JSON.parse(localStorage.getItem('vela_wish')||'[]');
 function saveCart(){localStorage.setItem('vela_cart',JSON.stringify(cart));updateBadges();}
 function saveWish(){localStorage.setItem('vela_wish',JSON.stringify(wishlist));updateBadges();renderWishlist();}
 function updateBadges(){let q=cart.reduce((s,i)=>s+i.qty,0);document.getElementById('cartBadge').style.display=q?'block':'none';document.getElementById('cartBadge').innerText=q;document.getElementById('cartCountMenu').innerText=q;let b=document.getElementById('checkoutBtn');if(b)b.style.display=q?'block':'none';document.getElementById('wishCountMenu').innerText=wishlist.length;}
-function addToCart(id){const p=products.find(x=>x.docId===id);if(!p)return;let it=cart.find(i=>i.docId===id);if(it)it.qty++;else cart.push({docId:p.docId,name:p.name,price:parseInt(String(p.price).replace(/,/g,''))||0,img:p.img,wa:p.wa,qty:1});saveCart();render();renderCart();}
+function addToCart(id){const p=products.find(x=>x.docId===id);if(!p)return;let it=cart.find(i=>i.docId===id);let priceNum=parseInt(String(p.price).replace(/[^0-9]/g,''))||0;if(it)it.qty++;else cart.push({docId:p.docId,name:p.name,price:priceNum,img:p.img,wa:p.wa,qty:1});saveCart();render();renderCart();}
 function removeFromCart(id){cart=cart.filter(i=>i.docId!==id);saveCart();render();renderCart();}
 function changeQty(id,d){let it=cart.find(i=>i.docId===id);if(!it)return;it.qty+=d;if(it.qty<=0)removeFromCart(id);else{saveCart();renderCart();}}
 function toggleWish(id){let idx=wishlist.indexOf(id);if(idx>=0)wishlist.splice(idx,1);else wishlist.push(id);saveWish();render();}
@@ -242,12 +244,11 @@ function setCat(c){activeCat=c;initCats();render();}
 function openModal(){if(!currentUser){openLogin();return;}loadSellerProfile();document.getElementById("modalTitle").innerText="Add Product";document.getElementById("editId").value="";document.getElementById("submitBtn").innerText="Submit";document.getElementById("modalBg").classList.add("open");}
 function closeModal(){document.getElementById("modalBg").classList.remove("open");}
 function previewFile(input){if(input.files&&input.files[0]){const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{const canvas=document.createElement('canvas');let w=img.width,h=img.height;const max=800;if(w>h){if(w>max){h*=max/w;w=max;}}else{if(h>max){w*=max/h;h=max;}}canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);compressedImageData=canvas.toDataURL('image/jpeg',0.6);document.getElementById("preview").src=compressedImageData;document.getElementById("preview").style.display="block";};img.src=e.target.result;};reader.readAsDataURL(input.files[0]);}}
-function editProduct(id){const p=products.find(x=>x.docId===id);if(!p)return;openModal();document.getElementById("modalTitle").innerText="Edit Product";document.getElementById("pName").value=p.name;document.getElementById("pCat").value=p.cat;document.getElementById("pPrice").value=String(p.price).replace(/,/g,'');document.getElementById("pLocation").value=p.location;document.getElementById("preview").src=p.img;document.getElementById("preview").style.display="block";document.getElementById("pLink").value=p.img;document.getElementById("editId").value=id;document.getElementById("submitBtn").innerText="Update Product";}
+function editProduct(id){const p=products.find(x=>x.docId===id);if(!p)return;openModal();document.getElementById("modalTitle").innerText="Edit Product";document.getElementById("pName").value=p.name;document.getElementById("pCat").value=p.cat;document.getElementById("pPrice").value=String(p.price).replace(/[^0-9]/g,'');document.getElementById("pLocation").value=p.location;document.getElementById("preview").src=p.img;document.getElementById("preview").style.display="block";document.getElementById("pLink").value=p.img;document.getElementById("editId").value=id;document.getElementById("submitBtn").innerText="Update Product";}
 async function submitProduct(){
  let n=document.getElementById("pName").value.trim(),c=document.getElementById("pCat").value,p=document.getElementById("pPrice").value.trim(),s=document.getElementById("pShop").value.trim(),w=document.getElementById("pWa").value.trim(),l=document.getElementById("pLink").value.trim(),loc=document.getElementById("pLocation").value,editId=document.getElementById("editId").value;
- if(!n||!p||!s){alert("Fill Name, Price — Profile needed");openProfile();return;}
- // remove commas before saving
- p = p.replace(/,/g,'');
+ if(!n||!p||!s){alert("Fill Name, Price, Shop — first create My Shop Profile");openProfile();return;}
+ p = p.replace(/[^0-9]/g,'');
  let btn=document.getElementById("submitBtn");btn.disabled=true;btn.innerText="Saving...";
  try{
   let img=compressedImageData||l||"https://via.placeholder.com/400x300?text="+encodeURIComponent(n);

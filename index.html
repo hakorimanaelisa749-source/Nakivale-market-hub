@@ -3,15 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>VELA - Choose Location</title>
+<title>VELA - Uganda's Marketplace</title>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
 body{background:#f5f7f5;padding-bottom:90px}
-header{background:#111827;color:white;padding:14px;text-align:center;position:sticky;top:0;z-index:20}
+header{background:#111827;color:white;padding:14px;text-align:center;position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between}
 header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{color:#facc15}
+.hamburger{font-size:28px;background:none;border:none;color:white;padding:4px 10px}
+.sideMenu{position:fixed;top:0;left:-300px;width:280px;height:100%;background:white;z-index:90;transition:0.3s;padding:20px;box-shadow:4px 0 20px rgba(0,0,0,.3);overflow:auto}
+.sideMenu.open{left:0}
+.sideOverlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:80;display:none}
+.sideOverlay.open{display:block}
 .authBar{display:flex;justify-content:space-between;align-items:center;background:#fefce8;padding:8px 12px;font-size:12px}
 .momo{background:linear-gradient(90deg,#facc15,#fde047);color:#422006;text-align:center;padding:12px;border-radius:14px;margin:10px 12px;font-weight:700;font-size:15px}
 .page{display:none}.page.active{display:block}
@@ -76,9 +81,22 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .pv-btn{width:100%;padding:16px;border-radius:14px;border:none;font-weight:900;font-size:16px;margin-top:12px}
 .pv-btn.call{background:#25D366;color:white}
 .pv-btn.close{background:#f3f4f6;color:#111827}
+.viewsBadge{background:#111827;color:#facc15;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:900;display:inline-block;margin:8px 14px}
 </style>
 </head>
 <body>
+<div id="sideOverlay" class="sideOverlay" onclick="toggleMenu()"></div>
+<div id="sideMenu" class="sideMenu">
+<button class="closeX" onclick="toggleMenu()">✕</button>
+<h3 style="margin-top:40px">VELA Menu ☰</h3>
+<button class="submit" onclick="toggleMenu();openChooser()">📍 Change City</button>
+<button class="submit" style="background:#f3f4f6;color:#111827;border:1px solid #ddd" onclick="toggleMenu();showPage('How')">❓ How it Works</button>
+<button class="submit" style="background:#f3f4f6;color:#111827;border:1px solid #ddd" onclick="toggleMenu();showPage('Pay')">💳 MoMo Pay</button>
+<button class="submit" style="background:#f3f4f6;color:#111827;border:1px solid #ddd" onclick="toggleMenu();openLogin()">🔐 Sign In</button>
+<div style="margin-top:20px;font-size:12px;color:#6b7280">MoMo: 0783663151<br>5% commission</div>
+<div id="viewsInMenu" class="viewsBadge" style="margin-top:20px">👁️ Loading views...</div>
+</div>
+
 <div id="locationChooser">
 <div class="chooseLogo">VELA<span>.</span></div>
 <div class="chooseSub">UGANDA'S MARKETPLACE</div>
@@ -88,24 +106,15 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <button class="locBigBtn nakivale" onclick="chooseLocation('Nakivale')"><div><div>VELA NAKIVALE</div><small>All zones • Settlement</small></div><div>🏠</div></button>
 <button class="locBigBtn mbarara" onclick="chooseLocation('Mbarara')"><div><div>VELA MBARARA</div><small>City Market</small></div><div>🏬</div></button>
 <button class="locBigBtn uganda" onclick="chooseLocation('All')"><div><div>VELA UGANDA</div><small>See All Cities</small></div><div>🌍</div></button>
-<p style="margin-top:18px;font-size:11px;color:#6b7280">You can change city anytime at top</p>
+<p style="margin-top:18px;font-size:11px;color:#6b7280">You can change city anytime in ☰ menu</p>
 </div>
-<header id="mainHeader"><h1>VELA<span>.</span></h1><p id="subTitle" style="font-size:11px;letter-spacing:2px;font-weight:700">UGANDA'S MARKETPLACE</p></header>
+
+<header id="mainHeader"><button class="hamburger" onclick="toggleMenu()">☰</button><div><h1>VELA<span>.</span></h1><p id="subTitle" style="font-size:11px;letter-spacing:2px;font-weight:700">UGANDA'S MARKETPLACE</p></div><div id="headerViews" style="font-size:11px;background:#facc15;color:#111827;padding:5px 10px;border-radius:20px;font-weight:900">👁️ 0</div></header>
 <div class="authBar"><span id="authStatus">🔴 Not signed in</span><button id="authBtn" class="loginBtn" onclick="openLogin()">Sign In</button></div>
 <div id="pageHome" class="page active">
 <div class="momo" id="momoBar">VELA UGANDA • MoMo: +256783663151 • 5%</div>
+<span id="vela-views" class="viewsBadge">👁️ Loading views...</span>
 <div class="cat-wrap" id="catWrap"></div>
-<div class="locFilterBar">
-<select id="locationFilter" class="inp" style="margin:0" onchange="render()">
-<option value="All">🌍 All Locations</option>
-<option value="Nakivale">Nakivale (All Zones)</option>
-<option value="Nakivale Base Camp">Nakivale Base Camp</option>
-<option value="Nakivale Juru">Nakivale Juru</option>
-<option value="Kampala">Kampala - Phones</option>
-<option value="Mbarara">Mbarara</option>
-</select>
-<button class="changeBtn" onclick="openChooser()">Change City</button>
-</div>
 <div class="topbar"><input id="search" class="search" placeholder="Search in VELA..." oninput="render()"><button class="addBtn" onclick="openModal()">+ Add</button></div>
 <div class="grid" id="grid"></div>
 </div>
@@ -125,8 +134,9 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>🔐 Sign In to VELA</h3>
 <button class="googleBtn" onclick="signInWithGoogle()"><span>G</span> Continue with Google - 1 Click!</button>
 <p style="font-size:12px;color:#15803d;margin-top:8px;text-align:center;font-weight:700">✅ No Spam - Instant login!</p>
-<div class="divider">OR use Gmail link</div>
-<p style="font-size:14px;color:#6b7280">We send LINK to Gmail app.</p><input id="emailInput" class="inp" type="email" placeholder="yourname@gmail.com"><button class="submit" onclick="sendCode()" style="background:#f3f4f6;color:#111827;border:1px solid #d1d5db">Send Login Link to Gmail</button><p id="loginMsg" style="font-size:13px;margin-top:12px;color:#15803d"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
+<p id="loginMsg" style="font-size:13px;margin-top:12px;color:#15803d;text-align:center"></p>
+<button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button>
+</div></div>
 
 <div id="productViewBg" onclick="if(event.target==this)closeProductView()">
 <img id="pvImg" class="pv-img" src="">
@@ -143,6 +153,7 @@ header h1{font-size:32px;font-weight:900;letter-spacing:3px} header h1 span{colo
 </div>
 
 <script>
+// VELA SEARCH - PRODUCTS DB
 const firebaseConfig = {
   apiKey: "AIzaSyCLHrYWH31Nu6hZZyl3fXpdrtbJapAVzdI",
   authDomain: "vela-search.firebaseapp.com",
@@ -154,10 +165,47 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
+
+// VELA UGANDA - VIEWS TRACKING DB (YOUR SCREENSHOT)
+const velaUgandaConfig = {
+  apiKey: "AIzaSyDq6aacXor6JdWzl0gAg_QeFqacYXBAG6",
+  authDomain: "vela-uganda.firebaseapp.com",
+  projectId: "vela-uganda",
+  storageBucket: "vela-uganda.firebasestorage.app",
+  messagingSenderId: "980720640671",
+  appId: "1:980720640671:web:c252a0982f919922427Baa"
+};
+const velaUgandaApp = firebase.initializeApp(velaUgandaConfig, "velaUganda");
+const velaUgandaDb = velaUgandaApp.firestore();
+
+// TRACK VIEWS - COUNTS YOUR VISIT TOO!
+async function trackVelaViews(){
+  try{
+    const ref = velaUgandaDb.collection("vela_visits").doc("counter");
+    await ref.update({ count: firebase.firestore.FieldValue.increment(1) });
+    const snap = await ref.get();
+    const c = snap.data().count || 0;
+    const txt = "👁️ " + c.toLocaleString() + " views";
+    document.getElementById("vela-views").innerText = txt;
+    document.getElementById("headerViews").innerText = txt;
+    document.getElementById("viewsInMenu").innerText = txt;
+  }catch(e){
+    console.log("views error", e);
+    // if doc not exist, create it
+    try{
+      await velaUgandaDb.collection("vela_visits").doc("counter").set({count:1}, {merge:true});
+    }catch(e2){}
+  }
+}
+trackVelaViews();
+
+function toggleMenu(){
+  document.getElementById("sideMenu").classList.toggle("open");
+  document.getElementById("sideOverlay").classList.toggle("open");
+}
+
 let currentUser=null;
 let compressedImageData = null;
-
-// CACHE + LOADING FIX
 let products = [];
 let isLoading = true;
 try{
@@ -200,19 +248,6 @@ function signInWithGoogle(){
   });
 }
 auth.getRedirectResult().then((result)=>{ if(result && result.user){ closeLogin(); }}).catch(e=>{});
-function sendCode(){
-  const email=document.getElementById("emailInput").value.trim();
-  if(!email.includes("@")){alert("Enter valid Gmail");return;}
-  document.getElementById("loginMsg").innerText="Sending to "+email+"...";
-  auth.sendSignInLinkToEmail(email,{url:window.location.href,handleCodeInApp:true}).then(()=>{
-    window.localStorage.setItem('emailForSignIn',email);
-    document.getElementById("loginMsg").innerText="✅ LINK sent to "+email+"!";
-  }).catch(e=>{document.getElementById("loginMsg").innerText="Error: "+e.message;});
-}
-if(auth.isSignInWithEmailLink(window.location.href)){
-  let email=window.localStorage.getItem('emailForSignIn')||window.prompt('Confirm Gmail:');
-  auth.signInWithEmailLink(email,window.location.href).then(()=>{localStorage.removeItem('emailForSignIn');location.href=location.pathname}).catch(e=>alert(e.message));
-}
 auth.onAuthStateChanged(u=>{
   currentUser=u;
   if(u){document.getElementById("authStatus").innerText="🟢 "+u.email;document.getElementById("authBtn").innerText="Signed";document.getElementById("signOutBtn").style.display="block";}
@@ -335,7 +370,7 @@ function closeProductView(){ document.getElementById("productViewBg").classList.
 async function removeProd(docId){if(confirm("Remove from VELA?")){await db.collection("vela_products").doc(docId).delete();}}
 function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page'+name).classList.add('active');document.querySelectorAll('.bnav').forEach(b=>b.classList.remove('active'));document.getElementById('b'+name).classList.add('active');}
 
-// REALTIME LOAD WITH CACHE
+// REALTIME LOAD
 db.collection("vela_products").orderBy("created","desc").onSnapshot(snap=>{
   let newProducts=[];snap.forEach(doc=>{let d=doc.data();d.docId=doc.id;newProducts.push(d);});
   products=newProducts; isLoading=false;
@@ -343,7 +378,6 @@ db.collection("vela_products").orderBy("created","desc").onSnapshot(snap=>{
   render();
 }, err=>{
   isLoading=false; render();
-  console.log(err);
 });
 
 initCats();render();

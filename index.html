@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>VELA Uganda</title>
+<title>VELA Uganda - Seller & Customer Accounts</title>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -13,9 +13,7 @@ body{background:#f5f7f5;padding-bottom:70px}
 header{background:#111827;color:white;padding:14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
 header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{color:#facc15}
 .hamburger{font-size:28px;background:none;border:none;color:white}
-.cartIcon{position:relative;background:none;border:none;color:white;font-size:20px}
-.cartBadge{position:absolute;top:-6px;right:-8px;background:#facc15;color:#111827;font-size:10px;font-weight:900;padding:2px 6px;border-radius:10px}
-.sideMenu{position:fixed;top:0;left:-300px;width:300px;height:100%;background:white;z-index:90;transition:0.3s;overflow:auto}
+.sideMenu{position:fixed;top:0;left:-300px;width:310px;height:100%;background:white;z-index:90;transition:0.3s;overflow:auto}
 .sideMenu.open{left:0}
 .sideOverlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:80;display:none}
 .sideOverlay.open{display:block}
@@ -37,20 +35,18 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .card-title{font-size:13px;font-weight:800;height:32px;overflow:hidden}
 .card-price{font-weight:900;font-size:14px}
 .card-add{background:#111827;color:white;border:none;width:100%;padding:7px;border-radius:8px;margin-top:6px;font-weight:800;font-size:12px}
-.wishBtn{position:absolute;top:6px;right:6px;background:white;border:none;width:30px;height:30px;border-radius:15px}
 .fab{position:fixed;right:18px;bottom:18px;background:#facc15;color:#111827;border:none;width:56px;height:56px;border-radius:28px;font-size:26px;font-weight:900;z-index:15}
 .box{background:white;margin:12px;border-radius:16px;padding:18px;border:1px solid #e5e7eb}
 .statGrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
 .stat{background:#f9fafb;padding:12px;border-radius:10px;text-align:center;border:1px solid #e5e7eb}
-.stat b{display:block;font-size:16px}
+.stat b{display:block;font-size:15px}
 .payBig{background:#111827;color:white;padding:20px;border-radius:14px;text-align:center}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:40;display:none;align-items:flex-end}
 .modal-bg.open{display:flex}
-.modal{background:white;width:100%;max-height:92vh;overflow:auto;border-radius:20px 20px 0 0;padding:18px}
-.inp{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;margin-top:10px;font-size:14px}
+.modal{background:white;width:100%;max-height:94vh;overflow:auto;border-radius:20px 20px 0 0;padding:18px}
+.inp{width:100%;padding:13px;border:1px solid #d1d5db;border-radius:10px;margin-top:10px;font-size:15px}
 .submit{background:#111827;color:white;border:none;width:100%;padding:13px;border-radius:12px;font-weight:900;margin-top:12px}
 .closeX{background:#f3f4f6;border:none;padding:6px 10px;border-radius:8px;float:right}
-.googleBtn{background:#4285F4;color:white;border:none;width:100%;padding:13px;border-radius:12px;font-weight:900}
 #locationChooser{position:fixed;inset:0;background:#111827;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;color:white;text-align:center}
 #locationChooser.hide{display:none}
 .locBigBtn{width:100%;max-width:340px;background:white;color:#111827;border:none;padding:16px;border-radius:14px;font-weight:900;margin-bottom:10px}
@@ -63,94 +59,128 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .pv-btn.buy{background:#facc15;color:#111827}
 .pv-btn.cart{background:#111827;color:white}
 .orderCard{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:10px}
-.roleBtn{width:100%;padding:14px;border:2px solid #e5e7eb;border-radius:12px;background:white;text-align:left;margin-bottom:8px}
-.roleBtn.active{border-color:#111827;background:#fef9c3}
+.roleCard{border:2px solid #e5e7eb;border-radius:14px;padding:16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;background:white}
+.roleCard.active{border-color:#111827;background:#fef9c3}
+.sellerRow{display:flex;gap:10px;padding:10px;border-bottom:1px solid #eee;align-items:center}
 </style>
 </head>
 <body>
 <div id="sideOverlay" class="sideOverlay" onclick="toggleMenu()"></div>
 <div id="sideMenu" class="sideMenu">
 <div class="menuHead"><b>VELA.</b><button onclick="toggleMenu()" style="background:none;border:none;color:white;font-size:20px">✕</button></div>
-<div class="menuSection"><div class="menuTitle">SHOP</div>
-<button class="menuItem" onclick="toggleMenu();showPage('Home')">🏠 Home</button>
+<div class="menuSection"><div class="menuTitle">CUSTOMER ACCOUNT</div>
+<button class="menuItem" onclick="toggleMenu();showPage('Home')">🏠 Shop Home</button>
+<button class="menuItem" onclick="toggleMenu();showPage('BuyerOrders')">📦 My Orders (Customer)</button>
 <button class="menuItem" onclick="toggleMenu();showPage('Cart')">🛒 My Cart</button>
-<button class="menuItem" onclick="toggleMenu();showPage('BuyerOrders')">📦 My Orders</button>
-<button class="menuItem" onclick="toggleMenu();showPage('Wishlist')">❤️ Wishlist</button>
 </div>
-<div class="menuSection"><div class="menuTitle">SELLER - 5% SYSTEM</div>
-<button class="menuItem" id="menuAuth" onclick="toggleMenu();openLogin()">🔐 Sign In</button>
+<div class="menuSection"><div class="menuTitle">SELLER ACCOUNT - YOU EARN 95%</div>
+<button class="menuItem" id="menuAuth" onclick="toggleMenu();openLogin()">🔐 Sign In with WhatsApp Code</button>
 <button class="menuItem" onclick="toggleMenu();openProfile()">🏪 My Shop Profile</button>
 <button class="menuItem" onclick="toggleMenu();showPage('MyProducts')">📦 My Products</button>
-<button class="menuItem" onclick="toggleMenu();showPage('SellerDashboard')">💰 Earnings (95%)</button>
+<button class="menuItem" onclick="toggleMenu();showPage('SellerDashboard')">💰 My Earnings - 95% / VELA 5%</button>
 <button class="menuItem" onclick="toggleMenu();showPage('SellerOrders')">📋 Orders to Deliver</button>
 <button class="menuItem" onclick="toggleMenu();openModal()">➕ Add Product</button>
 </div>
-<div class="menuSection"><div class="menuTitle">SYSTEM</div>
-<button class="menuItem" onclick="toggleMenu();showPage('How')">ℹ️ How 5% Works</button>
-<button class="menuItem" onclick="toggleMenu();showPage('Admin')">👑 Admin Profit</button>
-<button class="menuItem" onclick="toggleMenu();showPage('Pay')">💳 MoMo</button>
+<div class="menuSection"><div class="menuTitle">ADMIN - TRACK ALL SELLERS</div>
+<button class="menuItem" onclick="toggleMenu();showPage('AdminSellers')">👥 All Sellers Tracking</button>
+<button class="menuItem" onclick="toggleMenu();showPage('Admin')">👑 All Orders & 5% Profit</button>
+<button class="menuItem" onclick="toggleMenu();showPage('How')">ℹ️ How VELA 5% Works</button>
 </div>
 </div>
 
-<div id="locationChooser"><div style="font-size:48px;font-weight:900">VELA<span style="color:#facc15">.</span></div><br><br>
-<button class="locBigBtn" onclick="chooseLocation('Kampala')">VELA KAMPALA</button>
-<button class="locBigBtn" onclick="chooseLocation('Nakivale')">VELA NAKIVALE</button>
-<button class="locBigBtn" onclick="chooseLocation('Mbarara')">VELA MBARARA</button>
-<button class="locBigBtn" onclick="chooseLocation('All')">VELA UGANDA</button>
+<div id="locationChooser"><div style="font-size:48px;font-weight:900">VELA<span style="color:#facc15">.</span></div><div style="color:#facc15;font-size:11px;letter-spacing:3px">SELLER & CUSTOMER ACCOUNTS</div><br><br>
+<button class="locBigBtn" onclick="chooseLocation('Kampala')">KAMPALA</button>
+<button class="locBigBtn" onclick="chooseLocation('Nakivale')">NAKIVALE</button>
+<button class="locBigBtn" onclick="chooseLocation('Mbarara')">MBARARA</button>
+<button class="locBigBtn" onclick="chooseLocation('All')">ALL UGANDA</button>
 </div>
 
-<header><button class="hamburger" onclick="toggleMenu()">☰</button><h1>VELA<span>.</span></h1><button class="cartIcon" onclick="showPage('Cart')">🛒<span id="cartBadge" class="cartBadge" style="display:none">0</span></button></header>
+<header><button class="hamburger" onclick="toggleMenu()">☰</button><h1>VELA<span>.</span></h1><div style="font-size:12px;background:#facc15;color:#111827;padding:4px 8px;border-radius:8px;font-weight:900" id="roleBadge">Guest</div></header>
 
 <div id="pageHome" class="page active">
 <div class="cat-wrap" id="catWrap"></div>
-<div class="topbar"><input id="search" class="search" placeholder="Search..." oninput="render()"><button class="addBtn" onclick="openModal()">+ Add</button></div>
+<div class="topbar"><input id="search" class="search" placeholder="Search products..." oninput="render()"><button class="addBtn" onclick="openModal()">+ Add</button></div>
 <div class="grid" id="grid"></div>
 </div>
 
 <div id="pageSellerDashboard" class="page"><div class="box">
-<h2>💰 Seller Earnings - 5% System</h2>
+<h2>💰 Seller Earnings</h2>
+<p style="font-size:12px;color:#6b7280">You get 95%, VELA gets 5% commission</p>
 <div class="statGrid">
 <div class="stat"><b id="sTotalSales">0</b><span style="font-size:10px">Sales</span></div>
-<div class="stat"><b id="sCommission">0</b><span style="font-size:10px">5% to VELA</span></div>
+<div class="stat"><b id="sCommission">0 UGX</b><span style="font-size:10px">5% to VELA</span></div>
 <div class="stat"><b id="sTotalOrders">0</b><span style="font-size:10px">Orders</span></div>
 </div>
-<div style="margin-top:12px" class="statGrid">
+<div class="statGrid" style="margin-top:10px">
 <div class="stat" style="background:#fef9c3"><b id="sPending">0 UGX</b><span style="font-size:10px">Pending</span></div>
 <div class="stat" style="background:#dcfce7"><b id="sAvailable">0 UGX</b><span style="font-size:10px">Available</span></div>
 <div class="stat"><b id="sTotalEarn">0 UGX</b><span style="font-size:10px">Total Earned</span></div>
 </div>
 <div style="margin-top:14px;background:#111827;color:white;padding:16px;border-radius:12px">
-<div style="display:flex;justify-content:space-between"><span>Available to withdraw:</span><b id="wAvailable">0 UGX</b></div>
-<button class="submit" style="background:#facc15;color:#111827" onclick="requestWithdraw()">Request Withdraw</button>
+<div style="display:flex;justify-content:space-between"><span>Available:</span><b id="wAvailable">0 UGX</b></div>
+<button class="submit" style="background:#facc15;color:#111827" onclick="requestWithdraw()">Request Withdraw to MoMo</button>
 </div>
 </div></div>
 
-<div id="pageBuyerOrders" class="page"><div class="box"><h2>📦 My Orders</h2><div id="buyerOrdersList" style="margin-top:12px"></div></div></div>
-<div id="pageSellerOrders" class="page"><div class="box"><h2>📋 Orders to Deliver</h2><div id="sellerOrdersList" style="margin-top:12px"></div></div></div>
-<div id="pageAdmin" class="page"><div class="box"><h2>👑 Admin - 5% Profit</h2><div class="statGrid"><div class="stat"><b id="aTotalCommission">0 UGX</b><span style="font-size:10px">5% Profit</span></div><div class="stat"><b id="aTotalOrders">0</b><span style="font-size:10px">Orders</span></div><div class="stat"><b id="aTotalSales">0 UGX</b><span style="font-size:10px">Sales Volume</span></div></div><div id="adminOrdersList" style="margin-top:14px"></div></div></div>
-<div id="pageMyProducts" class="page"><div class="box"><h2>📦 My Products</h2><div id="myGrid" class="grid" style="margin-top:12px;padding:0"></div></div></div>
-<div id="pageCart" class="page"><div class="box"><h2>🛒 My Cart</h2><div id="cartList"></div><div id="cartTotal" style="font-weight:900;margin-top:12px;border-top:2px solid #111827;padding-top:10px"></div></div></div>
-<div id="pageWishlist" class="page"><div class="box"><h2>❤️ Wishlist</h2><div id="wishList"></div></div></div>
-<div id="pageHow" class="page"><div class="box"><h3>How 5% Works</h3><br><div style="background:#fef9c3;padding:14px;border-radius:12px">Buyer pays 100,000 to VELA MoMo 0783663151<br>VELA keeps 5,000 (5%)<br>Seller gets 95,000 after buyer confirms</div></div></div>
-<div id="pagePay" class="page"><div class="box"><h2>VELA MoMo</h2><div class="payBig"><h1>0783 663 151</h1><p>5% system</p></div></div></div>
+<div id="pageBuyerOrders" class="page"><div class="box"><h2>📦 My Orders (Customer)</h2><div id="buyerOrdersList" style="margin-top:12px"></div></div></div>
+<div id="pageSellerOrders" class="page"><div class="box"><h2>📋 Orders to Deliver (Seller)</h2><div id="sellerOrdersList" style="margin-top:12px"></div></div></div>
+
+<!-- ADMIN TRACK SELLERS -->
+<div id="pageAdminSellers" class="page"><div class="box"><h2>👥 All Sellers - Tracking (Admin)</h2><p style="font-size:12px;color:#6b7280">Like Amazon Seller Central - Track every seller, their products, sales, 5% commission</p><div class="statGrid"><div class="stat"><b id="totalSellers">0</b><span style="font-size:10px">Total Sellers</span></div><div class="stat"><b id="totalCustomers">0</b><span style="font-size:10px">Total Customers</span></div><div class="stat"><b id="adminTotalCommission">0 UGX</b><span style="font-size:10px">Your 5% Profit</span></div></div><div id="sellersList" style="margin-top:14px"></div></div></div>
+
+<div id="pageAdmin" class="page"><div class="box"><h2>👑 All Orders & 5% Profit</h2><div class="statGrid"><div class="stat"><b id="aTotalCommission">0 UGX</b><span style="font-size:10px">5% Profit</span></div><div class="stat"><b id="aTotalOrders">0</b><span style="font-size:10px">Orders</span></div><div class="stat"><b id="aTotalSales">0 UGX</b><span style="font-size:10px">Volume</span></div></div><div id="adminOrdersList" style="margin-top:14px"></div><div class="payBig" style="margin-top:14px"><h3>VELA MoMo 0783 663 151</h3><p>All 5% commission goes here</p></div></div></div>
+
+<div id="pageMyProducts" class="page"><div class="box"><h2>📦 My Products (Seller)</h2><div id="myGrid" class="grid" style="margin-top:12px;padding:0"></div></div></div>
+<div id="pageCart" class="page"><div class="box"><h2>🛒 Cart</h2><div id="cartList"></div><div id="cartTotal" style="font-weight:900;margin-top:12px;border-top:2px solid #111827;padding-top:10px"></div></div></div>
+<div id="pageHow" class="page"><div class="box"><h3>How VELA 5% Works - Like Jumia & Amazon</h3><br><div style="background:#f9fafb;border:1px solid #e5e7eb;padding:14px;border-radius:12px"><b>Customer Account:</b><br>• Browse & Buy like Jumia<br>• Pay to VELA MoMo<br>• Confirm delivery</div><br><div style="background:#fef9c3;padding:14px;border-radius:12px"><b>Seller Account:</b><br>• Add products<br>• Get orders<br>• Deliver → Get 95%<br>• VELA keeps 5%</div><br><div style="background:#111827;color:white;padding:14px;border-radius:12px"><b>Admin (You) Track Sellers:</b><br>• See all sellers<br>• See each seller's products, sales, commission paid<br>• Total 5% profit<br>• Like Amazon Seller Central</div><br><div style="background:#dcfce7;padding:14px;border-radius:12px"><b>WhatsApp Code Login - Like TikTok:</b><br>• User enters WhatsApp number 078...<br>• VELA sends 6-digit code via WhatsApp/SMS<br>• User enters code → Logged in<br>• No Google needed, works for everyone in Nakivale/Kampala</div></div></div>
+<div id="pagePay" class="page"><div class="box"><h2>MoMo Pay</h2><div class="payBig"><h1>0783 663 151</h1><p>5% system</p></div></div></div>
 
 <button class="fab" onclick="openModal()">+</button>
 
-<div class="modal-bg" id="modalBg"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3 id="modalTitle">Add Product</h3><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option></select><select id="pLocation" class="inp"><option>Nakivale Base Camp</option><option>Kampala</option><option>Mbarara</option></select><input id="pPrice" class="inp" type="number" placeholder="Price UGX"><input id="pShop" class="inp" placeholder="Shop Name"><input id="pWa" class="inp" placeholder="WhatsApp 256..."><input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"><label style="display:block;background:#f3f4f6;padding:12px;text-align:center;border-radius:10px;margin-top:10px" onclick="document.getElementById('pFile').click()">📷 Choose Photo</label><img id="preview" style="width:100%;height:160px;object-fit:cover;border-radius:10px;margin-top:10px;display:none"><input id="pLink" class="inp" placeholder="Or image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit</button><input type="hidden" id="editId"></div></div>
+<div class="modal-bg" id="modalBg"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3 id="modalTitle">Add Product</h3><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option></select><select id="pLocation" class="inp"><option>Nakivale Base Camp</option><option>Kampala</option><option>Mbarara</option></select><input id="pPrice" class="inp" type="number" placeholder="Price UGX - VELA takes 5%"><input id="pShop" class="inp" placeholder="Shop Name"><input id="pWa" class="inp" placeholder="WhatsApp 256..."><input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"><label style="display:block;background:#f3f4f6;padding:12px;text-align:center;border-radius:10px;margin-top:10px" onclick="document.getElementById('pFile').click()">📷 Choose Photo</label><img id="preview" style="width:100%;height:160px;object-fit:cover;border-radius:10px;margin-top:10px;display:none"><input id="pLink" class="inp" placeholder="Or image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit</button><input type="hidden" id="editId"></div></div>
 
-<div class="modal-bg" id="loginBg"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>Sign In</h3><br><button class="googleBtn" onclick="signInWithGoogle()">Continue with Google</button><p id="loginMsg" style="font-size:13px;margin-top:12px;text-align:center;color:#b45309"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
+<!-- NEW WHATSAPP CODE LOGIN - NO GOOGLE -->
+<div class="modal-bg" id="loginBg"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button>
+<h3>Sign In - WhatsApp Code</h3>
+<p style="font-size:12px;color:#6b7280;margin-top:4px">Like TikTok - We send code to your WhatsApp</p>
 
-<div class="modal-bg" id="profileBg"><div class="modal"><button class="closeX" onclick="closeProfile()">✕</button><h3>🏪 My Shop Profile</h3><p style="font-size:12px;color:#6b7280">Save once, auto-fill forever</p><input id="sShop" class="inp" placeholder="Shop Name"><input id="sWa" class="inp" placeholder="WhatsApp"><select id="sLoc" class="inp"><option>Nakivale Base Camp</option><option>Kampala</option><option>Mbarara</option></select>
-<p style="font-size:12px;margin-top:12px;font-weight:700">Account Type:</p>
-<button id="roleBuyer" class="roleBtn" onclick="setRole('buyer')">🛒 Buyer</button>
-<button id="roleSeller" class="roleBtn" onclick="setRole('seller')">🏪 Seller (95% earnings)</button>
-<button id="roleBoth" class="roleBtn" onclick="setRole('both')">👑 Both</button>
-<button class="submit" onclick="saveSellerProfile()">Save</button><p id="profileMsg" style="font-size:12px;margin-top:8px;color:green"></p></div></div>
+<div id="phoneStep">
+<p style="font-size:13px;margin-top:12px;font-weight:700">Enter your WhatsApp number:</p>
+<input id="phoneInput" class="inp" placeholder="0783663151 or 256783663151" type="tel">
+<div id="recaptcha-container" style="margin-top:12px"></div>
+<button class="submit" style="background:#25D366" onclick="sendCode()">📲 Send Code to WhatsApp</button>
+<p style="font-size:11px;color:#9ca3af;margin-top:8px;text-align:center">Code sent via SMS (works like WhatsApp code). For full WhatsApp API, need Twilio later.</p>
+</div>
+
+<div id="codeStep" style="display:none">
+<p style="font-size:13px;margin-top:12px;font-weight:700">Enter 6-digit code sent to <span id="phoneDisplay"></span>:</p>
+<input id="codeInput" class="inp" placeholder="123456" type="number" maxlength="6">
+<button class="submit" onclick="verifyCode()">✅ Verify Code & Sign In</button>
+<button class="submit" style="background:#f3f4f6;color:#111827" onclick="backToPhone()">← Change Number</button>
+</div>
+
+<p id="loginMsg" style="font-size:13px;margin-top:12px;text-align:center;color:#b45309"></p>
+<button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button>
+
+<div style="margin-top:16px;background:#f0fdf4;padding:12px;border-radius:10px;border:1px solid #bbf7d0">
+<p style="font-size:12px;font-weight:700">After Sign In - Choose Account Type:</p>
+<p style="font-size:11px;color:#6b7280">You will choose Seller or Customer in My Shop Profile</p>
+</div>
+</div></div>
+
+<div class="modal-bg" id="profileBg"><div class="modal"><button class="closeX" onclick="closeProfile()">✕</button><h3>🏪 My Shop Profile - Choose Account Type</h3><p style="font-size:12px;color:#6b7280">Save once, auto-fill forever</p><input id="sShop" class="inp" placeholder="Shop Name or Your Name"><input id="sWa" class="inp" placeholder="WhatsApp 256..."><select id="sLoc" class="inp"><option>Nakivale Base Camp</option><option>Kampala</option><option>Mbarara</option></select>
+<p style="font-size:13px;margin-top:14px;font-weight:900">Choose Account Type (Like Amazon):</p>
+<div id="roleBuyer" class="roleCard" onclick="setRole('buyer')"><div><b>🛒 Customer Account</b><div style="font-size:11px;color:#6b7280">I want to buy products</div></div><span id="checkBuyer">○</span></div>
+<div id="roleSeller" class="roleCard" onclick="setRole('seller')"><div><b>🏪 Seller Account</b><div style="font-size:11px;color:#6b7280">I want to sell - Earn 95%, VELA 5%</div></div><span id="checkSeller">○</span></div>
+<div id="roleBoth" class="roleCard" onclick="setRole('both')"><div><b>👑 Both Accounts</b><div style="font-size:11px;color:#6b7280">Buy & Sell - Recommended</div></div><span id="checkBoth">●</span></div>
+<button class="submit" onclick="saveSellerProfile()">Save My Account Type</button><p id="profileMsg" style="font-size:12px;margin-top:8px;color:green"></p>
+<div style="margin-top:12px;background:#fef9c3;padding:10px;border-radius:8px;font-size:11px"><b>How tracking works:</b><br>• Seller Account → You appear in Admin → All Sellers<br>• Customer Account → You can buy<br>• Both → Best, like Amazon</div>
+</div></div>
 
 <div id="productViewBg"><img id="pvImg" class="pv-img"><div class="pv-body"><button class="closeX" onclick="closeProductView()">✕</button><div id="pvTitle" style="font-size:18px;font-weight:900"></div><div id="pvPrice" style="font-weight:900;margin-top:6px"></div><div id="pvCommission" style="font-size:12px;background:#f3f4f6;padding:8px;border-radius:8px;margin-top:8px"></div><div id="pvShop" style="font-size:12px;color:#6b7280;margin-top:6px"></div>
-<button id="pvBuyBtn" class="pv-btn buy">💳 Buy Now - 5% to VELA, 95% to Seller</button>
+<button id="pvBuyBtn" class="pv-btn buy">💳 Buy Now - Pay VELA (95% to Seller)</button>
 <button id="pvCartBtn" class="pv-btn cart">🛒 Add to Cart</button>
-<button id="pvCallBtn" class="pv-btn call">💬 Chat</button>
+<button id="pvCallBtn" class="pv-btn call">💬 Chat Seller</button>
 <button class="pv-btn" style="background:#f3f4f6" onclick="closeProductView()">Close</button>
 <div id="pvRemoveWrap"></div>
 </div></div>
@@ -164,70 +194,75 @@ const auth=firebase.auth();const db=firebase.firestore();
 function openProfile(){document.getElementById("profileBg").classList.add("open");loadSellerProfile();}
 function closeProfile(){document.getElementById("profileBg").classList.remove("open");}
 let selectedRole=localStorage.getItem('vela_role')||'both';
-function setRole(r){selectedRole=r;document.querySelectorAll('.roleBtn').forEach(b=>b.classList.remove('active'));let id='role'+r.charAt(0).toUpperCase()+r.slice(1);let el=document.getElementById(id);if(el)el.classList.add('active');localStorage.setItem('vela_role',r);}
+function setRole(r){selectedRole=r;document.querySelectorAll('.roleCard').forEach(b=>b.classList.remove('active'));document.getElementById('role'+r.charAt(0).toUpperCase()+r.slice(1)).classList.add('active');localStorage.setItem('vela_role',r);document.querySelectorAll('[id^=check]').forEach(c=>c.innerText='○');document.getElementById('check'+r.charAt(0).toUpperCase()+r.slice(1)).innerText='●';document.getElementById('roleBadge').innerText=r==='seller'?'Seller 95%':r==='buyer'?'Customer':'Both';}
 async function loadSellerProfile(){
  if(!currentUser) return;
  try{const snap=await db.collection("vela_sellers").doc(currentUser.uid).get();if(snap.exists){const d=snap.data();document.getElementById("sShop").value=d.shopName||"";document.getElementById("sWa").value=d.wa||"";document.getElementById("sLoc").value=d.location||"Nakivale Base Camp";document.getElementById("pShop").value=d.shopName||"";document.getElementById("pWa").value=d.wa||"";if(d.role)setRole(d.role);}}catch(e){}
 }
 async function saveSellerProfile(){
  let shop=document.getElementById("sShop").value.trim();let wa=document.getElementById("sWa").value.trim();let loc=document.getElementById("sLoc").value;
- if(!shop||!wa){alert("Fill shop & phone");return;}
- let data={shopName:shop,wa:wa,location:loc,role:selectedRole,email:currentUser.email,updated:Date.now()};
+ if(!shop||!wa){alert("Fill name & WhatsApp");return;}
+ let data={shopName:shop,wa:wa,location:loc,role:selectedRole,email:currentUser.email||currentUser.phoneNumber,phone:currentUser.phoneNumber||wa,updated:Date.now()};
  const existing=await db.collection("vela_sellers").doc(currentUser.uid).get();
- if(!existing.exists){data.availableBalance=0;data.pendingBalance=0;data.totalEarnings=0;data.totalCommissionPaid=0;data.totalSales=0;}
+ if(!existing.exists){data.availableBalance=0;data.pendingBalance=0;data.totalEarnings=0;data.totalCommissionPaid=0;data.totalSales=0;data.created=Date.now();}
  await db.collection("vela_sellers").doc(currentUser.uid).set(data,{merge:true});
- document.getElementById("profileMsg").innerText="✅ Saved as "+selectedRole;
- setTimeout(closeProfile,800);loadSellerData();
+ document.getElementById("profileMsg").innerText="✅ Saved as "+selectedRole+" account - You are now tracked as "+selectedRole;
+ setTimeout(closeProfile,1000);loadSellerData();loadAllSellers();
 }
-let cart=JSON.parse(localStorage.getItem('vela_cart')||'[]');let wishlist=JSON.parse(localStorage.getItem('vela_wish')||'[]');
-function saveCart(){localStorage.setItem('vela_cart',JSON.stringify(cart));updateBadges();}
-function updateBadges(){let q=cart.reduce((s,i)=>s+i.qty,0);document.getElementById('cartBadge').style.display=q?'block':'none';document.getElementById('cartBadge').innerText=q;}
-function addToCart(id){const p=products.find(x=>x.docId===id);if(!p)return;let it=cart.find(i=>i.docId===id);let priceNum=parseInt(String(p.price).replace(/[^0-9]/g,''))||0;if(it)it.qty++;else cart.push({docId:p.docId,name:p.name,price:priceNum,img:p.img,qty:1});saveCart();render();renderCart();}
-function renderCart(){let list=document.getElementById('cartList');let totalEl=document.getElementById('cartTotal');if(cart.length===0){list.innerHTML='<p style="text-align:center;color:#9ca3af;padding:20px">Empty</p>';totalEl.innerText='';return;}let total=0;list.innerHTML=cart.map(i=>{total+=i.price*i.qty;return `<div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #eee"><img src="${i.img}" style="width:50px;height:50px;border-radius:8px"><div style="flex:1"><b>${i.name}</b><div>${formatMoney(i.price)} UGX x${i.qty}</div></div><button onclick="removeFromCart('${i.docId}')" style="border:none;background:#ffe4e6;color:red;padding:4px 8px;border-radius:6px">X</button></div>`}).join('');totalEl.innerText='Total: '+formatMoney(total)+' UGX';}
-function removeFromCart(id){cart=cart.filter(i=>i.docId!==id);saveCart();render();renderCart();}
-function toggleWish(id){let idx=wishlist.indexOf(id);if(idx>=0)wishlist.splice(idx,1);else wishlist.push(id);localStorage.setItem('vela_wish',JSON.stringify(wishlist));render();}
-function renderWishlist(){let el=document.getElementById('wishList');if(wishlist.length===0){el.innerHTML='<p style="text-align:center;color:#9ca3af">No wishlist</p>';return;}let items=products.filter(p=>wishlist.includes(p.docId));el.innerHTML=items.map(p=>`<div style="display:flex;gap:10px;padding:10px 0"><img src="${p.img}" style="width:50px;height:50px;border-radius:8px"><div style="flex:1"><b>${p.name}</b><div>${formatMoney(p.price)} UGX</div></div></div>`).join('');}
-let currentViewId=null;
-function getRatingHtml(s,c){if(!c)return '';}
 
+// WHATSAPP CODE LOGIN - LIKE TIKTOK (NO GOOGLE)
+let confirmationResult=null;
+function initRecaptcha(){if(!window.recaptchaVerifier){window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'normal',callback:()=>{}});window.recaptchaVerifier.render();}}
+function sendCode(){
+ let phone=document.getElementById("phoneInput").value.trim().replace(/\s/g,'');
+ if(!phone){alert("Enter WhatsApp number");return;}
+ if(phone.startsWith('0')){phone='+256'+phone.substring(1);}else if(!phone.startsWith('+')){if(phone.startsWith('256'))phone='+'+phone;else phone='+256'+phone;}
+ document.getElementById("loginMsg").innerText="Sending code to "+phone+"...";
+ initRecaptcha();
+ const appVerifier=window.recaptchaVerifier;
+ auth.signInWithPhoneNumber(phone,appVerifier).then(result=>{
+   confirmationResult=result;
+   document.getElementById("phoneStep").style.display="none";
+   document.getElementById("codeStep").style.display="block";
+   document.getElementById("phoneDisplay").innerText=phone;
+   document.getElementById("loginMsg").innerText="✅ Code sent! Check SMS (WhatsApp code style) - Enter 6 digits";
+ }).catch(e=>{
+   console.error(e);
+   document.getElementById("loginMsg").innerText="❌ "+e.message+" - Make sure Phone Auth enabled in Firebase: Authentication > Sign-in method > Phone > Enable";
+   if(window.recaptchaVerifier){window.recaptchaVerifier.clear();window.recaptchaVerifier=null;}
+   initRecaptcha();
+ });
+}
+function verifyCode(){
+ let code=document.getElementById("codeInput").value.trim();
+ if(code.length!==6){alert("Enter 6-digit code");return;}
+ document.getElementById("loginMsg").innerText="Verifying...";
+ confirmationResult.confirm(code).then(result=>{
+   document.getElementById("loginMsg").innerText="✅ Welcome! "+result.user.phoneNumber;
+   setTimeout(closeLogin,800);
+ }).catch(e=>{document.getElementById("loginMsg").innerText="❌ Wrong code: "+e.message;});
+}
+function backToPhone(){document.getElementById("phoneStep").style.display="block";document.getElementById("codeStep").style.display="none";document.getElementById("loginMsg").innerText="";}
+
+let cart=JSON.parse(localStorage.getItem('vela_cart')||'[]');
+function saveCart(){localStorage.setItem('vela_cart',JSON.stringify(cart));updateBadges();}
+function updateBadges(){let q=cart.reduce((s,i)=>s+i.qty,0);let b=document.getElementById('cartBadge');if(!b)return;b.style.display=q?'block':'none';if(b)b.innerText=q;}
+function addToCart(id){const p=products.find(x=>x.docId===id);if(!p)return;let it=cart.find(i=>i.docId===id);let priceNum=parseInt(String(p.price).replace(/[^0-9]/g,''))||0;if(it)it.qty++;else cart.push({docId:p.docId,name:p.name,price:priceNum,img:p.img,qty:1});saveCart();render();renderCart();}
+function renderCart(){let list=document.getElementById('cartList');let totalEl=document.getElementById('cartTotal');if(!list)return;if(cart.length===0){list.innerHTML='<p style="text-align:center;color:#9ca3af;padding:20px">Empty</p>';if(totalEl)totalEl.innerText='';return;}let total=0;list.innerHTML=cart.map(i=>{total+=i.price*i.qty;return `<div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #eee"><img src="${i.img}" style="width:50px;height:50px;border-radius:8px"><div style="flex:1"><b>${i.name}</b><div>${formatMoney(i.price)} UGX x${i.qty}</div></div><button onclick="removeFromCart('${i.docId}')" style="border:none;background:#ffe4e6;color:red;padding:4px 8px;border-radius:6px">X</button></div>`}).join('');if(totalEl)totalEl.innerText='Total: '+formatMoney(total)+' UGX';}
+function removeFromCart(id){cart=cart.filter(i=>i.docId!==id);saveCart();render();renderCart();}
 function toggleMenu(){document.getElementById("sideMenu").classList.toggle("open");document.getElementById("sideOverlay").classList.toggle("open");}
-let currentUser=null,compressedImageData=null,products=[],orders=[];
+let currentUser=null,compressedImageData=null,products=[];
 try{let c=localStorage.getItem('vela_cache');if(c)products=JSON.parse(c);}catch(e){}
 function chooseLocation(loc){localStorage.setItem('vela_city',loc);document.getElementById('locationChooser').classList.add('hide');render();}
 function openChooser(){document.getElementById('locationChooser').classList.remove('hide');}
 (function(){const s=localStorage.getItem('vela_city');if(s)document.getElementById('locationChooser').classList.add('hide');})();
-function openLogin(){document.getElementById("loginBg").classList.add("open")}
-function closeLogin(){document.getElementById("loginBg").classList.remove("open")}
-
-// FIXED GOOGLE SIGN IN
-function signInWithGoogle(){
-  const provider=new firebase.auth.GoogleAuthProvider();
-  provider.setCustomParameters({prompt:'select_account'});
-  document.getElementById("loginMsg").innerText="Opening Google...";
-  auth.signInWithPopup(provider).then(r=>{
-    document.getElementById("loginMsg").innerText="✅ Welcome "+r.user.email;
-    setTimeout(closeLogin,600);
-  }).catch(e=>{
-    console.log("Google error", e.code, e.message);
-    if(e.code==='auth/unauthorized-domain'){
-      document.getElementById("loginMsg").innerHTML="❌ Domain not allowed<br><br>Add this domain in Firebase:<br><b>"+window.location.hostname+"</b><br><br>Go to Firebase Console > Authentication > Settings > Authorized domains > Add domain";
-    }else if(e.code==='auth/operation-not-allowed'){
-      document.getElementById("loginMsg").innerText="❌ Google provider is OFF - Enable it in Firebase > Authentication > Sign-in method > Google > Enable";
-    }else if(e.code==='auth/popup-blocked'){
-      document.getElementById("loginMsg").innerText="Popup blocked, redirecting...";
-      auth.signInWithRedirect(provider);
-    }else{
-      // Try redirect as fallback for mobile
-      auth.signInWithRedirect(provider);
-    }
-  });
-}
-auth.getRedirectResult().then(r=>{if(r&&r.user){closeLogin();}}).catch(e=>{document.getElementById("loginMsg").innerText="❌ "+e.message;});
-auth.onAuthStateChanged(u=>{currentUser=u;if(u){document.getElementById("menuAuth").innerText="🟢 "+u.email;document.getElementById("signOutBtn").style.display="block";loadSellerProfile();renderMyProducts();loadOrders();loadSellerData();}else{document.getElementById("menuAuth").innerText="🔐 Sign In";document.getElementById("signOutBtn").style.display="none";}});
+function openLogin(){document.getElementById("loginBg").classList.add("open");setTimeout(initRecaptcha,500);}
+function closeLogin(){document.getElementById("loginBg").classList.remove("open");document.getElementById("phoneStep").style.display="block";document.getElementById("codeStep").style.display="none";document.getElementById("loginMsg").innerText="";}
+auth.onAuthStateChanged(u=>{currentUser=u;if(u){document.getElementById("menuAuth").innerText="🟢 "+(u.phoneNumber||u.email);document.getElementById("signOutBtn").style.display="block";loadSellerProfile();renderMyProducts();loadOrders();loadSellerData();loadAllSellers();if(!localStorage.getItem('vela_role'))openProfile();}else{document.getElementById("menuAuth").innerText="🔐 Sign In with WhatsApp Code";document.getElementById("signOutBtn").style.display="none";document.getElementById("roleBadge").innerText="Guest";}});
 function signOut(){auth.signOut();closeLogin();}
 const CATS=["All","Supermarket","Phones & Tablets","Home & Office","Electronics","Fashion"];
 let activeCat="All";
-function initCats(){document.getElementById("catWrap").innerHTML=CATS.map(c=>`<button class="cat ${c===activeCat?'active':''}" onclick="setCat('${c}')">${c}</button>`).join("");}
+function initCats(){let el=document.getElementById("catWrap");if(!el)return;el.innerHTML=CATS.map(c=>`<button class="cat ${c===activeCat?'active':''}" onclick="setCat('${c}')">${c}</button>`).join("");}
 function setCat(c){activeCat=c;initCats();render();}
 function openModal(){if(!currentUser){openLogin();return;}loadSellerProfile();document.getElementById("modalTitle").innerText="Add Product";document.getElementById("editId").value="";document.getElementById("submitBtn").innerText="Submit";document.getElementById("modalBg").classList.add("open");}
 function closeModal(){document.getElementById("modalBg").classList.remove("open");}
@@ -240,7 +275,7 @@ async function submitProduct(){
  let btn=document.getElementById("submitBtn");btn.disabled=true;btn.innerText="Saving...";
  try{
   let img=compressedImageData||l||"https://via.placeholder.com/400x300?text="+encodeURIComponent(n);
-  let prod={name:n,cat:c,price:parseInt(p)||0,shop:s,wa:w,img:img,location:loc,ownerUid:currentUser.uid,ownerEmail:currentUser.email,updated:Date.now()};
+  let prod={name:n,cat:c,price:parseInt(p)||0,shop:s,wa:w,img:img,location:loc,ownerUid:currentUser.uid,ownerEmail:currentUser.email||currentUser.phoneNumber,updated:Date.now()};
   if(editId){await db.collection("vela_products").doc(editId).update(prod);}else{prod.created=Date.now();prod.ratingSum=0;prod.ratingCount=0;await db.collection("vela_products").add(prod);}
   closeModal();document.getElementById("preview").style.display="none";compressedImageData=null;document.getElementById("editId").value="";
  }catch(e){alert(e.message);}btn.disabled=false;btn.innerText="Submit";
@@ -248,14 +283,16 @@ async function submitProduct(){
 function render(){
  let q=(document.getElementById("search")?.value||"").toLowerCase();
  let list=products.filter(p=>{let mc=activeCat==="All"||p.cat===activeCat;let mq=!q||p.name.toLowerCase().includes(q)||p.shop.toLowerCase().includes(q);return mc&&mq;});
- let html=list.length?list.map(p=>{return `<div class="card"><button class="wishBtn" onclick="toggleWish('${p.docId}')">🤍</button><img src="${p.img}" onclick="openProductView('${p.docId}')"><div class="card-body"><div class="card-title" onclick="openProductView('${p.docId}')">${p.name}</div><div class="card-price">${formatMoney(p.price)} UGX</div><button class="card-add" onclick="openProductView('${p.docId}')">View</button></div></div>`}).join(""):`<div style="text-align:center;padding:40px;color:#9ca3af">No products<br>Be first to add!</div>`;
- document.getElementById("grid").innerHTML=html;updateBadges();
+ let el=document.getElementById("grid");if(!el)return;
+ let html=list.length?list.map(p=>{return `<div class="card"><img src="${p.img}" onclick="openProductView('${p.docId}')"><div class="card-body"><div class="card-title" onclick="openProductView('${p.docId}')">${p.name}</div><div class="card-price">${formatMoney(p.price)} UGX</div><div style="font-size:10px;color:#6b7280">${p.shop} • ${p.location}</div><button class="card-add" onclick="openProductView('${p.docId}')">View - Buy with 5%</button></div></div>`}).join(""):`<div style="text-align:center;padding:40px;color:#9ca3af;grid-column:1/-1">No products<br>Be first!</div>`;
+ el.innerHTML=html;updateBadges();
 }
 function renderMyProducts(){
- if(!currentUser){document.getElementById("myGrid").innerHTML='<div style="text-align:center;padding:20px">Sign in to see products</div>';return;}
+ if(!currentUser){let e=document.getElementById("myGrid");if(e)e.innerHTML='<div style="text-align:center;padding:20px">Sign in with WhatsApp code to see products</div>';return;}
  let my=products.filter(p=>p.ownerUid===currentUser.uid);
- if(my.length===0){document.getElementById("myGrid").innerHTML='<div style="text-align:center;padding:20px">No products yet</div>';return;}
- document.getElementById("myGrid").innerHTML=my.map(p=>{let comm=Math.round(p.price*0.05);return `<div class="card"><img src="${p.img}"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${formatMoney(p.price)} UGX</div><div style="font-size:10px">You: ${formatMoney(p.price-comm)} (95%) | VELA: ${formatMoney(comm)} (5%)</div><div style="display:flex;gap:6px;margin-top:6px"><button class="card-add" style="flex:1;background:#facc15;color:#111827" onclick="editProduct('${p.docId}')">Edit</button><button class="card-add" style="flex:1;background:#ffe4e6;color:red" onclick="removeProd('${p.docId}')">Delete</button></div></div></div>`}).join('');
+ let el=document.getElementById("myGrid");if(!el)return;
+ if(my.length===0){el.innerHTML='<div style="text-align:center;padding:20px">No products yet</div>';return;}
+ el.innerHTML=my.map(p=>{let comm=Math.round(p.price*0.05);return `<div class="card"><img src="${p.img}"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${formatMoney(p.price)} UGX</div><div style="font-size:10px">You get ${formatMoney(p.price-comm)} (95%) | VELA ${formatMoney(comm)} (5%)</div><div style="display:flex;gap:6px;margin-top:6px"><button class="card-add" style="flex:1;background:#facc15;color:#111827" onclick="editProduct('${p.docId}')">Edit</button><button class="card-add" style="flex:1;background:#ffe4e6;color:red" onclick="removeProd('${p.docId}')">Delete</button></div></div></div>`}).join('');
 }
 function openProductView(id){
  const p=products.find(x=>x.docId===id);if(!p)return;currentViewId=id;
@@ -263,8 +300,8 @@ function openProductView(id){
  let commission=Math.round(priceNum*0.05);
  let earning=priceNum-commission;
  document.getElementById("pvImg").src=p.img;document.getElementById("pvTitle").innerText=p.name;document.getElementById("pvPrice").innerText=formatMoney(priceNum)+" UGX • "+p.cat;
- document.getElementById("pvCommission").innerHTML=`Price: <b>${formatMoney(priceNum)} UGX</b><br>VELA (5%): ${formatMoney(commission)} UGX<br>Seller (95%): ${formatMoney(earning)} UGX`;
- document.getElementById("pvShop").innerText="🏪 "+p.shop+" • 📍 "+p.location;
+ document.getElementById("pvCommission").innerHTML=`Price: <b>${formatMoney(priceNum)} UGX</b><br>VELA Commission 5%: <b style="color:#d97706">${formatMoney(commission)} UGX</b><br>Seller Earns 95%: <b style="color:#15803d">${formatMoney(earning)} UGX</b>`;
+ document.getElementById("pvShop").innerText="🏪 "+p.shop+" • 📍 "+p.location+" • "+p.wa;
  document.getElementById("pvBuyBtn").onclick=()=>buyNowWithCommission(id);
  document.getElementById("pvCartBtn").onclick=()=>{addToCart(id);document.getElementById("pvCartBtn").innerText="✅ Added";};
  document.getElementById("pvCallBtn").onclick=()=>window.open('https://wa.me/'+(p.wa||'').replace(/[^0-9]/g,'')+'?text=Hi VELA, I want '+encodeURIComponent(p.name),'_blank');
@@ -272,6 +309,7 @@ function openProductView(id){
  document.getElementById("productViewBg").classList.add("open");
 }
 function closeProductView(){document.getElementById("productViewBg").classList.remove("open");}
+let currentViewId=null;
 async function buyNowWithCommission(productId){
  if(!currentUser){openLogin();return;}
  const p=products.find(x=>x.docId===productId);if(!p)return;
@@ -280,11 +318,11 @@ async function buyNowWithCommission(productId){
  let earning=priceNum-commission;
  if(confirm(`Buy with 5% system?\n\n${p.name}\nPrice: ${formatMoney(priceNum)} UGX\nVELA 5%: ${formatMoney(commission)}\nSeller 95%: ${formatMoney(earning)}\n\nPay to VELA MoMo 0783663151`)){
    try{
-     const order={productId:productId,productName:p.name,productImg:p.img,price:priceNum,commission:commission,sellerEarning:earning,buyerUid:currentUser.uid,buyerEmail:currentUser.email,sellerUid:p.ownerUid,sellerShop:p.shop,sellerWa:p.wa,status:"paid",buyerConfirmed:false,created:Date.now()};
+     const order={productId:productId,productName:p.name,productImg:p.img,price:priceNum,commission:commission,sellerEarning:earning,buyerUid:currentUser.uid,buyerEmail:currentUser.email||currentUser.phoneNumber,sellerUid:p.ownerUid,sellerShop:p.shop,sellerWa:p.wa,status:"paid",buyerConfirmed:false,created:Date.now()};
      await db.collection("vela_orders").add(order);
      await db.collection("vela_sellers").doc(p.ownerUid).set({pendingBalance:firebase.firestore.FieldValue.increment(earning),totalCommissionPaid:firebase.firestore.FieldValue.increment(commission),totalSales:firebase.firestore.FieldValue.increment(1)},{merge:true});
      await db.collection("vela_platform").doc("stats").set({totalCommission:firebase.firestore.FieldValue.increment(commission),totalSales:firebase.firestore.FieldValue.increment(priceNum),totalOrders:firebase.firestore.FieldValue.increment(1)},{merge:true});
-     alert(`✅ Order placed!\nPay ${formatMoney(priceNum)} UGX to 0783663151`);
+     alert(`✅ Order placed! Pay ${formatMoney(priceNum)} UGX to 0783663151`);
      closeProductView();showPage('BuyerOrders');loadOrders();
    }catch(e){alert(e.message);}
  }
@@ -293,45 +331,55 @@ async function loadOrders(){
  if(!currentUser) return;
  try{
    const buyerSnap=await db.collection("vela_orders").where("buyerUid","==",currentUser.uid).orderBy("created","desc").get();
-   let buyerHtml=""; buyerSnap.forEach(doc=>{let o=doc.data();o.id=doc.id; buyerHtml+=`<div class="orderCard"><div style="display:flex;gap:10px"><img src="${o.productImg}" style="width:50px;height:50px;border-radius:8px"><div style="flex:1"><b>${o.productName}</b><div style="font-size:12px">${formatMoney(o.price)} UGX • VELA 5% ${formatMoney(o.commission)} • Seller ${formatMoney(o.sellerEarning)}</div><div style="font-size:11px">${o.status}</div></div></div>${o.status!=="completed"?`<button class="submit" style="background:#25D366;margin-top:8px" onclick="confirmDelivery('${o.id}')">✅ Confirm Received</button>`:`<div style="color:green;font-size:12px;margin-top:6px">Completed</div>`}</div>`;});
-   document.getElementById("buyerOrdersList").innerHTML=buyerHtml||'<p style="text-align:center;color:#9ca3af;padding:20px">No orders</p>';
+   let buyerHtml=""; buyerSnap.forEach(doc=>{let o=doc.data();o.id=doc.id; buyerHtml+=`<div class="orderCard"><div style="display:flex;gap:10px"><img src="${o.productImg}" style="width:50px;height:50px;border-radius:8px"><div style="flex:1"><b>${o.productName}</b><div style="font-size:12px">${formatMoney(o.price)} UGX • Commission ${formatMoney(o.commission)} • You pay to VELA</div><div style="font-size:11px">${o.status}</div></div></div>${o.status!=="completed"?`<button class="submit" style="background:#25D366;margin-top:8px" onclick="confirmDelivery('${o.id}')">✅ Confirm Received - Release 95% to Seller</button>`:`<div style="color:green;font-size:12px;margin-top:6px">✅ Completed - Seller got ${formatMoney(o.sellerEarning)}</div>`}</div>`;});
+   let el1=document.getElementById("buyerOrdersList");if(el1)el1.innerHTML=buyerHtml||'<p style="text-align:center;color:#9ca3af;padding:20px">No orders yet - Buy with 5% system</p>';
    const sellerSnap=await db.collection("vela_orders").where("sellerUid","==",currentUser.uid).orderBy("created","desc").get();
-   let sellerHtml=""; sellerSnap.forEach(doc=>{let o=doc.data();o.id=doc.id; sellerHtml+=`<div class="orderCard"><b>${o.productName}</b><div style="font-size:12px">${formatMoney(o.price)} • You get ${formatMoney(o.sellerEarning)} (95%)</div><div style="font-size:11px">${o.buyerEmail} • ${o.status}</div>${o.status==="paid"?`<button class="submit" style="background:#facc15;color:#111827;margin-top:8px" onclick="markShipped('${o.id}')">Mark Shipped</button>`:``}</div>`;});
-   document.getElementById("sellerOrdersList").innerHTML=sellerHtml||'<p style="text-align:center;color:#9ca3af;padding:20px">No orders</p>';
+   let sellerHtml=""; sellerSnap.forEach(doc=>{let o=doc.data();o.id=doc.id; sellerHtml+=`<div class="orderCard"><b>${o.productName}</b><div style="font-size:12px">${formatMoney(o.price)} • You get ${formatMoney(o.sellerEarning)} (95%) • VELA ${formatMoney(o.commission)} (5%)</div><div style="font-size:11px">${o.buyerEmail} • ${o.status}</div>${o.status==="paid"?`<button class="submit" style="background:#facc15;color:#111827;margin-top:8px" onclick="markShipped('${o.id}')">🚚 Mark Shipped</button>`:``}</div>`;});
+   let el2=document.getElementById("sellerOrdersList");if(el2)el2.innerHTML=sellerHtml||'<p style="text-align:center;color:#9ca3af;padding:20px">No orders - Wait for customer to buy</p>';
    const allSnap=await db.collection("vela_orders").orderBy("created","desc").limit(30).get();
-   let adminHtml=""; let totalComm=0,totalSales=0; allSnap.forEach(doc=>{let o=doc.data();totalComm+=o.commission||0;totalSales+=o.price||0; adminHtml+=`<div class="orderCard" style="font-size:12px"><b>${o.productName}</b> • ${formatMoney(o.price)} • Commission ${formatMoney(o.commission)} • ${o.sellerShop}</div>`;});
-   document.getElementById("adminOrdersList").innerHTML=adminHtml||'<p>No orders</p>';
-   try{const platformSnap=await db.collection("vela_platform").doc("stats").get();if(platformSnap.exists){let s=platformSnap.data();document.getElementById("aTotalCommission").innerText=formatMoney(s.totalCommission||totalComm)+" UGX";document.getElementById("aTotalSales").innerText=formatMoney(s.totalSales||totalSales)+" UGX";document.getElementById("aTotalOrders").innerText=s.totalOrders||allSnap.size;}}catch(e){}
- }catch(e){console.log(e); if(e.message.includes("index")){document.getElementById("buyerOrdersList").innerHTML="Need Firestore index - Check Firebase Console > Firestore > Indexes";}}
+   let adminHtml=""; let totalComm=0,totalSales=0; allSnap.forEach(doc=>{let o=doc.data();totalComm+=o.commission||0;totalSales+=o.price||0; adminHtml+=`<div class="orderCard" style="font-size:12px"><b>${o.productName}</b> • ${formatMoney(o.price)} • Comm ${formatMoney(o.commission)} • Seller ${o.sellerShop}</div>`;});
+   let el3=document.getElementById("adminOrdersList");if(el3)el3.innerHTML=adminHtml||'<p>No orders</p>';
+   try{const platformSnap=await db.collection("vela_platform").doc("stats").get();if(platformSnap.exists){let s=platformSnap.data();let a1=document.getElementById("aTotalCommission");if(a1)a1.innerText=formatMoney(s.totalCommission||totalComm)+" UGX";let a2=document.getElementById("aTotalSales");if(a2)a2.innerText=formatMoney(s.totalSales||totalSales)+" UGX";let a3=document.getElementById("aTotalOrders");if(a3)a3.innerText=s.totalOrders||allSnap.size;let a4=document.getElementById("adminTotalCommission");if(a4)a4.innerText=formatMoney(s.totalCommission||totalComm)+" UGX";}}catch(e){}
+ }catch(e){console.log(e);}
 }
 async function loadSellerData(){
  if(!currentUser) return;
- try{const snap=await db.collection("vela_sellers").doc(currentUser.uid).get();if(snap.exists){let d=snap.data();document.getElementById("sPending").innerText=formatMoney(d.pendingBalance||0)+" UGX";document.getElementById("sAvailable").innerText=formatMoney(d.availableBalance||0)+" UGX";document.getElementById("wAvailable").innerText=formatMoney(d.availableBalance||0)+" UGX";document.getElementById("sTotalEarn").innerText=formatMoney(d.totalEarnings||0)+" UGX";document.getElementById("sCommission").innerText=formatMoney(d.totalCommissionPaid||0)+" UGX";document.getElementById("sTotalSales").innerText=d.totalSales||0;document.getElementById("sTotalOrders").innerText=d.totalSales||0;}}catch(e){}
+ try{const snap=await db.collection("vela_sellers").doc(currentUser.uid).get();if(snap.exists){let d=snap.data();let e1=document.getElementById("sPending");if(e1)e1.innerText=formatMoney(d.pendingBalance||0)+" UGX";let e2=document.getElementById("sAvailable");if(e2)e2.innerText=formatMoney(d.availableBalance||0)+" UGX";let e3=document.getElementById("wAvailable");if(e3)e3.innerText=formatMoney(d.availableBalance||0)+" UGX";let e4=document.getElementById("sTotalEarn");if(e4)e4.innerText=formatMoney(d.totalEarnings||0)+" UGX";let e5=document.getElementById("sCommission");if(e5)e5.innerText=formatMoney(d.totalCommissionPaid||0)+" UGX";let e6=document.getElementById("sTotalSales");if(e6)e6.innerText=d.totalSales||0;let e7=document.getElementById("sTotalOrders");if(e7)e7.innerText=d.totalSales||0;}}catch(e){}
+}
+async function loadAllSellers(){
+ try{
+   const snap=await db.collection("vela_sellers").orderBy("created","desc").get();
+   let html="";let sellerCount=0,customerCount=0;
+   snap.forEach(doc=>{let d=doc.data();if(d.role==='seller'||d.role==='both')sellerCount++;if(d.role==='buyer'||d.role==='both')customerCount++;html+=`<div class="sellerRow"><div style="flex:1"><b>${d.shopName||'No name'}</b><div style="font-size:11px;color:#6b7280">${d.phone||d.wa||''} • ${d.email||''} • Role: ${d.role||'both'} • ${d.location||''}</div><div style="font-size:11px">Sales: ${d.totalSales||0} • Earned: ${formatMoney(d.totalEarnings||0)} • 5% Paid: ${formatMoney(d.totalCommissionPaid||0)} • Pending: ${formatMoney(d.pendingBalance||0)} • Available: ${formatMoney(d.availableBalance||0)}</div></div><a href="https://wa.me/${(d.wa||'').replace(/[^0-9]/g,'')}" target="_blank" style="background:#25D366;color:white;padding:6px 10px;border-radius:8px;text-decoration:none;font-size:12px">Chat</a></div>`;});
+   let el=document.getElementById("sellersList");if(el)el.innerHTML=html||'<p style="text-align:center;color:#9ca3af;padding:20px">No sellers yet</p>';
+   let t1=document.getElementById("totalSellers");if(t1)t1.innerText=sellerCount;
+   let t2=document.getElementById("totalCustomers");if(t2)t2.innerText=customerCount;
+ }catch(e){console.log(e);}
 }
 async function markShipped(orderId){await db.collection("vela_orders").doc(orderId).update({status:"shipped"});loadOrders();}
 async function confirmDelivery(orderId){
- if(!confirm("Confirm received? Release 95% to seller?")) return;
+ if(!confirm("Confirm received? Release 95% to seller, 5% stays with VELA?")) return;
  const orderDoc=await db.collection("vela_orders").doc(orderId).get(); let o=orderDoc.data();
  await db.collection("vela_orders").doc(orderId).update({status:"completed",buyerConfirmed:true});
  await db.collection("vela_sellers").doc(o.sellerUid).set({pendingBalance:firebase.firestore.FieldValue.increment(-o.sellerEarning),availableBalance:firebase.firestore.FieldValue.increment(o.sellerEarning),totalEarnings:firebase.firestore.FieldValue.increment(o.sellerEarning)},{merge:true});
- alert(`✅ Seller got ${formatMoney(o.sellerEarning)} (95%)`);
- loadOrders();loadSellerData();
+ alert(`✅ Seller got ${formatMoney(o.sellerEarning)} (95%) - VELA kept ${formatMoney(o.commission)} (5%)`);
+ loadOrders();loadSellerData();loadAllSellers();
 }
 async function requestWithdraw(){
  const snap=await db.collection("vela_sellers").doc(currentUser.uid).get(); let d=snap.data(); let avail=d.availableBalance||0;
- if(avail<=0){alert("No balance");return;}
- if(confirm(`Withdraw ${formatMoney(avail)} to ${d.wa}?`)){
+ if(avail<=0){alert("No balance - Wait buyer confirm");return;}
+ if(confirm(`Withdraw ${formatMoney(avail)} UGX to MoMo ${d.wa}?`)){
    await db.collection("vela_withdrawals").add({sellerUid:currentUser.uid,amount:avail,wa:d.wa,shop:d.shopName,status:"pending",created:Date.now()});
    await db.collection("vela_sellers").doc(currentUser.uid).update({availableBalance:0});
-   alert("Request sent - VELA will send "+formatMoney(avail));
-   loadSellerData();
+   alert("Request sent - VELA will send "+formatMoney(avail)+" to "+d.wa);
+   loadSellerData();loadAllSellers();
  }
 }
-async function removeProd(id){if(confirm("Delete?"))await db.collection("vela_products").doc(id).delete();}
-function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));let el=document.getElementById('page'+name);if(el)el.classList.add('active');if(name==='BuyerOrders'||name==='SellerOrders'||name==='SellerDashboard'||name==='Admin'){loadOrders();loadSellerData();}if(name==='Cart')renderCart();if(name==='Wishlist')renderWishlist();if(name==='MyProducts')renderMyProducts();}
+async function removeProd(id){if(confirm("Delete product?"))await db.collection("vela_products").doc(id).delete();}
+function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));let el=document.getElementById('page'+name);if(el)el.classList.add('active');if(name==='BuyerOrders'||name==='SellerOrders'||name==='SellerDashboard'||name==='Admin'||name==='AdminSellers'){loadOrders();loadSellerData();loadAllSellers();}if(name==='Cart')renderCart();if(name==='MyProducts')renderMyProducts();}
 db.collection("vela_products").orderBy("created","desc").onSnapshot(snap=>{let np=[];snap.forEach(doc=>{let d=doc.data();d.docId=doc.id;np.push(d);});products=np;try{localStorage.setItem('vela_cache',JSON.stringify(products).substring(0,800000));}catch(e){}render();renderMyProducts();});
-db.collection("vela_orders").onSnapshot(()=>{loadOrders();loadSellerData();});
-initCats();render();renderCart();renderWishlist();updateBadges();setRole(selectedRole);
+db.collection("vela_orders").onSnapshot(()=>{loadOrders();loadSellerData();loadAllSellers();});
+initCats();render();renderCart();updateBadges();setRole(selectedRole);
 </script>
 </body>
 </html>

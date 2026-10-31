@@ -149,9 +149,8 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 
 <div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3 id="modalTitle">Add Product</h3><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><div style="display:flex;gap:10px"><input id="pPrice" class="inp" type="number" placeholder="Price UGX"><input id="pShop" class="inp" placeholder="Shop Name"></div><input id="pWa" class="inp" placeholder="WhatsApp 256..."><label class="camLabel">📷 Choose Photo<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><input id="pLink" class="inp" placeholder="Or paste image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit Product</button><input type="hidden" id="editId"></div></div>
 
-<div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>Sign In</h3><br><button class="googleBtn" onclick="signInWithGoogle()">Continue with Google</button><p id="loginMsg" style="font-size:13px;margin-top:12px;text-align:center"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
+<div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>Sign In to VELA</h3><p style="font-size:13px;color:#6b7280;margin-top:6px">Sign in to sell and rate products</p><br><button class="googleBtn" onclick="signInWithGoogle()">🔵 Continue with Google</button><p id="loginMsg" style="font-size:13px;margin-top:12px;text-align:center;color:#d97706"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button><p style="font-size:11px;color:#9ca3af;margin-top:12px;text-align:center">If popup blocked, you will be redirected to Google</p></div></div>
 
-<!-- FIXED HERE - NO JUMIA WORD -->
 <div class="modal-bg" id="profileBg" onclick="if(event.target==this)closeProfile()"><div class="modal"><button class="closeX" onclick="closeProfile()">✕</button><h3>🏪 My Shop Profile</h3><p style="font-size:13px;color:#6b7280">Save once, auto-fill forever</p><input id="sShop" class="inp" placeholder="Shop Name e.g. Muhire sales"><input id="sWa" class="inp" placeholder="WhatsApp e.g. 256783288597"><select id="sLoc" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><button class="submit" onclick="saveSellerProfile()">Save My Profile</button><p id="profileMsg" style="font-size:12px;margin-top:10px;color:#15803d"></p></div></div>
 
 <div id="productViewBg" onclick="if(event.target==this)closeProductView()"><img id="pvImg" class="pv-img"><div class="pv-body"><button class="closeX" onclick="closeProductView()">✕</button><div id="pvTitle" style="font-size:20px;font-weight:900"></div><div id="pvPrice" style="font-weight:900;margin-top:8px;font-size:22px"></div><div id="pvShop" style="font-size:13px;color:#6b7280;margin-top:4px"></div><div id="pvRating" style="margin-top:8px"></div><div id="pvStars" style="margin-top:10px;display:flex;gap:4px"></div><p id="rateMsg" style="font-size:12px;color:#15803d;margin-top:6px"></p><button id="pvCallBtn" class="pv-btn call">💬 Chat Vendor</button><button id="pvCartBtn" class="pv-btn cart">🛒 Add to Cart</button><button class="pv-btn share" onclick="shareProduct()">🔗 Share</button><button class="pv-btn" style="background:#f3f4f6" onclick="closeProductView()">Close</button><div id="pvRemoveWrap"></div></div></div>
@@ -209,6 +208,35 @@ function checkoutCart(){let total=cart.reduce((s,i)=>s+i.price*i.qty,0);let text
 function shareProduct(){let title=document.getElementById("pvTitle").innerText;let url=window.location.origin+window.location.pathname+'?p='+currentViewId;let text=`Check ${title} on VELA: ${url}`;window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}
 let currentViewId=null;
 function getRatingHtml(rSum,rCount){if(!rCount)return '<span style="color:#9ca3af">No ratings yet</span>';let avg=(rSum/rCount).toFixed(1);return `⭐ ${avg} (${rCount} ratings)`;}
+
+// FIXED GOOGLE SIGN IN - WORKS ON MOBILE
+function signInWithGoogle(){
+  const provider = new firebase.auth.GoogleAuthProvider();
+  provider.setCustomParameters({prompt:'select_account'});
+  document.getElementById("loginMsg").innerText = "Opening Google... Please wait";
+  
+  auth.signInWithPopup(provider)
+    .then(r=>{
+      document.getElementById("loginMsg").innerText="✅ Welcome "+r.user.email;
+      setTimeout(closeLogin,800);
+    })
+    .catch(e=>{
+      console.log("Popup error:", e.code, e.message);
+      if(e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user'){
+        document.getElementById("loginMsg").innerText = "Popup blocked, redirecting...";
+        auth.signInWithRedirect(provider);
+      } else if(e.code === 'auth/unauthorized-domain'){
+        document.getElementById("loginMsg").innerText = "❌ DOMAIN NOT ALLOWED: Add "+window.location.hostname+" to Firebase > Authentication > Settings > Authorized domains";
+        alert("FIX NEEDED: Go to Firebase Console > Authentication > Settings > Authorized domains > Add: "+window.location.hostname+"\n\nCurrent domain: "+window.location.hostname);
+      } else if(e.code === 'auth/operation-not-allowed'){
+        document.getElementById("loginMsg").innerText = "❌ Google Sign-In not enabled in Firebase";
+      } else {
+        document.getElementById("loginMsg").innerText = "Trying redirect method...";
+        auth.signInWithRedirect(provider);
+      }
+    });
+}
+
 async function rateProduct(docId,stars){
  if(!currentUser){openLogin();return;}
  try{
@@ -239,7 +267,17 @@ function openChooser(){document.getElementById('locationChooser').classList.remo
 (function(){const s=localStorage.getItem('vela_city');const u=new URLSearchParams(window.location.search).get('loc');if(u){localStorage.setItem('vela_city',u);document.getElementById('locationChooser').classList.add('hide');}else if(s){document.getElementById('locationChooser').classList.add('hide');}})();
 function openLogin(){document.getElementById("loginBg").classList.add("open")}
 function closeLogin(){document.getElementById("loginBg").classList.remove("open")}
-function signInWithGoogle(){const p=new firebase.auth.GoogleAuthProvider();auth.signInWithPopup(p).then(r=>{document.getElementById("loginMsg").innerText="Welcome "+r.user.email;setTimeout(closeLogin,800);}).catch(e=>{auth.signInWithRedirect(p);});}
+
+auth.getRedirectResult().then(result=>{
+  if(result && result.user){
+    document.getElementById("loginMsg").innerText="✅ Welcome "+result.user.email;
+    setTimeout(closeLogin,500);
+  }
+}).catch(e=>{
+  console.log("Redirect error", e);
+  document.getElementById("loginMsg").innerText="❌ "+e.message;
+});
+
 auth.onAuthStateChanged(u=>{currentUser=u;if(u){document.getElementById("menuAuth").innerText="🟢 "+u.email;document.getElementById("signOutBtn").style.display="block";loadSellerProfile();renderMyProducts();}else{document.getElementById("menuAuth").innerText="🔐 Sign In";document.getElementById("signOutBtn").style.display="none";}});
 function signOut(){auth.signOut();closeLogin();}
 const CATS=["All","Supermarket","Phones & Tablets","Home & Office","Electronics","Fashion"];

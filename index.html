@@ -3,7 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>VELA - Uganda's Marketplace</title>
+
+<title>VELA Uganda - Buy Phones, Electronics, Fashion, Home & Office</title>
+<meta name="description" content="VELA Uganda - Buy Phones, Electronics, Fashion, Home & Office and Supermarket products from top sellers in Kampala, Nakivale, Mbarara. Best prices in Uganda. MoMo: 0783663151">
+<meta name="keywords" content="VELA Uganda, VELA Kampala, Nakivale marketplace, Mbarara shopping, phones Uganda, Jumia alternative">
+<meta name="author" content="VELA Uganda">
+<link rel="canonical" href="https://yourusername.github.io/vela/">
+<meta name="robots" content="index, follow">
+
+<meta property="og:title" content="VELA Uganda - Uganda's Marketplace">
+<meta property="og:description" content="Buy & Sell in Kampala, Nakivale, Mbarara. Phones, Fashion, Electronics. MoMo 0783663151">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yourusername.github.io/vela/">
+<meta property="og:image" content="https://via.placeholder.com/600x400?text=VELA+Uganda">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VELA Uganda">
+<meta name="twitter:description" content="Uganda's Marketplace - Buy & Sell">
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Organization",
+  "name":"VELA Uganda",
+  "url":"https://yourusername.github.io/vela/",
+  "logo":"https://via.placeholder.com/200x200?text=VELA",
+  "description":"Uganda's Marketplace for Nakivale, Kampala, Mbarara",
+  "sameAs":["https://www.instagram.com/vela.ug","https://facebook.com/vela.uganda"],
+  "contactPoint":{"@type":"ContactPoint","telephone":"+256783663151","contactType":"customer service"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebSite",
+  "name":"VELA Uganda",
+  "url":"https://yourusername.github.io/vela/",
+  "potentialAction":{"@type":"SearchAction","target":"https://yourusername.github.io/vela/?q={search_term_string}","query-input":"required name=search_term_string"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"ItemList",
+  "name":"VELA Categories",
+  "itemListElement":[
+    {"@type":"SiteNavigationElement","position":1,"name":"Phones & Tablets","url":"https://yourusername.github.io/vela/#phones"},
+    {"@type":"SiteNavigationElement","position":2,"name":"Electronics","url":"https://yourusername.github.io/vela/#electronics"},
+    {"@type":"SiteNavigationElement","position":3,"name":"Fashion","url":"https://yourusername.github.io/vela/#fashion"},
+    {"@type":"SiteNavigationElement","position":4,"name":"Home & Office","url":"https://yourusername.github.io/vela/#home"},
+    {"@type":"SiteNavigationElement","position":5,"name":"Supermarket","url":"https://yourusername.github.io/vela/#supermarket"},
+    {"@type":"SiteNavigationElement","position":6,"name":"Shop All Products","url":"https://yourusername.github.io/vela/#all"}
+  ]
+}
+</script>
+
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -36,7 +90,7 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .card img{width:100%;height:165px;object-fit:cover;background:#f3f4f6;cursor:pointer}
 .card-body{padding:10px}
 .card-title{font-size:14px;font-weight:800;height:36px;overflow:hidden;line-height:1.2;cursor:pointer}
-.card-price{font-weight:900;font-size:15px;margin-top:4px;color:#111827}
+.card-price{font-weight:900;font-size:15px;margin-top:4px}
 .card-rating{font-size:11px;color:#f59e0b;margin-top:3px}
 .card-add{background:#111827;color:white;border:none;width:100%;padding:8px;border-radius:8px;margin-top:8px;font-weight:800;font-size:13px}
 .card-add.added{background:#15803d}
@@ -84,71 +138,107 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 <button class="menuItem" onclick="toggleMenu();showPage('Home')">🏠 Home</button>
 <button class="menuItem" onclick="toggleMenu();showPage('Cart')">🛒 My Cart (<span id="cartCountMenu">0</span>)</button>
 <button class="menuItem" onclick="toggleMenu();showPage('Wishlist')">❤️ Wishlist (<span id="wishCountMenu">0</span>)</button>
+<button class="menuItem" onclick="toggleMenu();showPage('How')">ℹ️ About VELA</button>
 <button class="menuItem" onclick="toggleMenu();openChooser()">📍 Change City</button>
 </div>
-<div class="menuSection"><div class="menuTitle">MY VELA BUSINESS - NEW!</div>
+<div class="menuSection"><div class="menuTitle">MY VELA BUSINESS</div>
 <button class="menuItem" id="menuAuth" onclick="toggleMenu();openLogin()">🔐 Sign In</button>
-<button class="menuItem" onclick="toggleMenu();openProfile()">🏪 My Shop Profile - NEW</button>
-<button class="menuItem" onclick="toggleMenu();showPage('MyProducts')">📦 My Products - NEW</button>
+<button class="menuItem" onclick="toggleMenu();openProfile()">🏪 My Shop Profile</button>
+<button class="menuItem" onclick="toggleMenu();showPage('MyProducts')">📦 My Products</button>
 <button class="menuItem" onclick="toggleMenu();openModal()">➕ Sell New Item</button>
 <button class="menuItem" onclick="toggleMenu();showPage('Pay')">💳 MoMo Pay</button>
 </div>
-<div class="menuSection"><div class="menuTitle">CATEGORIES</div>
+<div class="menuSection"><div class="menuTitle">CATEGORIES - GOOGLE SITELINKS</div>
 <button class="menuItem" onclick="toggleMenu();setCat('Supermarket')">🛒 Supermarket</button>
 <button class="menuItem" onclick="toggleMenu();setCat('Phones & Tablets')">📱 Phones & Tablets</button>
 <button class="menuItem" onclick="toggleMenu();setCat('Home & Office')">🏠 Home & Office</button>
 <button class="menuItem" onclick="toggleMenu();setCat('Electronics')">🔌 Electronics</button>
 <button class="menuItem" onclick="toggleMenu();setCat('Fashion')">👕 Fashion</button>
-<button class="menuItem" onclick="toggleMenu();setCat('All')">🌍 See All</button>
+<button class="menuItem" onclick="toggleMenu();setCat('All')">🌍 Shop All Products</button>
 </div>
-<div class="momo">VELA • 0783663151 • 5%</div>
+<div class="momo">VELA • 0783663151 • 5% • vela.ug</div>
 </div>
 
-<div id="locationChooser"><div style="font-size:54px;font-weight:900;letter-spacing:4px">VELA<span style="color:#facc15">.</span></div><br>
+<div id="locationChooser"><div style="font-size:54px;font-weight:900;letter-spacing:4px">VELA<span style="color:#facc15">.</span></div><div style="color:#facc15;font-size:11px;letter-spacing:3px;font-weight:800">UGANDA'S MARKETPLACE</div><br><br>
 <button class="locBigBtn" onclick="chooseLocation('Kampala')">VELA KAMPALA <span>📱</span></button>
 <button class="locBigBtn" onclick="chooseLocation('Nakivale')">VELA NAKIVALE <span>🏠</span></button>
 <button class="locBigBtn" onclick="chooseLocation('Mbarara')">VELA MBARARA <span>🏬</span></button>
 <button class="locBigBtn" onclick="chooseLocation('All')">VELA UGANDA <span>🌍</span></button>
+<p style="margin-top:20px;font-size:12px;color:#9ca3af">Best prices • Pay on delivery • MoMo 0783663151</p>
 </div>
 
 <header><button class="hamburger" onclick="toggleMenu()">☰</button><h1>VELA<span>.</span></h1><button class="cartIcon" onclick="showPage('Cart')">🛒<span id="cartBadge" class="cartBadge" style="display:none">0</span></button></header>
 
 <div id="pageHome" class="page active">
-<div class="momo" id="momoBar">VELA UGANDA • MoMo: +256783663151</div>
+<div class="momo" id="momoBar">VELA UGANDA • Buy Phones, Electronics, Fashion, Home & Office • MoMo: 0783663151</div>
 <div class="cat-wrap" id="catWrap"></div>
-<div class="topbar"><input id="search" class="search" placeholder="Search in VELA..." oninput="render()"><button class="addBtn" onclick="openModal()">+ Add</button></div>
+<div class="topbar"><input id="search" class="search" placeholder="Search VELA Uganda..." oninput="render()"><button class="addBtn" onclick="openModal()">+ Add</button></div>
 <div class="grid" id="grid"></div>
 </div>
 
-<div id="pageMyProducts" class="page"><div class="box"><h2>📦 My Products - NEW</h2><div class="statGrid"><div class="stat"><b id="statTotal">0</b><span style="font-size:11px">Products</span></div><div class="stat"><b id="statRatings">0</b><span style="font-size:11px">Avg Rating</span></div><div class="stat"><b id="statCart">0</b><span style="font-size:11px">In Carts</span></div></div><div id="myGrid" class="grid" style="margin-top:16px;padding:0"></div><button class="submit" style="background:#f3f4f6;color:#111827" onclick="showPage('Home')">Back to Shop</button></div></div>
-
+<div id="pageMyProducts" class="page"><div class="box"><h2>📦 My Products</h2><div class="statGrid"><div class="stat"><b id="statTotal">0</b><span style="font-size:11px">Products</span></div><div class="stat"><b id="statRatings">0</b><span style="font-size:11px">Avg Rating</span></div><div class="stat"><b id="statCart">0</b><span style="font-size:11px">In Carts</span></div></div><div id="myGrid" class="grid" style="margin-top:16px;padding:0"></div><button class="submit" style="background:#f3f4f6;color:#111827" onclick="showPage('Home')">Back to Shop</button></div></div>
 <div id="pageCart" class="page"><div class="box"><h2>🛒 My Cart</h2><div id="cartList" style="margin-top:16px"></div><div id="cartTotal" style="font-weight:900;font-size:20px;margin-top:16px;border-top:2px solid #111827;padding-top:12px"></div><button id="checkoutBtn" class="submit" style="background:#25D366;display:none" onclick="checkoutCart()">Checkout on WhatsApp</button><button class="submit" style="background:#f3f4f6;color:#111827" onclick="showPage('Home')">Continue Shopping</button></div></div>
-
 <div id="pageWishlist" class="page"><div class="box"><h2>❤️ My Wishlist</h2><div id="wishList" style="margin-top:16px"></div><button class="submit" style="background:#f3f4f6;color:#111827" onclick="showPage('Home')">Continue Shopping</button></div></div>
 
-<div id="pageHow" class="page"><div class="box"><h2>How VELA Works</h2><br><p style="line-height:1.8">1. Sign In<br>2. My Shop Profile once<br>3. My Products to manage<br>4. Customers Add to Cart & Rate<br>5. Share product link</p><button class="submit" onclick="showPage('Home')">Go to VELA</button></div></div>
-<div id="pagePay" class="page"><div class="box"><h2>VELA MoMo</h2><div class="payBig"><h1>+256 783 663 151</h1><p>5% commission</p></div></div></div>
+<div id="pageHow" class="page">
+<div class="box" style="padding:0;overflow:hidden">
+<div style="background:linear-gradient(135deg,#111827 0%,#1f2937 100%);color:white;padding:28px 20px;text-align:center">
+<div style="font-size:42px;font-weight:900;letter-spacing:4px">VELA<span style="color:#facc15">.</span></div>
+<div style="color:#facc15;font-size:11px;letter-spacing:3px;font-weight:800;margin-top:4px">UGANDA'S MARKETPLACE</div>
+<p style="margin-top:14px;font-size:14px;line-height:1.5;color:#d1d5db">Buy Phones, Electronics, Fashion, Home & Office & more from top sellers in Kampala, Nakivale, Mbarara. Best prices in Uganda ✓ Order now and enjoy pay on delivery.</p>
+</div>
+<div style="padding:20px">
+<h3 style="font-size:18px">What is VELA Uganda?</h3>
+<p style="font-size:14px;color:#4b5563;line-height:1.6;margin-top:8px">VELA is like Jumia Uganda but built for local communities. Same quality: Phones & Tablets, Electronics, Fashion, Home & Office, Supermarket — but easier, faster, on WhatsApp.</p>
+
+<div style="margin-top:20px"><span style="background:#fef3c7;color:#92400e;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:900">FOR BUYERS - LIKE JUMIA</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px">
+<div style="background:#f9fafb;padding:14px;border-radius:12px;text-align:center;border:1px solid #e5e7eb"><div style="font-size:24px">🔍</div><b style="font-size:13px">Phones & Tablets</b><div style="font-size:12px;color:#6b7280">Search products</div></div>
+<div style="background:#f9fafb;padding:14px;border-radius:12px;text-align:center;border:1px solid #e5e7eb"><div style="font-size:24px">👗</div><b style="font-size:13px">Fashion</b><div style="font-size:12px;color:#6b7280">Clothes, shoes</div></div>
+<div style="background:#f9fafb;padding:14px;border-radius:12px;text-align:center;border:1px solid #e5e7eb"><div style="font-size:24px">🏠</div><b style="font-size:13px">Home & Office</b><div style="font-size:12px;color:#6b7280">Home goods</div></div>
+<div style="background:#f9fafb;padding:14px;border-radius:12px;text-align:center;border:1px solid #e5e7eb"><div style="font-size:24px">🛒</div><b style="font-size:13px">Supermarket</b><div style="font-size:12px;color:#6b7280">Food, daily needs</div></div>
+</div>
+</div>
+
+<div style="margin-top:20px"><span style="background:#111827;color:white;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:900">FOR SELLERS - MY BUSINESS</span>
+<div style="margin-top:12px;background:white;border:1px solid #e5e7eb;border-radius:12px;padding:14px">
+<div style="display:flex;gap:12px;margin-bottom:12px"><span style="background:#facc15;min-width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900">1</span><div><b style="font-size:14px">My Shop Profile - Save Once</b><div style="font-size:12px;color:#6b7280">☰ → My Shop Profile → Save shop name & WhatsApp. Auto-fill forever!</div></div></div>
+<div style="display:flex;gap:12px;margin-bottom:12px"><span style="background:#facc15;min-width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900">2</span><div><b style="font-size:14px">Sell New Item - Price with Commas</b><div style="font-size:12px;color:#6b7280">Tap + Add, price shows 300,000 UGX like Jumia</div></div></div>
+<div style="display:flex;gap:12px;margin-bottom:12px"><span style="background:#facc15;min-width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900">3</span><div><b style="font-size:14px">My Products - Manage</b><div style="font-size:12px;color:#6b7280">Edit, Delete, See ratings & stats like Jumia seller</div></div></div>
+<div style="display:flex;gap:12px"><span style="background:#facc15;min-width:28px;height:28px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-weight:900">4</span><div><b style="font-size:14px">Get Orders on WhatsApp</b><div style="font-size:12px;color:#6b7280">Buyers Add to Cart & checkout to your WhatsApp</div></div></div>
+</div>
+</div>
+
+<div style="margin-top:20px;background:#111827;color:white;border-radius:14px;padding:16px;display:flex;justify-content:space-between;align-items:center"><div><b style="font-size:14px">💳 MoMo Pay</b><div style="font-size:12px;color:#9ca3af">5% commission • Like Jumia</div></div><div style="text-align:right"><b style="font-size:16px;color:#facc15">0783 663 151</b><div style="font-size:11px">VELA UGANDA</div></div></div>
+
+<div style="margin-top:16px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:12px"><b style="font-size:13px">📍 VELA Pickup Stations</b><div style="font-size:12px;color:#4b5563;margin-top:4px">• Kampala - Main • Nakivale Base Camp • Mbarara High Street - Like Jumia Pickup Station</div></div>
+
+<div style="margin-top:20px;display:flex;gap:10px"><button class="submit" style="flex:1;margin-top:0" onclick="showPage('Home')">Start Shopping</button><button class="submit" style="flex:1;margin-top:0;background:#facc15;color:#111827" onclick="openModal()">Start Selling</button></div>
+<p style="text-align:center;font-size:11px;color:#9ca3af;margin-top:16px">VELA Uganda • Made for Nakivale, Kampala, Mbarara • 2026<br>Like Jumia Uganda but for our communities</p>
+</div>
+</div>
+</div>
+
+<div id="pagePay" class="page"><div class="box"><h2>VELA MoMo</h2><div class="payBig"><h1>+256 783 663 151</h1><p>5% commission • vela.ug</p></div></div></div>
 
 <button class="fab" onclick="openModal()">+</button>
 
-<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3 id="modalTitle">Add Product</h3><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><div style="display:flex;gap:10px"><input id="pPrice" class="inp" type="number" placeholder="Price UGX"><input id="pShop" class="inp" placeholder="Shop Name (from profile)"></div><input id="pWa" class="inp" placeholder="WhatsApp (from profile)"><label class="camLabel">📷 Choose Photo<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><input id="pLink" class="inp" placeholder="Or paste image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit</button><input type="hidden" id="editId"></div></div>
+<div class="modal-bg" id="modalBg" onclick="if(event.target==this)closeModal()"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3 id="modalTitle">Add Product</h3><input id="pName" class="inp" placeholder="Product Name e.g. Tecno Spark"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option></select><select id="pLocation" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><div style="display:flex;gap:10px"><input id="pPrice" class="inp" type="number" placeholder="Price UGX e.g. 300000"><input id="pShop" class="inp" placeholder="Shop Name (auto from profile)"></div><input id="pWa" class="inp" placeholder="WhatsApp 256... (auto from profile)"><label class="camLabel">📷 Choose Photo<input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"></label><img id="preview" class="preview"><input id="pLink" class="inp" placeholder="Or paste image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit Product</button><input type="hidden" id="editId"></div></div>
 
-<div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>Sign In</h3><br><button class="googleBtn" onclick="signInWithGoogle()">Continue with Google</button><p id="loginMsg" style="font-size:13px;margin-top:12px;text-align:center"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
+<div class="modal-bg" id="loginBg" onclick="if(event.target==this)closeLogin()"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>Sign In to VELA Uganda</h3><br><button class="googleBtn" onclick="signInWithGoogle()">Continue with Google</button><p id="loginMsg" style="font-size:13px;margin-top:12px;text-align:center"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
 
-<div class="modal-bg" id="profileBg" onclick="if(event.target==this)closeProfile()"><div class="modal"><button class="closeX" onclick="closeProfile()">✕</button><h3>🏪 My Shop Profile - NEW FEATURE</h3><p style="font-size:13px;color:#6b7280">Save once, auto-fill forever - no more typing phone every time!</p><input id="sShop" class="inp" placeholder="Shop Name e.g. Muhire sales"><input id="sWa" class="inp" placeholder="WhatsApp e.g. 256783288597"><select id="sLoc" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><button class="submit" onclick="saveSellerProfile()">Save My Profile</button><p id="profileMsg" style="font-size:12px;margin-top:10px;color:#15803d"></p></div></div>
+<div class="modal-bg" id="profileBg" onclick="if(event.target==this)closeProfile()"><div class="modal"><button class="closeX" onclick="closeProfile()">✕</button><h3>🏪 My Shop Profile</h3><p style="font-size:13px;color:#6b7280">Save once, auto-fill forever - like Jumia seller center</p><input id="sShop" class="inp" placeholder="Shop Name e.g. Muhire sales"><input id="sWa" class="inp" placeholder="WhatsApp e.g. 256783288597"><select id="sLoc" class="inp"><option value="Nakivale Base Camp">Nakivale Base Camp</option><option value="Kampala">Kampala</option><option value="Mbarara">Mbarara</option></select><button class="submit" onclick="saveSellerProfile()">Save My Profile</button><p id="profileMsg" style="font-size:12px;margin-top:10px;color:#15803d"></p></div></div>
 
-<div id="productViewBg" onclick="if(event.target==this)closeProductView()"><img id="pvImg" class="pv-img"><div class="pv-body"><button class="closeX" onclick="closeProductView()">✕</button><div id="pvTitle" style="font-size:20px;font-weight:900"></div><div id="pvPrice" style="font-weight:900;margin-top:8px;font-size:22px"></div><div id="pvShop" style="font-size:13px;color:#6b7280;margin-top:4px"></div><div id="pvRating" style="margin-top:8px"></div><div id="pvStars" style="margin-top:10px;display:flex;gap:4px"></div><p id="rateMsg" style="font-size:12px;color:#15803d;margin-top:6px"></p><button id="pvCallBtn" class="pv-btn call">💬 Chat Vendor</button><button id="pvCartBtn" class="pv-btn cart">🛒 Add to Cart</button><button class="pv-btn share" onclick="shareProduct()">🔗 Share Product</button><button class="pv-btn" style="background:#f3f4f6" onclick="closeProductView()">Close</button><div id="pvRemoveWrap"></div></div></div>
+<div id="productViewBg" onclick="if(event.target==this)closeProductView()"><img id="pvImg" class="pv-img"><div class="pv-body"><button class="closeX" onclick="closeProductView()">✕</button><div id="pvTitle" style="font-size:20px;font-weight:900"></div><div id="pvPrice" style="font-weight:900;margin-top:8px;font-size:22px"></div><div id="pvShop" style="font-size:13px;color:#6b7280;margin-top:4px"></div><div id="pvRating" style="margin-top:8px"></div><div id="pvStars" style="margin-top:10px;display:flex;gap:4px"></div><p id="rateMsg" style="font-size:12px;color:#15803d;margin-top:6px"></p><button id="pvCallBtn" class="pv-btn call">💬 Chat Vendor on WhatsApp</button><button id="pvCartBtn" class="pv-btn cart">🛒 Add to Cart</button><button class="pv-btn share" onclick="shareProduct()">🔗 Share Product Link</button><button class="pv-btn" style="background:#f3f4f6" onclick="closeProductView()">Close</button><div id="pvRemoveWrap"></div></div></div>
 
 <script>
-// COMMAS FUNCTION - FORCED
 function formatMoney(n){
-  if(n==null||n=="") return "0";
+  if(n==null||n==="") return "0";
   let cleaned = String(n).replace(/[^0-9]/g,'');
   if(cleaned==="") return "0";
   let num = parseInt(cleaned);
   return num.toLocaleString('en-US');
 }
-
 const firebaseConfig={apiKey:"AIzaSyCLHrYWH31Nu6hZZyl3fXpdrtbJapAVzdI",authDomain:"vela-search.firebaseapp.com",projectId:"vela-search",storageBucket:"vela-search.firebasestorage.app",messagingSenderId:"713874060645",appId:"1:713874060645:web:44ac156cc34ef3cfee5d8c"};
 firebase.initializeApp(firebaseConfig);
 const auth=firebase.auth();const db=firebase.firestore();
@@ -157,7 +247,6 @@ const velaUgandaApp=firebase.initializeApp(velaUgandaConfig,"velaUganda");
 const velaUgandaDb=velaUgandaApp.firestore();
 (async()=>{try{const r=velaUgandaDb.collection("vela_visits").doc("counter");await r.update({count:firebase.firestore.FieldValue.increment(1)});}catch(e){try{await velaUgandaDb.collection("vela_visits").doc("counter").set({count:1},{merge:true});}catch(e2){}}})();
 
-// PROFILE - FIXED
 function openProfile(){document.getElementById("profileBg").classList.add("open"); loadSellerProfile();}
 function closeProfile(){document.getElementById("profileBg").classList.remove("open");}
 async function loadSellerProfile(){
@@ -181,11 +270,10 @@ async function saveSellerProfile(){
  await db.collection("vela_sellers").doc(currentUser.uid).set(data,{merge:true});
  localStorage.setItem('vela_seller_'+currentUser.uid,JSON.stringify(data));
  document.getElementById("pShop").value=shop;document.getElementById("pWa").value=wa;document.getElementById("pLocation").value=loc;
- document.getElementById("profileMsg").innerText="✅ Saved! Now Add Product is auto-filled";
+ document.getElementById("profileMsg").innerText="✅ Saved! Add Product now auto-filled";
  setTimeout(closeProfile,1000);
 }
 
-// CART + WISHLIST
 let cart=JSON.parse(localStorage.getItem('vela_cart')||'[]');
 let wishlist=JSON.parse(localStorage.getItem('vela_wish')||'[]');
 function saveCart(){localStorage.setItem('vela_cart',JSON.stringify(cart));updateBadges();}
@@ -195,12 +283,11 @@ function addToCart(id){const p=products.find(x=>x.docId===id);if(!p)return;let i
 function removeFromCart(id){cart=cart.filter(i=>i.docId!==id);saveCart();render();renderCart();}
 function changeQty(id,d){let it=cart.find(i=>i.docId===id);if(!it)return;it.qty+=d;if(it.qty<=0)removeFromCart(id);else{saveCart();renderCart();}}
 function toggleWish(id){let idx=wishlist.indexOf(id);if(idx>=0)wishlist.splice(idx,1);else wishlist.push(id);saveWish();render();}
-function renderCart(){let list=document.getElementById('cartList');let totalEl=document.getElementById('cartTotal');if(cart.length===0){list.innerHTML='<p style="text-align:center;color:#9ca3af;padding:20px">Cart empty</p>';totalEl.innerText='';return;}let total=0;list.innerHTML=cart.map(i=>{total+=i.price*i.qty;return `<div class="cartRow"><img src="${i.img}"><div style="flex:1"><div style="font-weight:800;font-size:14px">${i.name}</div><div>${formatMoney(i.price)} UGX</div><div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button class="qtyBtn" onclick="changeQty('${i.docId}',-1)">-</button><span>${i.qty}</span><button class="qtyBtn" onclick="changeQty('${i.docId}',1)">+</button><button onclick="removeFromCart('${i.docId}')" style="margin-left:10px;border:none;background:#ffe4e6;color:#9f1239;padding:4px 10px;border-radius:8px">Remove</button></div></div></div>`}).join('');totalEl.innerText='Total: '+formatMoney(total)+' UGX';}
+function renderCart(){let list=document.getElementById('cartList');let totalEl=document.getElementById('cartTotal');if(cart.length===0){list.innerHTML='<p style="text-align:center;color:#9ca3af;padding:20px">Cart empty - Add items like Jumia</p>';totalEl.innerText='';return;}let total=0;list.innerHTML=cart.map(i=>{total+=i.price*i.qty;return `<div class="cartRow"><img src="${i.img}"><div style="flex:1"><div style="font-weight:800;font-size:14px">${i.name}</div><div>${formatMoney(i.price)} UGX</div><div style="display:flex;gap:8px;align-items:center;margin-top:6px"><button class="qtyBtn" onclick="changeQty('${i.docId}',-1)">-</button><span>${i.qty}</span><button class="qtyBtn" onclick="changeQty('${i.docId}',1)">+</button><button onclick="removeFromCart('${i.docId}')" style="margin-left:10px;border:none;background:#ffe4e6;color:#9f1239;padding:4px 10px;border-radius:8px">Remove</button></div></div></div>`}).join('');totalEl.innerText='Total: '+formatMoney(total)+' UGX';}
 function renderWishlist(){let el=document.getElementById('wishList');if(wishlist.length===0){el.innerHTML='<p style="text-align:center;color:#9ca3af;padding:20px">No wishlist yet — tap ❤️ on products</p>';return;}let items=products.filter(p=>wishlist.includes(p.docId));el.innerHTML=items.map(p=>`<div class="cartRow"><img src="${p.img}" onclick="openProductView('${p.docId}')"><div style="flex:1"><div style="font-weight:800">${p.name}</div><div>${formatMoney(p.price)} UGX</div><button class="card-add" onclick="addToCart('${p.docId}')">Add to Cart</button></div><button onclick="toggleWish('${p.docId}')" style="border:none;background:none;font-size:20px">❌</button></div>`).join('');}
-function checkoutCart(){let total=cart.reduce((s,i)=>s+i.price*i.qty,0);let text='Hello VELA, I order:\n\n'+cart.map(i=>`• ${i.name} x${i.qty} = ${formatMoney(i.price*i.qty)} UGX`).join('\n')+`\n\nTotal: ${formatMoney(total)} UGX`;window.open('https://wa.me/256783663151?text='+encodeURIComponent(text),'_blank');}
-function shareProduct(){let title=document.getElementById("pvTitle").innerText;let url=window.location.origin+window.location.pathname+'?p='+currentViewId;let text=`Check ${title} on VELA Uganda: ${url}`;window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}
+function checkoutCart(){let total=cart.reduce((s,i)=>s+i.price*i.qty,0);let text='Hello VELA Uganda, I order:\n\n'+cart.map(i=>`• ${i.name} x${i.qty} = ${formatMoney(i.price*i.qty)} UGX`).join('\n')+`\n\nTotal: ${formatMoney(total)} UGX\n\nDelivery: Kampala/Nakivale/Mbarara`;window.open('https://wa.me/256783663151?text='+encodeURIComponent(text),'_blank');}
+function shareProduct(){let title=document.getElementById("pvTitle").innerText;let url=window.location.origin+window.location.pathname+'?p='+currentViewId;let text=`Check ${title} on VELA Uganda ${formatMoney(document.getElementById("pvPrice").innerText)}: ${url}`;window.open('https://wa.me/?text='+encodeURIComponent(text),'_blank');}
 
-// RATING
 let currentViewId=null;
 function getRatingHtml(rSum,rCount){if(!rCount)return '<span style="color:#9ca3af">No ratings yet</span>';let avg=(rSum/rCount).toFixed(1);return `⭐ ${avg} (${rCount} ratings)`;}
 async function rateProduct(docId,stars){
@@ -225,7 +312,6 @@ function drawStars(docId,selected=0){
  let cont=document.getElementById("pvStars");
  cont.innerHTML=[1,2,3,4,5].map(s=>`<button class="star ${s<=selected?'active':''}" onclick="rateProduct('${docId}',${s})">★</button>`).join('')+'<span style="font-size:12px;color:#6b7280;margin-left:6px">Tap to rate</span>';
 }
-
 function toggleMenu(){document.getElementById("sideMenu").classList.toggle("open");document.getElementById("sideOverlay").classList.toggle("open");}
 let currentUser=null,compressedImageData=null,products=[],isLoading=true;
 try{let c=localStorage.getItem('vela_cache');if(c){products=JSON.parse(c);isLoading=false;}}catch(e){}
@@ -247,7 +333,7 @@ function previewFile(input){if(input.files&&input.files[0]){const reader=new Fil
 function editProduct(id){const p=products.find(x=>x.docId===id);if(!p)return;openModal();document.getElementById("modalTitle").innerText="Edit Product";document.getElementById("pName").value=p.name;document.getElementById("pCat").value=p.cat;document.getElementById("pPrice").value=String(p.price).replace(/[^0-9]/g,'');document.getElementById("pLocation").value=p.location;document.getElementById("preview").src=p.img;document.getElementById("preview").style.display="block";document.getElementById("pLink").value=p.img;document.getElementById("editId").value=id;document.getElementById("submitBtn").innerText="Update Product";}
 async function submitProduct(){
  let n=document.getElementById("pName").value.trim(),c=document.getElementById("pCat").value,p=document.getElementById("pPrice").value.trim(),s=document.getElementById("pShop").value.trim(),w=document.getElementById("pWa").value.trim(),l=document.getElementById("pLink").value.trim(),loc=document.getElementById("pLocation").value,editId=document.getElementById("editId").value;
- if(!n||!p||!s){alert("Fill Name, Price, Shop — first create My Shop Profile");openProfile();return;}
+ if(!n||!p||!s){alert("Fill Name, Price, Shop — first create My Shop Profile in menu");openProfile();return;}
  p = p.replace(/[^0-9]/g,'');
  let btn=document.getElementById("submitBtn");btn.disabled=true;btn.innerText="Saving...";
  try{
@@ -261,8 +347,8 @@ async function submitProduct(){
 function render(){
  let q=(document.getElementById("search")?.value||"").toLowerCase();
  let list=products.filter(p=>{let mc=activeCat==="All"||p.cat===activeCat;let mq=!q||p.name.toLowerCase().includes(q)||p.shop.toLowerCase().includes(q);return mc&&mq;});
- let html=list.length?list.map(p=>{let inCart=cart.find(i=>i.docId===p.docId);let wished=wishlist.includes(p.docId);return `<div class="card"><button class="wishBtn ${wished?'active':''}" onclick="toggleWish('${p.docId}')">${wished?'❤️':'🤍'}</button><img src="${p.img}" onclick="openProductView('${p.docId}')"><div class="card-body"><div class="card-title" onclick="openProductView('${p.docId}')">${p.name}</div><div class="card-price">${formatMoney(p.price)} UGX</div><div class="card-rating">${getRatingHtml(p.ratingSum||0,p.ratingCount||0)}</div><button class="card-add ${inCart?'added':''}" onclick="addToCart('${p.docId}')">${inCart?'✅ Added x'+inCart.qty:'🛒 Add to Cart'}</button></div></div>`}).join(""):`<div class="empty">No products in ${activeCat}</div>`;
- document.getElementById("grid").innerHTML=html;const g2=document.getElementById("grid2");if(g2)g2.innerHTML=html;updateBadges();
+ let html=list.length?list.map(p=>{let inCart=cart.find(i=>i.docId===p.docId);let wished=wishlist.includes(p.docId);return `<div class="card"><button class="wishBtn ${wished?'active':''}" onclick="toggleWish('${p.docId}')">${wished?'❤️':'🤍'}</button><img src="${p.img}" onclick="openProductView('${p.docId}')"><div class="card-body"><div class="card-title" onclick="openProductView('${p.docId}')">${p.name}</div><div class="card-price">${formatMoney(p.price)} UGX</div><div class="card-rating">${getRatingHtml(p.ratingSum||0,p.ratingCount||0)}</div><button class="card-add ${inCart?'added':''}" onclick="addToCart('${p.docId}')">${inCart?'✅ Added x'+inCart.qty:'🛒 Add to Cart'}</button></div></div>`}).join(""):`<div class="empty">No products in ${activeCat}<br><br><button class="submit" onclick="setCat('All')">See All Products</button></div>`;
+ document.getElementById("grid").innerHTML=html;updateBadges();
 }
 function renderMyProducts(){
  if(!currentUser){document.getElementById("myGrid").innerHTML='<div class="empty">Sign in to see your products</div>';return;}
@@ -278,13 +364,13 @@ function openProductView(id){
  const p=products.find(x=>x.docId===id);if(!p)return;currentViewId=id;
  document.getElementById("pvImg").src=p.img;document.getElementById("pvTitle").innerText=p.name;document.getElementById("pvPrice").innerText=formatMoney(p.price)+" UGX • "+p.cat;document.getElementById("pvShop").innerText="🏪 "+p.shop+" • 📍 "+p.location;document.getElementById("pvRating").innerHTML=getRatingHtml(p.ratingSum||0,p.ratingCount||0);
  let myRate=(p.ratings&&currentUser&&p.ratings[currentUser.uid])||0;drawStars(id,myRate);document.getElementById("rateMsg").innerText="";
- document.getElementById("pvCallBtn").onclick=()=>window.open('https://wa.me/'+(p.wa||'').replace(/[^0-9]/g,'')+'?text=Hi VELA, I want '+encodeURIComponent(p.name)+' at '+formatMoney(p.price)+' UGX','_blank');
+ document.getElementById("pvCallBtn").onclick=()=>window.open('https://wa.me/'+(p.wa||'').replace(/[^0-9]/g,'')+'?text=Hi VELA Uganda, I want '+encodeURIComponent(p.name)+' at '+formatMoney(p.price)+' UGX','_blank');
  document.getElementById("pvCartBtn").onclick=()=>{addToCart(id);document.getElementById("pvCartBtn").innerText="✅ Added!";setTimeout(()=>document.getElementById("pvCartBtn").innerText="🛒 Add to Cart",1000);};
- let rw=document.getElementById("pvRemoveWrap");if(currentUser&&p.ownerUid===currentUser.uid){rw.innerHTML=`<button class="pv-btn" style="background:#ffe4e6;color:#9f1239" onclick="removeProd('${p.docId}');closeProductView();">Delete</button><button class="pv-btn" style="background:#fef9c3" onclick="closeProductView();editProduct('${p.docId}')">Edit</button>`;}else rw.innerHTML="";
+ let rw=document.getElementById("pvRemoveWrap");if(currentUser&&p.ownerUid===currentUser.uid){rw.innerHTML=`<button class="pv-btn" style="background:#ffe4e6;color:#9f1239" onclick="removeProd('${p.docId}');closeProductView();">Delete Product</button><button class="pv-btn" style="background:#fef9c3" onclick="closeProductView();editProduct('${p.docId}')">Edit Product</button>`;}else rw.innerHTML="";
  document.getElementById("productViewBg").classList.add("open");
 }
 function closeProductView(){document.getElementById("productViewBg").classList.remove("open");}
-async function removeProd(id){if(confirm("Delete this product?"))await db.collection("vela_products").doc(id).delete();}
+async function removeProd(id){if(confirm("Delete this product from VELA?"))await db.collection("vela_products").doc(id).delete();}
 function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page'+name).classList.add('active');if(name==='Cart')renderCart();if(name==='Wishlist')renderWishlist();if(name==='MyProducts')renderMyProducts();}
 db.collection("vela_products").orderBy("created","desc").onSnapshot(snap=>{let np=[];snap.forEach(doc=>{let d=doc.data();d.docId=doc.id;np.push(d);});products=np;isLoading=false;try{localStorage.setItem('vela_cache',JSON.stringify(products).substring(0,800000));}catch(e){}render();renderMyProducts();});
 initCats();render();renderCart();renderWishlist();updateBadges();

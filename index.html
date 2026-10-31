@@ -3,16 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>VELA Uganda - Buy & Sell with 5% Commission</title>
-<meta name="description" content="VELA Uganda - Seller & Buyer Accounts, 5% commission">
+<title>VELA Uganda</title>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
-body{background:#f5f7f5;padding-bottom:80px}
+body{background:#f5f7f5;padding-bottom:70px}
 header{background:#111827;color:white;padding:14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
-header h1{font-size:26px;font-weight:900;letter-spacing:3px} header h1 span{color:#facc15}
+header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{color:#facc15}
 .hamburger{font-size:28px;background:none;border:none;color:white}
 .cartIcon{position:relative;background:none;border:none;color:white;font-size:20px}
 .cartBadge{position:absolute;top:-6px;right:-8px;background:#facc15;color:#111827;font-size:10px;font-weight:900;padding:2px 6px;border-radius:10px}
@@ -24,7 +23,6 @@ header h1{font-size:26px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .menuSection{padding:14px 16px;border-bottom:1px solid #f3f4f6}
 .menuTitle{font-size:11px;color:#f59e0b;font-weight:900;letter-spacing:1px;margin-bottom:8px}
 .menuItem{display:flex;align-items:center;gap:12px;padding:11px 0;font-size:14px;color:#111827;border:none;background:none;width:100%;text-align:left}
-.momo{background:linear-gradient(90deg,#facc15,#fde047);color:#422006;text-align:center;padding:10px;border-radius:12px;margin:10px;font-weight:700;font-size:13px}
 .page{display:none}.page.active{display:block}
 .cat-wrap{overflow-x:auto;white-space:nowrap;padding:12px}
 .cat{border:1px solid #d1d5db;background:white;padding:8px 14px;border-radius:20px;font-size:13px;margin-right:6px;display:inline-block}
@@ -38,7 +36,6 @@ header h1{font-size:26px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .card-body{padding:10px}
 .card-title{font-size:13px;font-weight:800;height:32px;overflow:hidden}
 .card-price{font-weight:900;font-size:14px}
-.card-rating{font-size:10px;color:#f59e0b}
 .card-add{background:#111827;color:white;border:none;width:100%;padding:7px;border-radius:8px;margin-top:6px;font-weight:800;font-size:12px}
 .wishBtn{position:absolute;top:6px;right:6px;background:white;border:none;width:30px;height:30px;border-radius:15px}
 .fab{position:fixed;right:18px;bottom:18px;background:#facc15;color:#111827;border:none;width:56px;height:56px;border-radius:28px;font-size:26px;font-weight:900;z-index:15}
@@ -66,118 +63,94 @@ header h1{font-size:26px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .pv-btn.buy{background:#facc15;color:#111827}
 .pv-btn.cart{background:#111827;color:white}
 .orderCard{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:12px;margin-bottom:10px}
-.roleBtn{width:100%;padding:16px;border:2px solid #e5e7eb;border-radius:14px;background:white;text-align:left;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.roleBtn{width:100%;padding:14px;border:2px solid #e5e7eb;border-radius:12px;background:white;text-align:left;margin-bottom:8px}
 .roleBtn.active{border-color:#111827;background:#fef9c3}
 </style>
 </head>
 <body>
 <div id="sideOverlay" class="sideOverlay" onclick="toggleMenu()"></div>
 <div id="sideMenu" class="sideMenu">
-<div class="menuHead"><b>VELA 5%</b><button onclick="toggleMenu()" style="background:none;border:none;color:white;font-size:20px">✕</button></div>
-<div class="menuSection"><div class="menuTitle">BUYER ACCOUNT</div>
-<button class="menuItem" onclick="toggleMenu();showPage('Home')">🏠 Shop Home</button>
+<div class="menuHead"><b>VELA.</b><button onclick="toggleMenu()" style="background:none;border:none;color:white;font-size:20px">✕</button></div>
+<div class="menuSection"><div class="menuTitle">SHOP</div>
+<button class="menuItem" onclick="toggleMenu();showPage('Home')">🏠 Home</button>
 <button class="menuItem" onclick="toggleMenu();showPage('Cart')">🛒 My Cart</button>
-<button class="menuItem" onclick="toggleMenu();showPage('BuyerOrders')">📦 My Orders (Buyer)</button>
+<button class="menuItem" onclick="toggleMenu();showPage('BuyerOrders')">📦 My Orders</button>
 <button class="menuItem" onclick="toggleMenu();showPage('Wishlist')">❤️ Wishlist</button>
 </div>
-<div class="menuSection"><div class="menuTitle">SELLER ACCOUNT - 5% COMMISSION</div>
+<div class="menuSection"><div class="menuTitle">SELLER - 5% SYSTEM</div>
 <button class="menuItem" id="menuAuth" onclick="toggleMenu();openLogin()">🔐 Sign In</button>
 <button class="menuItem" onclick="toggleMenu();openProfile()">🏪 My Shop Profile</button>
 <button class="menuItem" onclick="toggleMenu();showPage('MyProducts')">📦 My Products</button>
-<button class="menuItem" onclick="toggleMenu();showPage('SellerDashboard')">💰 Seller Dashboard - Earnings</button>
+<button class="menuItem" onclick="toggleMenu();showPage('SellerDashboard')">💰 Earnings (95%)</button>
 <button class="menuItem" onclick="toggleMenu();showPage('SellerOrders')">📋 Orders to Deliver</button>
-<button class="menuItem" onclick="toggleMenu();openModal()">➕ Add New Product</button>
+<button class="menuItem" onclick="toggleMenu();openModal()">➕ Add Product</button>
 </div>
-<div class="menuSection"><div class="menuTitle">VELA SYSTEM</div>
+<div class="menuSection"><div class="menuTitle">SYSTEM</div>
 <button class="menuItem" onclick="toggleMenu();showPage('How')">ℹ️ How 5% Works</button>
-<button class="menuItem" onclick="toggleMenu();showPage('Pay')">💳 VELA MoMo Pay</button>
-<button class="menuItem" onclick="toggleMenu();showPage('Admin')">👑 My Admin - 5% Profit</button>
+<button class="menuItem" onclick="toggleMenu();showPage('Admin')">👑 Admin Profit</button>
+<button class="menuItem" onclick="toggleMenu();showPage('Pay')">💳 MoMo</button>
 </div>
-<div class="momo">VELA 5% • MoMo 0783663151<br>Seller gets 95% • VELA gets 5%</div>
 </div>
 
-<div id="locationChooser"><div style="font-size:48px;font-weight:900">VELA<span style="color:#facc15">.</span></div><div style="color:#facc15;font-size:11px;letter-spacing:3px;font-weight:800">5% COMMISSION SYSTEM</div><br><br>
+<div id="locationChooser"><div style="font-size:48px;font-weight:900">VELA<span style="color:#facc15">.</span></div><br><br>
 <button class="locBigBtn" onclick="chooseLocation('Kampala')">VELA KAMPALA</button>
 <button class="locBigBtn" onclick="chooseLocation('Nakivale')">VELA NAKIVALE</button>
 <button class="locBigBtn" onclick="chooseLocation('Mbarara')">VELA MBARARA</button>
-<button class="locBigBtn" onclick="chooseLocation('All')">VELA UGANDA - ALL</button>
+<button class="locBigBtn" onclick="chooseLocation('All')">VELA UGANDA</button>
 </div>
 
-<header><button class="hamburger" onclick="toggleMenu()">☰</button><h1>VELA<span>.</span> <span style="font-size:12px;background:#facc15;color:#111827;padding:2px 6px;border-radius:6px">5%</span></h1><button class="cartIcon" onclick="showPage('Cart')">🛒<span id="cartBadge" class="cartBadge" style="display:none">0</span></button></header>
+<header><button class="hamburger" onclick="toggleMenu()">☰</button><h1>VELA<span>.</span></h1><button class="cartIcon" onclick="showPage('Cart')">🛒<span id="cartBadge" class="cartBadge" style="display:none">0</span></button></header>
 
 <div id="pageHome" class="page active">
-<div class="momo">🛍️ Buyer pays VELA → VELA keeps 5% → Seller gets 95% • MoMo 0783663151</div>
 <div class="cat-wrap" id="catWrap"></div>
 <div class="topbar"><input id="search" class="search" placeholder="Search..." oninput="render()"><button class="addBtn" onclick="openModal()">+ Add</button></div>
 <div class="grid" id="grid"></div>
 </div>
 
-<!-- SELLER DASHBOARD WITH 5% -->
 <div id="pageSellerDashboard" class="page"><div class="box">
-<h2>💰 Seller Dashboard</h2>
-<p style="font-size:12px;color:#6b7280">You get 95% of each sale, VELA keeps 5%</p>
+<h2>💰 Seller Earnings - 5% System</h2>
 <div class="statGrid">
-<div class="stat"><b id="sTotalSales">0</b><span style="font-size:10px">Total Sales</span></div>
+<div class="stat"><b id="sTotalSales">0</b><span style="font-size:10px">Sales</span></div>
+<div class="stat"><b id="sCommission">0</b><span style="font-size:10px">5% to VELA</span></div>
 <div class="stat"><b id="sTotalOrders">0</b><span style="font-size:10px">Orders</span></div>
-<div class="stat"><b id="sCommission">0</b><span style="font-size:10px">5% Paid to VELA</span></div>
 </div>
 <div style="margin-top:12px" class="statGrid">
-<div class="stat" style="background:#fef9c3"><b id="sPending">0 UGX</b><span style="font-size:10px">Pending (buyer not confirmed)</span></div>
-<div class="stat" style="background:#dcfce7"><b id="sAvailable">0 UGX</b><span style="font-size:10px">Available to Withdraw</span></div>
-<div class="stat" style="background:#f3f4f6"><b id="sTotalEarn">0 UGX</b><span style="font-size:10px">Total Earned (95%)</span></div>
+<div class="stat" style="background:#fef9c3"><b id="sPending">0 UGX</b><span style="font-size:10px">Pending</span></div>
+<div class="stat" style="background:#dcfce7"><b id="sAvailable">0 UGX</b><span style="font-size:10px">Available</span></div>
+<div class="stat"><b id="sTotalEarn">0 UGX</b><span style="font-size:10px">Total Earned</span></div>
 </div>
-<div id="withdrawBox" style="margin-top:14px;background:#111827;color:white;padding:16px;border-radius:12px">
-<div style="display:flex;justify-content:space-between"><span>Available:</span><b id="wAvailable">0 UGX</b></div>
-<button class="submit" style="background:#facc15;color:#111827;margin-top:10px" onclick="requestWithdraw()">💸 Request Withdraw to MoMo</button>
-<p style="font-size:11px;color:#9ca3af;margin-top:6px">Money sent to your MoMo after you deliver</p>
-</div>
-<div style="margin-top:14px;font-size:12px;background:#f0fdf4;padding:12px;border-radius:10px;border:1px solid #bbf7d0">
-<b>How 5% works:</b><br>
-• Buyer pays 100,000 UGX to VELA MoMo<br>
-• VELA takes 5,000 UGX (5%)<br>
-• You get 95,000 UGX after buyer confirms delivery
+<div style="margin-top:14px;background:#111827;color:white;padding:16px;border-radius:12px">
+<div style="display:flex;justify-content:space-between"><span>Available to withdraw:</span><b id="wAvailable">0 UGX</b></div>
+<button class="submit" style="background:#facc15;color:#111827" onclick="requestWithdraw()">Request Withdraw</button>
 </div>
 </div></div>
 
-<div id="pageBuyerOrders" class="page"><div class="box"><h2>📦 My Orders (Buyer)</h2><p style="font-size:12px;color:#6b7280">You paid to VELA, seller gets 95% after you confirm</p><div id="buyerOrdersList" style="margin-top:12px"></div></div></div>
-
-<div id="pageSellerOrders" class="page"><div class="box"><h2>📋 Orders to Deliver (Seller)</h2><p style="font-size:12px;color:#6b7280">Deliver and buyer will confirm → you get 95%</p><div id="sellerOrdersList" style="margin-top:12px"></div></div></div>
-
-<div id="pageAdmin" class="page"><div class="box"><h2>👑 VELA Admin - 5% Profit</h2>
-<div class="statGrid"><div class="stat"><b id="aTotalCommission">0 UGX</b><span style="font-size:10px">Total 5% Profit</span></div><div class="stat"><b id="aTotalOrders">0</b><span style="font-size:10px">Total Orders</span></div><div class="stat"><b id="aTotalSales">0 UGX</b><span style="font-size:10px">Total Sales Volume</span></div></div>
-<div id="adminOrdersList" style="margin-top:14px"></div>
-<div class="payBig" style="margin-top:14px"><h3>0783 663 151</h3><p>All 5% comes here</p></div>
-</div></div>
-
+<div id="pageBuyerOrders" class="page"><div class="box"><h2>📦 My Orders</h2><div id="buyerOrdersList" style="margin-top:12px"></div></div></div>
+<div id="pageSellerOrders" class="page"><div class="box"><h2>📋 Orders to Deliver</h2><div id="sellerOrdersList" style="margin-top:12px"></div></div></div>
+<div id="pageAdmin" class="page"><div class="box"><h2>👑 Admin - 5% Profit</h2><div class="statGrid"><div class="stat"><b id="aTotalCommission">0 UGX</b><span style="font-size:10px">5% Profit</span></div><div class="stat"><b id="aTotalOrders">0</b><span style="font-size:10px">Orders</span></div><div class="stat"><b id="aTotalSales">0 UGX</b><span style="font-size:10px">Sales Volume</span></div></div><div id="adminOrdersList" style="margin-top:14px"></div></div></div>
 <div id="pageMyProducts" class="page"><div class="box"><h2>📦 My Products</h2><div id="myGrid" class="grid" style="margin-top:12px;padding:0"></div></div></div>
-<div id="pageCart" class="page"><div class="box"><h2>🛒 My Cart</h2><div id="cartList"></div><div id="cartTotal" style="font-weight:900;margin-top:12px;border-top:2px solid #111827;padding-top:10px"></div><button id="checkoutBtn" class="submit" style="background:#25D366;display:none" onclick="checkoutCart()">Checkout All to WhatsApp (Old method)</button></div></div>
+<div id="pageCart" class="page"><div class="box"><h2>🛒 My Cart</h2><div id="cartList"></div><div id="cartTotal" style="font-weight:900;margin-top:12px;border-top:2px solid #111827;padding-top:10px"></div></div></div>
 <div id="pageWishlist" class="page"><div class="box"><h2>❤️ Wishlist</h2><div id="wishList"></div></div></div>
-<div id="pageHow" class="page"><div class="box"><h3>How VELA 5% Works</h3><br>
-<div style="background:#fef9c3;padding:14px;border-radius:12px"><b>For Buyer:</b><br>1. You see product 100,000 UGX<br>2. Click Buy Now → Pay 100,000 to VELA MoMo 0783663151<br>3. Seller delivers<br>4. You click Confirm Received → Seller gets 95,000</div>
-<br><div style="background:#dcfce7;padding:14px;border-radius:12px"><b>For Seller:</b><br>1. Buyer buys your product<br>2. You see order: Price 100,000, Commission 5,000 (5%), Your earning 95,000<br>3. You deliver<br>4. Buyer confirms → 95,000 moves to Available → You withdraw to MoMo</div>
-<br><div style="background:#111827;color:white;padding:14px;border-radius:12px"><b>For VELA (You):</b><br>• Every sale: 100,000 → You keep 5,000 automatically<br>• 10 sales/day x 100k = 1,000,000 volume → You earn 50,000/day<br>• 30 days = 1,500,000 UGX profit!</div>
-</div></div>
-<div id="pagePay" class="page"><div class="box"><h2>VELA MoMo - 5% System</h2><div class="payBig"><h1>0783 663 151</h1><p>Buyer pays here → VELA keeps 5% → Seller gets 95%</p></div></div></div>
+<div id="pageHow" class="page"><div class="box"><h3>How 5% Works</h3><br><div style="background:#fef9c3;padding:14px;border-radius:12px">Buyer pays 100,000 to VELA MoMo 0783663151<br>VELA keeps 5,000 (5%)<br>Seller gets 95,000 after buyer confirms</div></div></div>
+<div id="pagePay" class="page"><div class="box"><h2>VELA MoMo</h2><div class="payBig"><h1>0783 663 151</h1><p>5% system</p></div></div></div>
 
 <button class="fab" onclick="openModal()">+</button>
 
-<div class="modal-bg" id="modalBg"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3 id="modalTitle">Add Product</h3><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option></select><select id="pLocation" class="inp"><option>Nakivale Base Camp</option><option>Kampala</option><option>Mbarara</option></select><input id="pPrice" class="inp" type="number" placeholder="Price UGX - VELA will take 5%"><input id="pShop" class="inp" placeholder="Shop Name"><input id="pWa" class="inp" placeholder="WhatsApp 256..."><input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"><label style="display:block;background:#f3f4f6;padding:12px;text-align:center;border-radius:10px;margin-top:10px" onclick="document.getElementById('pFile').click()">📷 Choose Photo</label><img id="preview" style="width:100%;height:160px;object-fit:cover;border-radius:10px;margin-top:10px;display:none"><input id="pLink" class="inp" placeholder="Or image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit</button><input type="hidden" id="editId"></div></div>
+<div class="modal-bg" id="modalBg"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3 id="modalTitle">Add Product</h3><input id="pName" class="inp" placeholder="Product Name"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option></select><select id="pLocation" class="inp"><option>Nakivale Base Camp</option><option>Kampala</option><option>Mbarara</option></select><input id="pPrice" class="inp" type="number" placeholder="Price UGX"><input id="pShop" class="inp" placeholder="Shop Name"><input id="pWa" class="inp" placeholder="WhatsApp 256..."><input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"><label style="display:block;background:#f3f4f6;padding:12px;text-align:center;border-radius:10px;margin-top:10px" onclick="document.getElementById('pFile').click()">📷 Choose Photo</label><img id="preview" style="width:100%;height:160px;object-fit:cover;border-radius:10px;margin-top:10px;display:none"><input id="pLink" class="inp" placeholder="Or image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit</button><input type="hidden" id="editId"></div></div>
 
-<div class="modal-bg" id="loginBg"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>Sign In to VELA 5%</h3><br><button class="googleBtn" onclick="signInWithGoogle()">Continue with Google</button><p id="loginMsg" style="font-size:12px;margin-top:10px;text-align:center"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
+<div class="modal-bg" id="loginBg"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>Sign In</h3><br><button class="googleBtn" onclick="signInWithGoogle()">Continue with Google</button><p id="loginMsg" style="font-size:13px;margin-top:12px;text-align:center;color:#b45309"></p><button id="signOutBtn" class="submit" style="display:none;background:#ef4444" onclick="signOut()">Sign Out</button></div></div>
 
 <div class="modal-bg" id="profileBg"><div class="modal"><button class="closeX" onclick="closeProfile()">✕</button><h3>🏪 My Shop Profile</h3><p style="font-size:12px;color:#6b7280">Save once, auto-fill forever</p><input id="sShop" class="inp" placeholder="Shop Name"><input id="sWa" class="inp" placeholder="WhatsApp"><select id="sLoc" class="inp"><option>Nakivale Base Camp</option><option>Kampala</option><option>Mbarara</option></select>
-<p style="font-size:12px;margin-top:12px;font-weight:700">Choose Account Type:</p>
-<div style="margin-top:8px">
-<button id="roleBuyer" class="roleBtn" onclick="setRole('buyer')"><span>🛒 Buyer - I want to buy</span><span>○</span></button>
-<button id="roleSeller" class="roleBtn" onclick="setRole('seller')"><span>🏪 Seller - I want to sell (95% earnings)</span><span>○</span></button>
-<button id="roleBoth" class="roleBtn" onclick="setRole('both')"><span>👑 Both - Buy & Sell</span><span>○</span></button>
-</div>
-<button class="submit" onclick="saveSellerProfile()">Save Profile + Role</button><p id="profileMsg" style="font-size:12px;margin-top:8px;color:green"></p></div></div>
+<p style="font-size:12px;margin-top:12px;font-weight:700">Account Type:</p>
+<button id="roleBuyer" class="roleBtn" onclick="setRole('buyer')">🛒 Buyer</button>
+<button id="roleSeller" class="roleBtn" onclick="setRole('seller')">🏪 Seller (95% earnings)</button>
+<button id="roleBoth" class="roleBtn" onclick="setRole('both')">👑 Both</button>
+<button class="submit" onclick="saveSellerProfile()">Save</button><p id="profileMsg" style="font-size:12px;margin-top:8px;color:green"></p></div></div>
 
-<div id="productViewBg"><img id="pvImg" class="pv-img"><div class="pv-body"><button class="closeX" onclick="closeProductView()">✕</button><div id="pvTitle" style="font-size:18px;font-weight:900"></div><div id="pvPrice" style="font-weight:900;margin-top:6px"></div><div id="pvCommission" style="font-size:12px;background:#fef9c3;padding:8px;border-radius:8px;margin-top:8px"></div><div id="pvShop" style="font-size:12px;color:#6b7280;margin-top:6px"></div><div id="pvRating" style="margin-top:6px"></div>
-<button id="pvBuyBtn" class="pv-btn buy">💳 Buy Now - Pay to VELA (5% system)</button>
+<div id="productViewBg"><img id="pvImg" class="pv-img"><div class="pv-body"><button class="closeX" onclick="closeProductView()">✕</button><div id="pvTitle" style="font-size:18px;font-weight:900"></div><div id="pvPrice" style="font-weight:900;margin-top:6px"></div><div id="pvCommission" style="font-size:12px;background:#f3f4f6;padding:8px;border-radius:8px;margin-top:8px"></div><div id="pvShop" style="font-size:12px;color:#6b7280;margin-top:6px"></div>
+<button id="pvBuyBtn" class="pv-btn buy">💳 Buy Now - 5% to VELA, 95% to Seller</button>
 <button id="pvCartBtn" class="pv-btn cart">🛒 Add to Cart</button>
-<button id="pvCallBtn" class="pv-btn call">💬 Chat Seller</button>
+<button id="pvCallBtn" class="pv-btn call">💬 Chat</button>
 <button class="pv-btn" style="background:#f3f4f6" onclick="closeProductView()">Close</button>
 <div id="pvRemoveWrap"></div>
 </div></div>
@@ -191,49 +164,31 @@ const auth=firebase.auth();const db=firebase.firestore();
 function openProfile(){document.getElementById("profileBg").classList.add("open");loadSellerProfile();}
 function closeProfile(){document.getElementById("profileBg").classList.remove("open");}
 let selectedRole=localStorage.getItem('vela_role')||'both';
-function setRole(r){selectedRole=r;document.querySelectorAll('.roleBtn').forEach(b=>b.classList.remove('active'));document.getElementById('role'+r.charAt(0).toUpperCase()+r.slice(1)).classList.add('active');localStorage.setItem('vela_role',r);}
+function setRole(r){selectedRole=r;document.querySelectorAll('.roleBtn').forEach(b=>b.classList.remove('active'));let id='role'+r.charAt(0).toUpperCase()+r.slice(1);let el=document.getElementById(id);if(el)el.classList.add('active');localStorage.setItem('vela_role',r);}
 async function loadSellerProfile(){
  if(!currentUser) return;
- try{
-  const snap=await db.collection("vela_sellers").doc(currentUser.uid).get();
-  if(snap.exists){
-   const d=snap.data();
-   document.getElementById("sShop").value=d.shopName||"";document.getElementById("sWa").value=d.wa||"";document.getElementById("sLoc").value=d.location||"Nakivale Base Camp";
-   document.getElementById("pShop").value=d.shopName||"";document.getElementById("pWa").value=d.wa||"";document.getElementById("pLocation").value=d.location||"Nakivale Base Camp";
-   if(d.role){setRole(d.role);}
-  }
- }catch(e){}
+ try{const snap=await db.collection("vela_sellers").doc(currentUser.uid).get();if(snap.exists){const d=snap.data();document.getElementById("sShop").value=d.shopName||"";document.getElementById("sWa").value=d.wa||"";document.getElementById("sLoc").value=d.location||"Nakivale Base Camp";document.getElementById("pShop").value=d.shopName||"";document.getElementById("pWa").value=d.wa||"";if(d.role)setRole(d.role);}}catch(e){}
 }
 async function saveSellerProfile(){
  let shop=document.getElementById("sShop").value.trim();let wa=document.getElementById("sWa").value.trim();let loc=document.getElementById("sLoc").value;
  if(!shop||!wa){alert("Fill shop & phone");return;}
- let data={shopName:shop,wa:wa,location:loc,role:selectedRole,email:currentUser.email,updated:Date.now(),availableBalance:0,pendingBalance:0,totalEarnings:0,totalCommissionPaid:0};
+ let data={shopName:shop,wa:wa,location:loc,role:selectedRole,email:currentUser.email,updated:Date.now()};
  const existing=await db.collection("vela_sellers").doc(currentUser.uid).get();
- if(existing.exists){
-   const e=existing.data();
-   data.availableBalance=e.availableBalance||0;data.pendingBalance=e.pendingBalance||0;data.totalEarnings=e.totalEarnings||0;data.totalCommissionPaid=e.totalCommissionPaid||0;
- }
+ if(!existing.exists){data.availableBalance=0;data.pendingBalance=0;data.totalEarnings=0;data.totalCommissionPaid=0;data.totalSales=0;}
  await db.collection("vela_sellers").doc(currentUser.uid).set(data,{merge:true});
- localStorage.setItem('vela_seller_'+currentUser.uid,JSON.stringify(data));
- document.getElementById("pShop").value=shop;document.getElementById("pWa").value=wa;
- document.getElementById("profileMsg").innerText="✅ Saved as "+selectedRole+" - 5% system active!";
- setTimeout(closeProfile,1000);
- loadSellerData();
+ document.getElementById("profileMsg").innerText="✅ Saved as "+selectedRole;
+ setTimeout(closeProfile,800);loadSellerData();
 }
-
 let cart=JSON.parse(localStorage.getItem('vela_cart')||'[]');let wishlist=JSON.parse(localStorage.getItem('vela_wish')||'[]');
 function saveCart(){localStorage.setItem('vela_cart',JSON.stringify(cart));updateBadges();}
-function saveWish(){localStorage.setItem('vela_wish',JSON.stringify(wishlist));updateBadges();renderWishlist();}
 function updateBadges(){let q=cart.reduce((s,i)=>s+i.qty,0);document.getElementById('cartBadge').style.display=q?'block':'none';document.getElementById('cartBadge').innerText=q;}
-function addToCart(id){const p=products.find(x=>x.docId===id);if(!p)return;let it=cart.find(i=>i.docId===id);let priceNum=parseInt(String(p.price).replace(/[^0-9]/g,''))||0;if(it)it.qty++;else cart.push({docId:p.docId,name:p.name,price:priceNum,img:p.img,wa:p.wa,qty:1,sellerUid:p.ownerUid});saveCart();render();renderCart();}
-function renderCart(){let list=document.getElementById('cartList');let totalEl=document.getElementById('cartTotal');if(cart.length===0){list.innerHTML='<p style="text-align:center;color:#9ca3af;padding:20px">Empty</p>';totalEl.innerText='';return;}let total=0;list.innerHTML=cart.map(i=>{total+=i.price*i.qty;return `<div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #eee"><img src="${i.img}" style="width:50px;height:50px;border-radius:8px"><div style="flex:1"><b style="font-size:13px">${i.name}</b><div>${formatMoney(i.price)} UGX</div><div>x${i.qty} <button onclick="removeFromCart('${i.docId}')" style="border:none;background:#ffe4e6;color:red;padding:2px 6px;border-radius:6px;margin-left:8px">Remove</button></div></div></div>`}).join('');totalEl.innerText='Total: '+formatMoney(total)+' UGX';}
+function addToCart(id){const p=products.find(x=>x.docId===id);if(!p)return;let it=cart.find(i=>i.docId===id);let priceNum=parseInt(String(p.price).replace(/[^0-9]/g,''))||0;if(it)it.qty++;else cart.push({docId:p.docId,name:p.name,price:priceNum,img:p.img,qty:1});saveCart();render();renderCart();}
+function renderCart(){let list=document.getElementById('cartList');let totalEl=document.getElementById('cartTotal');if(cart.length===0){list.innerHTML='<p style="text-align:center;color:#9ca3af;padding:20px">Empty</p>';totalEl.innerText='';return;}let total=0;list.innerHTML=cart.map(i=>{total+=i.price*i.qty;return `<div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #eee"><img src="${i.img}" style="width:50px;height:50px;border-radius:8px"><div style="flex:1"><b>${i.name}</b><div>${formatMoney(i.price)} UGX x${i.qty}</div></div><button onclick="removeFromCart('${i.docId}')" style="border:none;background:#ffe4e6;color:red;padding:4px 8px;border-radius:6px">X</button></div>`}).join('');totalEl.innerText='Total: '+formatMoney(total)+' UGX';}
 function removeFromCart(id){cart=cart.filter(i=>i.docId!==id);saveCart();render();renderCart();}
-function toggleWish(id){let idx=wishlist.indexOf(id);if(idx>=0)wishlist.splice(idx,1);else wishlist.push(id);saveWish();render();}
-function renderWishlist(){let el=document.getElementById('wishList');if(wishlist.length===0){el.innerHTML='<p style="text-align:center;color:#9ca3af">No wishlist</p>';return;}let items=products.filter(p=>wishlist.includes(p.docId));el.innerHTML=items.map(p=>`<div style="display:flex;gap:10px;padding:10px 0"><img src="${p.img}" style="width:50px;height:50px;border-radius:8px"><div style="flex:1"><b>${p.name}</b><div>${formatMoney(p.price)} UGX</div><button class="card-add" onclick="addToCart('${p.docId}')">Add to Cart</button></div></div>`).join('');}
-function checkoutCart(){let total=cart.reduce((s,i)=>s+i.price*i.qty,0);let text='Hello VELA, I order:\n'+cart.map(i=>`${i.name} x${i.qty}`).join('\n')+`\nTotal ${formatMoney(total)} UGX`;window.open('https://wa.me/256783663151?text='+encodeURIComponent(text),'_blank');}
-
+function toggleWish(id){let idx=wishlist.indexOf(id);if(idx>=0)wishlist.splice(idx,1);else wishlist.push(id);localStorage.setItem('vela_wish',JSON.stringify(wishlist));render();}
+function renderWishlist(){let el=document.getElementById('wishList');if(wishlist.length===0){el.innerHTML='<p style="text-align:center;color:#9ca3af">No wishlist</p>';return;}let items=products.filter(p=>wishlist.includes(p.docId));el.innerHTML=items.map(p=>`<div style="display:flex;gap:10px;padding:10px 0"><img src="${p.img}" style="width:50px;height:50px;border-radius:8px"><div style="flex:1"><b>${p.name}</b><div>${formatMoney(p.price)} UGX</div></div></div>`).join('');}
 let currentViewId=null;
-function getRatingHtml(s,c){if(!c)return '<span style="color:#9ca3af">No ratings</span>';return `⭐ ${(s/c).toFixed(1)} (${c})`;}
+function getRatingHtml(s,c){if(!c)return '';}
 
 function toggleMenu(){document.getElementById("sideMenu").classList.toggle("open");document.getElementById("sideOverlay").classList.toggle("open");}
 let currentUser=null,compressedImageData=null,products=[],orders=[];
@@ -243,15 +198,31 @@ function openChooser(){document.getElementById('locationChooser').classList.remo
 (function(){const s=localStorage.getItem('vela_city');if(s)document.getElementById('locationChooser').classList.add('hide');})();
 function openLogin(){document.getElementById("loginBg").classList.add("open")}
 function closeLogin(){document.getElementById("loginBg").classList.remove("open")}
+
+// FIXED GOOGLE SIGN IN
 function signInWithGoogle(){
   const provider=new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({prompt:'select_account'});
   document.getElementById("loginMsg").innerText="Opening Google...";
-  auth.signInWithPopup(provider).then(r=>{document.getElementById("loginMsg").innerText="Welcome "+r.user.email;setTimeout(closeLogin,600);}).catch(e=>{
-    console.log(e.code); if(e.code==='auth/unauthorized-domain'){alert("Add domain "+window.location.hostname+" to Firebase Authorized domains");document.getElementById("loginMsg").innerText="❌ Add "+window.location.hostname+" to Firebase Authorized Domains";}else{auth.signInWithRedirect(provider);}
+  auth.signInWithPopup(provider).then(r=>{
+    document.getElementById("loginMsg").innerText="✅ Welcome "+r.user.email;
+    setTimeout(closeLogin,600);
+  }).catch(e=>{
+    console.log("Google error", e.code, e.message);
+    if(e.code==='auth/unauthorized-domain'){
+      document.getElementById("loginMsg").innerHTML="❌ Domain not allowed<br><br>Add this domain in Firebase:<br><b>"+window.location.hostname+"</b><br><br>Go to Firebase Console > Authentication > Settings > Authorized domains > Add domain";
+    }else if(e.code==='auth/operation-not-allowed'){
+      document.getElementById("loginMsg").innerText="❌ Google provider is OFF - Enable it in Firebase > Authentication > Sign-in method > Google > Enable";
+    }else if(e.code==='auth/popup-blocked'){
+      document.getElementById("loginMsg").innerText="Popup blocked, redirecting...";
+      auth.signInWithRedirect(provider);
+    }else{
+      // Try redirect as fallback for mobile
+      auth.signInWithRedirect(provider);
+    }
   });
 }
-auth.getRedirectResult().then(r=>{if(r&&r.user)closeLogin();});
+auth.getRedirectResult().then(r=>{if(r&&r.user){closeLogin();}}).catch(e=>{document.getElementById("loginMsg").innerText="❌ "+e.message;});
 auth.onAuthStateChanged(u=>{currentUser=u;if(u){document.getElementById("menuAuth").innerText="🟢 "+u.email;document.getElementById("signOutBtn").style.display="block";loadSellerProfile();renderMyProducts();loadOrders();loadSellerData();}else{document.getElementById("menuAuth").innerText="🔐 Sign In";document.getElementById("signOutBtn").style.display="none";}});
 function signOut(){auth.signOut();closeLogin();}
 const CATS=["All","Supermarket","Phones & Tablets","Home & Office","Electronics","Fashion"];
@@ -263,7 +234,7 @@ function closeModal(){document.getElementById("modalBg").classList.remove("open"
 function previewFile(input){if(input.files&&input.files[0]){const reader=new FileReader();reader.onload=e=>{const img=new Image();img.onload=()=>{const canvas=document.createElement('canvas');let w=img.width,h=img.height;const max=800;if(w>h){if(w>max){h*=max/w;w=max;}}else{if(h>max){w*=max/h;h=max;}}canvas.width=w;canvas.height=h;canvas.getContext('2d').drawImage(img,0,0,w,h);compressedImageData=canvas.toDataURL('image/jpeg',0.6);document.getElementById("preview").src=compressedImageData;document.getElementById("preview").style.display="block";};img.src=e.target.result;};reader.readAsDataURL(input.files[0]);}}
 function editProduct(id){const p=products.find(x=>x.docId===id);if(!p)return;openModal();document.getElementById("modalTitle").innerText="Edit Product";document.getElementById("pName").value=p.name;document.getElementById("pCat").value=p.cat;document.getElementById("pPrice").value=String(p.price).replace(/[^0-9]/g,'');document.getElementById("pLocation").value=p.location;document.getElementById("preview").src=p.img;document.getElementById("preview").style.display="block";document.getElementById("pLink").value=p.img;document.getElementById("editId").value=id;document.getElementById("submitBtn").innerText="Update";}
 async function submitProduct(){
- let n=document.getElementById("pName").value.trim(),c=document.getElementById("pCat").value,p=document.getElementById("pPrice").value.trim(),s=document.getElementById("sShop").value||document.getElementById("pShop").value.trim(),w=document.getElementById("sWa").value||document.getElementById("pWa").value.trim(),l=document.getElementById("pLink").value.trim(),loc=document.getElementById("pLocation").value,editId=document.getElementById("editId").value;
+ let n=document.getElementById("pName").value.trim(),c=document.getElementById("pCat").value,p=document.getElementById("pPrice").value.trim(),s=document.getElementById("pShop").value.trim(),w=document.getElementById("pWa").value.trim(),l=document.getElementById("pLink").value.trim(),loc=document.getElementById("pLocation").value,editId=document.getElementById("editId").value;
  if(!n||!p||!s){alert("Fill Name, Price, Shop");return;}
  p=p.replace(/[^0-9]/g,'');
  let btn=document.getElementById("submitBtn");btn.disabled=true;btn.innerText="Saving...";
@@ -277,14 +248,14 @@ async function submitProduct(){
 function render(){
  let q=(document.getElementById("search")?.value||"").toLowerCase();
  let list=products.filter(p=>{let mc=activeCat==="All"||p.cat===activeCat;let mq=!q||p.name.toLowerCase().includes(q)||p.shop.toLowerCase().includes(q);return mc&&mq;});
- let html=list.length?list.map(p=>{let wished=wishlist.includes(p.docId);let commission=Math.round((parseInt(String(p.price).replace(/[^0-9]/g,''))||0)*0.05);return `<div class="card"><button class="wishBtn" onclick="toggleWish('${p.docId}')">${wished?'❤️':'🤍'}</button><img src="${p.img}" onclick="openProductView('${p.docId}')"><div class="card-body"><div class="card-title" onclick="openProductView('${p.docId}')">${p.name}</div><div class="card-price">${formatMoney(p.price)} UGX</div><div style="font-size:10px;color:#6b7280">Seller gets ${formatMoney((p.price||0)-commission)} (95%)</div><div class="card-rating">${getRatingHtml(p.ratingSum||0,p.ratingCount||0)}</div><button class="card-add" onclick="openProductView('${p.docId}')">Buy Now</button></div></div>`}).join(""):`<div style="text-align:center;padding:40px;color:#9ca3af">No products</div>`;
+ let html=list.length?list.map(p=>{return `<div class="card"><button class="wishBtn" onclick="toggleWish('${p.docId}')">🤍</button><img src="${p.img}" onclick="openProductView('${p.docId}')"><div class="card-body"><div class="card-title" onclick="openProductView('${p.docId}')">${p.name}</div><div class="card-price">${formatMoney(p.price)} UGX</div><button class="card-add" onclick="openProductView('${p.docId}')">View</button></div></div>`}).join(""):`<div style="text-align:center;padding:40px;color:#9ca3af">No products<br>Be first to add!</div>`;
  document.getElementById("grid").innerHTML=html;updateBadges();
 }
 function renderMyProducts(){
- if(!currentUser){document.getElementById("myGrid").innerHTML='<div style="text-align:center;padding:20px">Sign in</div>';return;}
+ if(!currentUser){document.getElementById("myGrid").innerHTML='<div style="text-align:center;padding:20px">Sign in to see products</div>';return;}
  let my=products.filter(p=>p.ownerUid===currentUser.uid);
  if(my.length===0){document.getElementById("myGrid").innerHTML='<div style="text-align:center;padding:20px">No products yet</div>';return;}
- document.getElementById("myGrid").innerHTML=my.map(p=>{let comm=Math.round(p.price*0.05);return `<div class="card"><img src="${p.img}"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${formatMoney(p.price)} UGX</div><div style="font-size:10px">You get ${formatMoney(p.price-comm)} (95%) • VELA 5% = ${formatMoney(comm)}</div><div style="display:flex;gap:6px;margin-top:6px"><button class="card-add" style="flex:1;background:#facc15;color:#111827" onclick="editProduct('${p.docId}')">Edit</button><button class="card-add" style="flex:1;background:#ffe4e6;color:red" onclick="removeProd('${p.docId}')">Delete</button></div></div></div>`}).join('');
+ document.getElementById("myGrid").innerHTML=my.map(p=>{let comm=Math.round(p.price*0.05);return `<div class="card"><img src="${p.img}"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${formatMoney(p.price)} UGX</div><div style="font-size:10px">You: ${formatMoney(p.price-comm)} (95%) | VELA: ${formatMoney(comm)} (5%)</div><div style="display:flex;gap:6px;margin-top:6px"><button class="card-add" style="flex:1;background:#facc15;color:#111827" onclick="editProduct('${p.docId}')">Edit</button><button class="card-add" style="flex:1;background:#ffe4e6;color:red" onclick="removeProd('${p.docId}')">Delete</button></div></div></div>`}).join('');
 }
 function openProductView(id){
  const p=products.find(x=>x.docId===id);if(!p)return;currentViewId=id;
@@ -292,118 +263,72 @@ function openProductView(id){
  let commission=Math.round(priceNum*0.05);
  let earning=priceNum-commission;
  document.getElementById("pvImg").src=p.img;document.getElementById("pvTitle").innerText=p.name;document.getElementById("pvPrice").innerText=formatMoney(priceNum)+" UGX • "+p.cat;
- document.getElementById("pvCommission").innerHTML=`💰 Price: <b>${formatMoney(priceNum)} UGX</b><br>🏦 VELA commission (5%): <b style="color:#d97706">${formatMoney(commission)} UGX</b><br>🏪 Seller gets (95%): <b style="color:#15803d">${formatMoney(earning)} UGX</b>`;
- document.getElementById("pvShop").innerText="🏪 "+p.shop+" • 📍 "+p.location;document.getElementById("pvRating").innerHTML=getRatingHtml(p.ratingSum||0,p.ratingCount||0);
+ document.getElementById("pvCommission").innerHTML=`Price: <b>${formatMoney(priceNum)} UGX</b><br>VELA (5%): ${formatMoney(commission)} UGX<br>Seller (95%): ${formatMoney(earning)} UGX`;
+ document.getElementById("pvShop").innerText="🏪 "+p.shop+" • 📍 "+p.location;
  document.getElementById("pvBuyBtn").onclick=()=>buyNowWithCommission(id);
- document.getElementById("pvCartBtn").onclick=()=>{addToCart(id);document.getElementById("pvCartBtn").innerText="✅ Added!";};
+ document.getElementById("pvCartBtn").onclick=()=>{addToCart(id);document.getElementById("pvCartBtn").innerText="✅ Added";};
  document.getElementById("pvCallBtn").onclick=()=>window.open('https://wa.me/'+(p.wa||'').replace(/[^0-9]/g,'')+'?text=Hi VELA, I want '+encodeURIComponent(p.name),'_blank');
  let rw=document.getElementById("pvRemoveWrap");if(currentUser&&p.ownerUid===currentUser.uid){rw.innerHTML=`<button class="pv-btn" style="background:#ffe4e6;color:red" onclick="removeProd('${p.docId}');closeProductView();">Delete</button>`;}else rw.innerHTML="";
  document.getElementById("productViewBg").classList.add("open");
 }
 function closeProductView(){document.getElementById("productViewBg").classList.remove("open");}
-
-// 5% COMMISSION BUY LOGIC
 async function buyNowWithCommission(productId){
  if(!currentUser){openLogin();return;}
- const p=products.find(x=>x.docId===productId);if(!p){alert("Product not found");return;}
+ const p=products.find(x=>x.docId===productId);if(!p)return;
  let priceNum=parseInt(String(p.price).replace(/[^0-9]/g,''))||0;
  let commission=Math.round(priceNum*0.05);
  let earning=priceNum-commission;
- if(confirm(`BUY with VELA 5% system?\n\nProduct: ${p.name}\nPrice: ${formatMoney(priceNum)} UGX\nVELA Commission (5%): ${formatMoney(commission)} UGX\nSeller Gets (95%): ${formatMoney(earning)} UGX\n\nYou will pay ${formatMoney(priceNum)} UGX to VELA MoMo 0783663151\nSeller will deliver, then you confirm.`)){
+ if(confirm(`Buy with 5% system?\n\n${p.name}\nPrice: ${formatMoney(priceNum)} UGX\nVELA 5%: ${formatMoney(commission)}\nSeller 95%: ${formatMoney(earning)}\n\nPay to VELA MoMo 0783663151`)){
    try{
-     const order={
-       productId:productId,
-       productName:p.name,
-       productImg:p.img,
-       price:priceNum,
-       commission:commission,
-       sellerEarning:earning,
-       buyerUid:currentUser.uid,
-       buyerEmail:currentUser.email,
-       sellerUid:p.ownerUid,
-       sellerShop:p.shop,
-       sellerWa:p.wa,
-       status:"paid", // paid to VELA, waiting delivery
-       buyerConfirmed:false,
-       sellerConfirmed:false,
-       created:Date.now()
-     };
-     const docRef=await db.collection("vela_orders").add(order);
-     // Update seller pending balance
-     try{
-       const sellerRef=db.collection("vela_sellers").doc(p.ownerUid);
-       await db.collection("vela_sellers").doc(p.ownerUid).set({pendingBalance:firebase.firestore.FieldValue.increment(earning),totalCommissionPaid:firebase.firestore.FieldValue.increment(commission),totalSales:firebase.firestore.FieldValue.increment(1)},{merge:true});
-     }catch(e){console.log("seller update",e);}
-     // Update platform total
-     try{await db.collection("vela_platform").doc("stats").set({totalCommission:firebase.firestore.FieldValue.increment(commission),totalSales:firebase.firestore.FieldValue.increment(priceNum),totalOrders:firebase.firestore.FieldValue.increment(1)},{merge:true});}catch(e){}
-     alert(`✅ Order placed! Order ID: ${docRef.id}\n\nPay ${formatMoney(priceNum)} UGX to VELA MoMo 0783663151\nSend MoMo proof to seller: ${p.wa}\n\nVELA keeps ${formatMoney(commission)} (5%)\nSeller gets ${formatMoney(earning)} (95%) after you confirm delivery.`);
-     closeProductView();
-     showPage('BuyerOrders');
-     loadOrders();
-   }catch(e){alert("Error: "+e.message);}
+     const order={productId:productId,productName:p.name,productImg:p.img,price:priceNum,commission:commission,sellerEarning:earning,buyerUid:currentUser.uid,buyerEmail:currentUser.email,sellerUid:p.ownerUid,sellerShop:p.shop,sellerWa:p.wa,status:"paid",buyerConfirmed:false,created:Date.now()};
+     await db.collection("vela_orders").add(order);
+     await db.collection("vela_sellers").doc(p.ownerUid).set({pendingBalance:firebase.firestore.FieldValue.increment(earning),totalCommissionPaid:firebase.firestore.FieldValue.increment(commission),totalSales:firebase.firestore.FieldValue.increment(1)},{merge:true});
+     await db.collection("vela_platform").doc("stats").set({totalCommission:firebase.firestore.FieldValue.increment(commission),totalSales:firebase.firestore.FieldValue.increment(priceNum),totalOrders:firebase.firestore.FieldValue.increment(1)},{merge:true});
+     alert(`✅ Order placed!\nPay ${formatMoney(priceNum)} UGX to 0783663151`);
+     closeProductView();showPage('BuyerOrders');loadOrders();
+   }catch(e){alert(e.message);}
  }
 }
-
 async function loadOrders(){
  if(!currentUser) return;
  try{
-   // Buyer orders
    const buyerSnap=await db.collection("vela_orders").where("buyerUid","==",currentUser.uid).orderBy("created","desc").get();
-   let buyerHtml=""; buyerSnap.forEach(doc=>{let o=doc.data();o.id=doc.id;let statusText=o.status==="paid"?"💳 Paid to VELA - Waiting delivery":o.status==="shipped"?"🚚 Shipped - Confirm when received":o.status==="completed"?"✅ Completed":"";buyerHtml+=`<div class="orderCard"><div style="display:flex;gap:10px"><img src="${o.productImg}" style="width:50px;height:50px;border-radius:8px"><div style="flex:1"><b style="font-size:13px">${o.productName}</b><div style="font-size:12px">${formatMoney(o.price)} UGX • Commission 5% = ${formatMoney(o.commission)} • Seller ${formatMoney(o.sellerEarning)}</div><div style="font-size:11px;color:#6b7280">${statusText}</div><div style="font-size:10px;color:#9ca3af">Seller: ${o.sellerShop} • ${o.sellerWa}</div></div></div><div style="margin-top:8px;display:flex;gap:6px">${o.status!=="completed"?`<button class="card-add" style="background:#25D366" onclick="confirmDelivery('${o.id}')">✅ Confirm Received (Release 95% to seller)</button>`:`<span style="font-size:12px;color:green">✅ You confirmed - Seller got ${formatMoney(o.sellerEarning)}</span>`}</div></div>`;});
-   if(!buyerHtml) buyerHtml='<p style="text-align:center;color:#9ca3af;padding:20px">No orders yet - Buy a product with 5% system</p>';
-   document.getElementById("buyerOrdersList").innerHTML=buyerHtml;
-   // Seller orders
+   let buyerHtml=""; buyerSnap.forEach(doc=>{let o=doc.data();o.id=doc.id; buyerHtml+=`<div class="orderCard"><div style="display:flex;gap:10px"><img src="${o.productImg}" style="width:50px;height:50px;border-radius:8px"><div style="flex:1"><b>${o.productName}</b><div style="font-size:12px">${formatMoney(o.price)} UGX • VELA 5% ${formatMoney(o.commission)} • Seller ${formatMoney(o.sellerEarning)}</div><div style="font-size:11px">${o.status}</div></div></div>${o.status!=="completed"?`<button class="submit" style="background:#25D366;margin-top:8px" onclick="confirmDelivery('${o.id}')">✅ Confirm Received</button>`:`<div style="color:green;font-size:12px;margin-top:6px">Completed</div>`}</div>`;});
+   document.getElementById("buyerOrdersList").innerHTML=buyerHtml||'<p style="text-align:center;color:#9ca3af;padding:20px">No orders</p>';
    const sellerSnap=await db.collection("vela_orders").where("sellerUid","==",currentUser.uid).orderBy("created","desc").get();
-   let sellerHtml=""; sellerSnap.forEach(doc=>{let o=doc.data();o.id=doc.id; sellerHtml+=`<div class="orderCard"><div style="display:flex;gap:10px"><img src="${o.productImg}" style="width:50px;height:50px;border-radius:8px"><div style="flex:1"><b>${o.productName}</b><div style="font-size:12px">${formatMoney(o.price)} UGX • You get ${formatMoney(o.sellerEarning)} (95%) • VELA ${formatMoney(o.commission)} (5%)</div><div style="font-size:11px">Buyer: ${o.buyerEmail} • Status: ${o.status}</div></div></div><div style="margin-top:8px;display:flex;gap:6px">${o.status==="paid"?`<button class="card-add" style="background:#facc15;color:#111827" onclick="markShipped('${o.id}')">🚚 Mark as Shipped</button>`:`<span style="font-size:12px">${o.status}</span>`}</div></div>`;});
-   if(!sellerHtml) sellerHtml='<p style="text-align:center;color:#9ca3af;padding:20px">No orders yet - Someone must buy your product</p>';
-   document.getElementById("sellerOrdersList").innerHTML=sellerHtml;
-   // Admin
-   try{
-     const allSnap=await db.collection("vela_orders").orderBy("created","desc").limit(30).get();
-     let adminHtml="";let totalComm=0,totalSales=0; allSnap.forEach(doc=>{let o=doc.data();totalComm+=o.commission||0;totalSales+=o.price||0; adminHtml+=`<div class="orderCard" style="font-size:12px"><b>${o.productName}</b> • ${formatMoney(o.price)} • Commission ${formatMoney(o.commission)} (5%) • Seller ${o.sellerShop} → Buyer ${o.buyerEmail} • ${o.status}</div>`;});
-     document.getElementById("adminOrdersList").innerHTML=adminHtml||'<p>No orders</p>';
-     const platformSnap=await db.collection("vela_platform").doc("stats").get();
-     if(platformSnap.exists){let s=platformSnap.data();document.getElementById("aTotalCommission").innerText=formatMoney(s.totalCommission||totalComm)+" UGX";document.getElementById("aTotalSales").innerText=formatMoney(s.totalSales||totalSales)+" UGX";document.getElementById("aTotalOrders").innerText=s.totalOrders||allSnap.size;}
-   }catch(e){}
- }catch(e){console.log("loadOrders error",e); if(e.message.includes("index")){alert("Firebase needs index for orders - Go to Firebase Console → Firestore → Indexes and create index for vela_orders: buyerUid + created desc, sellerUid + created desc");}}
+   let sellerHtml=""; sellerSnap.forEach(doc=>{let o=doc.data();o.id=doc.id; sellerHtml+=`<div class="orderCard"><b>${o.productName}</b><div style="font-size:12px">${formatMoney(o.price)} • You get ${formatMoney(o.sellerEarning)} (95%)</div><div style="font-size:11px">${o.buyerEmail} • ${o.status}</div>${o.status==="paid"?`<button class="submit" style="background:#facc15;color:#111827;margin-top:8px" onclick="markShipped('${o.id}')">Mark Shipped</button>`:``}</div>`;});
+   document.getElementById("sellerOrdersList").innerHTML=sellerHtml||'<p style="text-align:center;color:#9ca3af;padding:20px">No orders</p>';
+   const allSnap=await db.collection("vela_orders").orderBy("created","desc").limit(30).get();
+   let adminHtml=""; let totalComm=0,totalSales=0; allSnap.forEach(doc=>{let o=doc.data();totalComm+=o.commission||0;totalSales+=o.price||0; adminHtml+=`<div class="orderCard" style="font-size:12px"><b>${o.productName}</b> • ${formatMoney(o.price)} • Commission ${formatMoney(o.commission)} • ${o.sellerShop}</div>`;});
+   document.getElementById("adminOrdersList").innerHTML=adminHtml||'<p>No orders</p>';
+   try{const platformSnap=await db.collection("vela_platform").doc("stats").get();if(platformSnap.exists){let s=platformSnap.data();document.getElementById("aTotalCommission").innerText=formatMoney(s.totalCommission||totalComm)+" UGX";document.getElementById("aTotalSales").innerText=formatMoney(s.totalSales||totalSales)+" UGX";document.getElementById("aTotalOrders").innerText=s.totalOrders||allSnap.size;}}catch(e){}
+ }catch(e){console.log(e); if(e.message.includes("index")){document.getElementById("buyerOrdersList").innerHTML="Need Firestore index - Check Firebase Console > Firestore > Indexes";}}
 }
-
 async function loadSellerData(){
  if(!currentUser) return;
- try{
-   const snap=await db.collection("vela_sellers").doc(currentUser.uid).get();
-   if(snap.exists){let d=snap.data();document.getElementById("sPending").innerText=formatMoney(d.pendingBalance||0)+" UGX";document.getElementById("sAvailable").innerText=formatMoney(d.availableBalance||0)+" UGX";document.getElementById("wAvailable").innerText=formatMoney(d.availableBalance||0)+" UGX";document.getElementById("sTotalEarn").innerText=formatMoney(d.totalEarnings||0)+" UGX";document.getElementById("sCommission").innerText=formatMoney(d.totalCommissionPaid||0)+" UGX";document.getElementById("sTotalSales").innerText=d.totalSales||0;document.getElementById("sTotalOrders").innerText=d.totalSales||0;}
- }catch(e){}
+ try{const snap=await db.collection("vela_sellers").doc(currentUser.uid).get();if(snap.exists){let d=snap.data();document.getElementById("sPending").innerText=formatMoney(d.pendingBalance||0)+" UGX";document.getElementById("sAvailable").innerText=formatMoney(d.availableBalance||0)+" UGX";document.getElementById("wAvailable").innerText=formatMoney(d.availableBalance||0)+" UGX";document.getElementById("sTotalEarn").innerText=formatMoney(d.totalEarnings||0)+" UGX";document.getElementById("sCommission").innerText=formatMoney(d.totalCommissionPaid||0)+" UGX";document.getElementById("sTotalSales").innerText=d.totalSales||0;document.getElementById("sTotalOrders").innerText=d.totalSales||0;}}catch(e){}
 }
-
-async function markShipped(orderId){try{await db.collection("vela_orders").doc(orderId).update({status:"shipped"});alert("Marked as shipped - Buyer will confirm");loadOrders();}catch(e){alert(e.message);}}
+async function markShipped(orderId){await db.collection("vela_orders").doc(orderId).update({status:"shipped"});loadOrders();}
 async function confirmDelivery(orderId){
- if(!confirm("Confirm you received product? This will release 95% to seller and 5% stays with VELA.")) return;
- try{
-   const orderDoc=await db.collection("vela_orders").doc(orderId).get(); if(!orderDoc.exists) return; let o=orderDoc.data();
-   await db.collection("vela_orders").doc(orderId).update({status:"completed",buyerConfirmed:true});
-   // Move seller pending to available
-   await db.collection("vela_sellers").doc(o.sellerUid).set({pendingBalance:firebase.firestore.FieldValue.increment(-o.sellerEarning),availableBalance:firebase.firestore.FieldValue.increment(o.sellerEarning),totalEarnings:firebase.firestore.FieldValue.increment(o.sellerEarning)},{merge:true});
-   alert(`✅ Confirmed! Seller got ${formatMoney(o.sellerEarning)} UGX (95%)\nVELA kept ${formatMoney(o.commission)} UGX (5%)`);
-   loadOrders();loadSellerData();
- }catch(e){alert(e.message);}
+ if(!confirm("Confirm received? Release 95% to seller?")) return;
+ const orderDoc=await db.collection("vela_orders").doc(orderId).get(); let o=orderDoc.data();
+ await db.collection("vela_orders").doc(orderId).update({status:"completed",buyerConfirmed:true});
+ await db.collection("vela_sellers").doc(o.sellerUid).set({pendingBalance:firebase.firestore.FieldValue.increment(-o.sellerEarning),availableBalance:firebase.firestore.FieldValue.increment(o.sellerEarning),totalEarnings:firebase.firestore.FieldValue.increment(o.sellerEarning)},{merge:true});
+ alert(`✅ Seller got ${formatMoney(o.sellerEarning)} (95%)`);
+ loadOrders();loadSellerData();
 }
 async function requestWithdraw(){
- if(!currentUser){openLogin();return;}
- const snap=await db.collection("vela_sellers").doc(currentUser.uid).get(); if(!snap.exists) return; let d=snap.data();
- let avail=d.availableBalance||0;
- if(avail<=0){alert("No available balance to withdraw - Wait buyer confirmation");return;}
- let wa=d.wa||"";
- if(confirm(`Request withdraw ${formatMoney(avail)} UGX to your MoMo ${wa}?\n\nVELA will send within 24h.`)){
-   await db.collection("vela_withdrawals").add({sellerUid:currentUser.uid,amount:avail,wa:wa,shop:d.shopName,status:"pending",created:Date.now()});
+ const snap=await db.collection("vela_sellers").doc(currentUser.uid).get(); let d=snap.data(); let avail=d.availableBalance||0;
+ if(avail<=0){alert("No balance");return;}
+ if(confirm(`Withdraw ${formatMoney(avail)} to ${d.wa}?`)){
+   await db.collection("vela_withdrawals").add({sellerUid:currentUser.uid,amount:avail,wa:d.wa,shop:d.shopName,status:"pending",created:Date.now()});
    await db.collection("vela_sellers").doc(currentUser.uid).update({availableBalance:0});
-   alert("Withdraw request sent! VELA will send "+formatMoney(avail)+" UGX to "+wa);
+   alert("Request sent - VELA will send "+formatMoney(avail));
    loadSellerData();
  }
 }
-
 async function removeProd(id){if(confirm("Delete?"))await db.collection("vela_products").doc(id).delete();}
-function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));let el=document.getElementById('page'+name);if(el)el.classList.add('active');if(name==='Cart')renderCart();if(name==='Wishlist')renderWishlist();if(name==='MyProducts')renderMyProducts();if(name==='BuyerOrders'||name==='SellerOrders'||name==='SellerDashboard'||name==='Admin'){loadOrders();loadSellerData();}}
+function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));let el=document.getElementById('page'+name);if(el)el.classList.add('active');if(name==='BuyerOrders'||name==='SellerOrders'||name==='SellerDashboard'||name==='Admin'){loadOrders();loadSellerData();}if(name==='Cart')renderCart();if(name==='Wishlist')renderWishlist();if(name==='MyProducts')renderMyProducts();}
 db.collection("vela_products").orderBy("created","desc").onSnapshot(snap=>{let np=[];snap.forEach(doc=>{let d=doc.data();d.docId=doc.id;np.push(d);});products=np;try{localStorage.setItem('vela_cache',JSON.stringify(products).substring(0,800000));}catch(e){}render();renderMyProducts();});
 db.collection("vela_orders").onSnapshot(()=>{loadOrders();loadSellerData();});
 initCats();render();renderCart();renderWishlist();updateBadges();setRole(selectedRole);

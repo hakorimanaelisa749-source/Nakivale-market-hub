@@ -3,61 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- GOOGLE LIKE JUMIA - SEO -->
-<title>VELA Uganda | N°1 Nakivale Market - Baskets, Mats, Jugs</title>
-<meta name="description" content="VELA Uganda - Buy Baskets, Mats, Jugs in Nakivale Isingiro. Pay to MoMo Pay 47852783 - Safe Escrow - Fast Delivery in Isingiro, Mbarara, Uganda.">
-<meta name="keywords" content="Vela Uganda, Vela Nakivale, Baskets Nakivale, Mats Isingiro, Vela market">
-<meta property="og:title" content="VELA Uganda - Nakivale Online Market">
-<meta property="og:description" content="Pay to 47852783 - Safe Escrow Shopping in Nakivale">
-<meta property="og:url" content="https://vela.ug">
-<meta property="og:type" content="website">
-<link rel="canonical" href="https://vela.ug">
-
+<title>VELA Uganda | N°1 Nakivale Market</title>
+<meta name="description" content="VELA Uganda - Pay to MoMo Pay 47852783 - Safe Escrow">
 <style>
-body{font-family:system-ui;background:#f3f4f6;margin:0;padding:12px}
+body{font-family:system-ui;background:#f3f4f6;margin:0;padding:0}
+.header{background:black;color:#ffcc00;padding:12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.header a{color:#ffcc00;text-decoration:none;font-weight:bold;margin-left:12px}
+.main{padding:12px}
 .card{background:white;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 .btn{padding:13px;border-radius:10px;border:none;width:100%;font-weight:bold;margin-top:10px;cursor:pointer}
 .btn-momo{background:black;color:#ffcc00;font-size:15px}
+.btn-home{background:#ffcc00;color:black}
 .badge{padding:5px 10px;border-radius:20px;font-size:11px;font-weight:bold;float:right}
 .awaiting{background:#fff3cd;color:#856404}
 .paid{background:#cce5ff;color:#004085}
 .completed{background:#d4edda;color:#155724}
 .ref{background:#eee;padding:4px 8px;border-radius:6px;font-family:monospace;font-weight:bold}
 .pay-box{background:#fffbe6;border:2px dashed #ffcc00;border-radius:10px;padding:12px;margin-top:12px}
-.amb-banner{background:black;color:#ffcc00;padding:10px;text-align:center;font-size:13px;position:sticky;top:0;z-index:99}
+.home-hero{background:white;border-radius:14px;padding:20px;text-align:center;margin-bottom:14px}
 </style>
 </head>
 <body>
 
+<!-- HEADER WITH HOME BUTTON - THIS WAS MISSING -->
+<div class="header">
+  <div><a href="?page=home">🛒 VELA Uganda</a></div>
+  <div>
+    <a href="?page=home">Home</a>
+    <a href="?page=orders">Orders</a>
+  </div>
+</div>
+
 <div id="ambTop"></div>
-
-<h2>🛒 VELA Uganda</h2>
-<p style="font-size:13px;color:#666">Pay safely to MoMo Pay 47852783 - Escrow protected</p>
-
-<div id="orders"></div>
+<div class="main" id="content"></div>
 
 <script>
 const MOMO_MERCHANT_CODE = "47852783";
 const COMMISSION_RATE = 0.05;
 const isAdmin = window.location.search.includes("admin=1");
 
-// ===== AMBASSADOR CODE SYSTEM =====
+function getPage(){
+  let p = new URLSearchParams(window.location.search).get('page');
+  return p || 'home'; // default home
+}
+
 function getAmbassadorCode(){
   let urlParams = new URLSearchParams(window.location.search);
   let ref = urlParams.get('ref');
   if(ref){
-    ref = ref.toUpperCase().replace(/[^A-Z0-9]/g,''); // clean JOSE10
+    ref = ref.toUpperCase().replace(/[^A-Z0-9]/g,'');
     localStorage.setItem('vela_ref', ref);
     return ref;
   }
   return localStorage.getItem('vela_ref') || "DIRECT";
 }
 
-function calcCommission(amount){
-  let commission = Math.round(amount * COMMISSION_RATE);
-  let sellerPay = amount - commission;
-  return {commission, sellerPay};
-}
+function calcCommission(a){ return {commission:Math.round(a*0.05), sellerPay:a-Math.round(a*0.05)} }
 
 let orders = [
  {id:"XrbJC", product:"Baskets", amount:8000, status:"awaiting_payment"},
@@ -66,95 +67,57 @@ let orders = [
 ];
 
 function render(){
+  let page = getPage();
   let ref = getAmbassadorCode();
   
-  // Show ambassador banner for customer
-  if(ref !== "DIRECT"){
-    document.getElementById("ambTop").innerHTML = `<div class="amb-banner">✅ You came from Ambassador: <b>${ref}</b> - Trusted VELA Partner! Pay to 47852783</div>`;
-  } else {
-    document.getElementById("ambTop").innerHTML = "";
+  if(ref!=="DIRECT"){
+    document.getElementById("ambTop").innerHTML = `<div style="background:#fff3cd;color:#856404;padding:8px;text-align:center;font-size:13px">Ambassador: <b>${ref}</b> | Pay to 47852783</div>`;
   }
 
   let html = "";
-  orders.forEach(o=>{
-    let calc = calcCommission(o.amount);
-    html+=`<div class="card">
-     <span class="badge ${o.status=='awaiting_payment'?'awaiting':o.status=='paid'?'paid':'completed'}">
-      ${o.status=='awaiting_payment'?'Awaiting Payment':o.status=='paid'?'Paid - Delivering':'Completed'}
-     </span>
-     <b>${o.product}</b> - ${o.amount} UGX<br><br>
-     Ref: <span class="ref">VELA-${o.id}</span>`;
 
-    // ADMIN ONLY VIEW - profit hidden from customers
-    if(isAdmin){
-     html+=`<div style="background:#f0fdf4;border:1px solid #22c55e;border-radius:8px;padding:8px;margin-top:8px;font-size:12px">
-     ADMIN VIEW ONLY:<br>
-     Ambassador Code: <b>${ref}</b><br>
-     Your Profit 5%: ${calc.commission} UGX | Seller gets: ${calc.sellerPay} UGX<br>
-     ${ref!=="DIRECT" ? `Pay Ambassador ${ref}: ${Math.round(calc.commission*0.4)} UGX (40% of your profit)` : ''}</div>`;
-    }
+  if(page==='home'){
+    html+=`
+    <div class="home-hero">
+      <h2>Welcome to VELA Uganda</h2>
+      <p>N°1 Nakivale Market - Safe Escrow</p>
+      <p><b>Pay to MoMo Pay: ${MOMO_MERCHANT_CODE}</b></p>
+      <button class="btn btn-home" onclick="location.href='?page=orders'">🛒 View Orders / Shop</button>
+      <button class="btn btn-momo" onclick="location.href='?page=orders&ref=${ref}'">Pay to ${MOMO_MERCHANT_CODE}</button>
+      <p style="font-size:12px;margin-top:12px;color:#666">Google us: "VELA Uganda"<br>Nakivale / Isingiro / Mbarara<br>Code: ${ref}</p>
+    </div>
+    <div class="card"><b>🔥 Hot Products</b><br><br>Baskets - 8000 UGX<br>Mats - 11000 UGX<br>Jugs - 6000 UGX<br><br><button class="btn btn-momo" onclick="location.href='?page=orders'">Order Now → Pay to ${MOMO_MERCHANT_CODE}</button></div>
+    `;
+  } else {
+    // ORDERS PAGE - your screenshot
+    orders.forEach(o=>{
+      html+=`<div class="card">
+       <span class="badge ${o.status=='awaiting_payment'?'awaiting':o.status=='paid'?'paid':'completed'}">${o.status=='awaiting_payment'?'Awaiting Payment':o.status=='paid'?'Paid - Delivering':'Completed'}</span>
+       <b>${o.product}</b> - ${o.amount} UGX<br><br>Ref: <span class="ref">VELA-${o.id}</span>`;
+      if(isAdmin){ let c=calcCommission(o.amount); html+=`<div style="background:#f0fdf4;padding:6px;margin-top:8px;font-size:11px">ADMIN: Profit ${c.commission} | Seller ${c.sellerPay} | Ref ${ref}</div>`; }
+      if(o.status=='awaiting_payment'){
+       html+=`<div class="pay-box"><b>Pay to VELA Escrow:</b><br>Dial <b>*165*3*${MOMO_MERCHANT_CODE}*${o.amount}#</b><br><small>Code: ${MOMO_MERCHANT_CODE} | Your Code: ${ref}</small></div>
+       <button class="btn btn-momo" onclick="confirmPay('${o.id}',${o.amount})">I Have Paid to ${MOMO_MERCHANT_CODE}</button>`;
+      }
+      if(o.status=='paid') html+=`<p style="font-size:13px;margin-top:12px">✅ Paid to VELA. Delivery in progress.</p>`;
+      if(o.status=='completed') html+=`<p style="font-size:13px;margin-top:12px">✅ Completed - Thank you!</p>`;
+      html+=`</div>`;
+    });
+    html+=`<button class="btn btn-home" onclick="location.href='?page=home'">← Back to Home</button>`;
+  }
 
-    if(o.status=='awaiting_payment'){
-     html+=`
-     <div class="pay-box">
-       <b>Pay to VELA Escrow (Safe):</b><br>
-       Dial <b>*165*3*${MOMO_MERCHANT_CODE}*${o.amount}#</b><br>
-       <small>Code: ${MOMO_MERCHANT_CODE} | Ref: VELA-${o.id}</small><br>
-       <small style="color:#856404">Your Code: ${ref} will be saved</small>
-     </div>
-     <button class="btn btn-momo" onclick="confirmPay('${o.id}',${o.amount})">I Have Paid to ${MOMO_MERCHANT_CODE}</button>
-     `;
-    }
-    if(o.status=='paid'){
-     html+=`<p style="font-size:13px;margin-top:12px">✅ Paid to VELA. Delivery in progress.</p>`;
-     if(isAdmin) html+=`<button class="btn btn-momo" style="background:#0d7a3a;color:white" onclick="release('${o.id}')">ADMIN: Release ${calc.sellerPay} UGX to Seller</button>`;
-    }
-    if(o.status=='completed'){
-     html+=`<p style="font-size:13px;margin-top:12px">✅ Completed - Thank you!</p>`;
-    }
-    html+=`</div>`;
-  });
-  document.getElementById("orders").innerHTML=html;
+  html+=`<div style="background:black;color:#ffcc00;padding:14px;border-radius:12px;text-align:center;margin-top:14px"><b>VELA Uganda</b><br>MoMo Pay: *165*3*47852783#<br>Code: 47852783<br>vela.ug?ref=YOURCODE</div>`;
+  
+  document.getElementById("content").innerHTML=html;
 }
 
 function confirmPay(id, amount){
-  let ref = getAmbassadorCode();
-  let tx = prompt(`Enter MoMo Transaction ID for VELA-${id}\nPaid to 47852783\nYour Code: ${ref}\n\nWe will verify amount ${amount} UGX`);
-  if(tx){
-    // SAVE THIS TO FIREBASE - This is what tracks ambassador
-    let orderData = {
-      orderId: `VELA-${id}`,
-      amount: amount,
-      merchantCode: MOMO_MERCHANT_CODE,
-      ambassadorCode: ref, // JOSE10 etc - THIS TRACKS HIM
-      txId: tx,
-      status: "paid",
-      timestamp: new Date().toISOString()
-    };
-    console.log("SAVE TO FIREBASE:", orderData);
-    alert(`Thank you! Order VELA-${id} received.\nCode: ${ref} saved.\nWe verify payment to 47852783 and deliver.`);
-    let order = orders.find(o=>o.id==id);
-    if(order) order.status='paid';
-    render();
-  }
-}
-
-function release(id){
-  let order = orders.find(o=>o.id==id);
-  if(order){ order.status='completed'; render(); }
+  let ref=getAmbassadorCode();
+  let tx=prompt(`Enter TxID for VELA-${id}\nPaid to 47852783\nCode: ${ref}`);
+  if(tx){ alert(`Saved VELA-${id} with Code ${ref}`); let o=orders.find(x=>x.id==id); if(o) o.status='paid'; render(); }
 }
 
 render();
 </script>
-
-<div style="background:black;color:#ffcc00;padding:14px;border-radius:12px;text-align:center;margin-top:20px">
-<b>VELA Uganda</b><br>
-MoMo Pay: *165*3*47852783#<br>
-Code: 47852783 - Escrow Safe<br>
-Google us: "VELA Uganda"<br>
-Nakivale / Isingiro / Mbarara<br>
-<small>Ambassadors use: vela.ug?ref=YOURCODE</small>
-</div>
-
 </body>
 </html>

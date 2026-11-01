@@ -3,49 +3,38 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VELA - Nakivale Market - Escrow</title>
+<title>VELA - Nakivale Market</title>
 <style>
-body{font-family:system-ui;background:#f3f4f6;margin:0;padding:10px}
-.card{background:white;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.08);border-left:4px solid #ffcc00}
-.btn{padding:12px;border-radius:10px;border:none;width:100%;font-weight:bold;margin-top:8px;cursor:pointer;font-size:14px}
-.btn-momo{background:black;color:#ffcc00}
-.btn-pay{background:#ffcc00;color:black}
-.btn-release{background:#0d7a3a;color:white}
-.btn-wa{background:#25D366;color:white}
-.badge{padding:5px 10px;border-radius:20px;font-size:11px;font-weight:bold;display:inline-block}
+body{font-family:system-ui;background:#f3f4f6;margin:0;padding:12px}
+.card{background:white;border-radius:14px;padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.btn{padding:13px;border-radius:10px;border:none;width:100%;font-weight:bold;margin-top:10px;cursor:pointer}
+.btn-momo{background:black;color:#ffcc00;font-size:15px}
+.badge{padding:5px 10px;border-radius:20px;font-size:11px;font-weight:bold;float:right}
 .awaiting{background:#fff3cd;color:#856404}
 .paid{background:#cce5ff;color:#004085}
 .completed{background:#d4edda;color:#155724}
-.ref{font-family:monospace;background:#eee;padding:4px 8px;border-radius:6px;font-weight:bold}
-.commission-box{background:#f0fdf4;border:1px solid #22c55e;border-radius:10px;padding:10px;margin-top:10px}
-.profit{color:#15803d;font-weight:bold}
-.footer{background:black;color:#ffcc00;padding:16px;border-radius:12px;text-align:center;margin-top:20px}
+.ref{background:#eee;padding:4px 8px;border-radius:6px;font-family:monospace;font-weight:bold}
+.pay-box{background:#fffbe6;border:1px dashed #ffcc00;border-radius:10px;padding:12px;margin-top:12px}
 </style>
 </head>
 <body>
 
-<h2>🛒 VELA - Escrow Orders</h2>
-<p style="font-size:13px;color:#666">Business Wallet: 47852783 - Separate from personal debt - Commission 5% Auto</p>
-
+<h2>🛒 VELA - Orders</h2>
 <div id="orders"></div>
-<div id="summary" class="card" style="border-left-color:#22c55e"></div>
 
 <script>
-// ===== VELA CONFIG - FINAL =====
 const MOMO_MERCHANT_CODE = "47852783";
-const MOMO_MERCHANT_NAME = "VELA";
-const MOMO_PERSONAL = "0783663151"; // backup only
-const COMMISSION_RATE = 0.05; // 5% yours
-const FLUTTERWAVE_LINK = "https://flutterwave.com/pay/vela-escrow";
+const COMMISSION_RATE = 0.05;
 
-// Calculate commission
 function calcCommission(amount){
   let commission = Math.round(amount * COMMISSION_RATE);
   let sellerPay = amount - commission;
   return {commission, sellerPay};
 }
 
-// Orders from your screenshot
+// Check if admin ?admin=1 in URL - only you see profit
+const isAdmin = window.location.search.includes("admin=1");
+
 let orders = [
  {id:"XrbJC", product:"Baskets", amount:8000, status:"awaiting_payment"},
  {id:"E6X6b", product:"Mats", amount:11000, status:"paid"},
@@ -54,95 +43,64 @@ let orders = [
 
 function render(){
  let html = "";
- let totalCommission = 0;
- let totalSeller = 0;
-
  orders.forEach(o=>{
   let calc = calcCommission(o.amount);
-  totalCommission += (o.status !== 'awaiting_payment' ? calc.commission : 0);
-  
   html+=`<div class="card">
-   <div style="display:flex;justify-content:space-between">
-     <b>${o.product} - ${o.amount} UGX</b>
-     <span class="badge ${o.status=='awaiting_payment'?'awaiting':o.status=='paid'?'paid':'completed'}">
-      ${o.status=='awaiting_payment'?'Awaiting Payment to VELA':o.status=='paid'?'Paid - Delivering':'Completed'}
-     </span>
-   </div>
-   <p>Ref: <span class="ref">VELA-${o.id}</span></p>
-   
-   <div class="commission-box">
-     💰 Amount: <b>${o.amount} UGX</b><br>
-     <span class="profit">Your Profit (5%): ${calc.commission} UGX</span> | Seller gets: ${calc.sellerPay} UGX
-   </div>`;
+   <span class="badge ${o.status=='awaiting_payment'?'awaiting':o.status=='paid'?'paid':'completed'}">
+    ${o.status=='awaiting_payment'?'Awaiting Payment':o.status=='paid'?'Paid':'Completed'}
+   </span>
+   <b>${o.product}</b> - ${o.amount} UGX<br><br>
+   Ref: <span class="ref">VELA-${o.id}</span>`;
+
+  // ADMIN ONLY - you see profit
+  if(isAdmin){
+   html+=`<div style="background:#f0fdf4;border:1px solid #22c55e;border-radius:8px;padding:8px;margin-top:8px;font-size:13px">
+   ADMIN: Profit ${calc.commission} UGX | Seller ${calc.sellerPay} UGX</div>`;
+  }
 
   if(o.status=='awaiting_payment'){
    html+=`
-   <div style="background:#fffbe6;padding:12px;border-radius:10px;margin-top:10px">
-     <b>Pay to VELA Business (Safe Wallet):</b><br>
+   <div class="pay-box">
+     <b>Pay to VELA (Escrow):</b><br>
      Dial <b>*165*3*${MOMO_MERCHANT_CODE}*${o.amount}#</b><br>
-     Code: ${MOMO_MERCHANT_CODE} Name: ${MOMO_MERCHANT_NAME}<br>
-     <small>Money goes to Business Wallet 47852783 - NOT affected by personal debt on 0783663151</small>
+     <small>MoMo Pay Code: ${MOMO_MERCHANT_CODE}</small>
    </div>
-   <button class="btn btn-momo" onclick="confirmPay('${o.id}',${o.amount})">I Paid to ${MOMO_MERCHANT_CODE} - Enter TxID</button>
-   <a href="${FLUTTERWAVE_LINK}" target="_blank"><button class="btn btn-pay">Pay via Card/MoMo Flutterwave</button></a>
+   <button class="btn btn-momo" onclick="confirmPay('${o.id}')">I Have Paid to ${MOMO_MERCHANT_CODE}</button>
    `;
   }
-
   if(o.status=='paid'){
-   html+=`
-   <p>✅ Buyer paid ${o.amount} UGX to your Business Wallet ${MOMO_MERCHANT_CODE}. Keep ${calc.commission} UGX, deliver then send ${calc.sellerPay} UGX to seller.</p>
-   <button class="btn btn-release" onclick="release('${o.id}',${calc.sellerPay})">Release ${calc.sellerPay} UGX to Seller</button>
-   <button class="btn btn-wa">WhatsApp Seller</button>
-   `;
+   html+=`<p style="font-size:13px;margin-top:12px">✅ Paid to VELA. Seller is delivering your order.</p>`;
+   if(isAdmin){
+    html+=`<button class="btn btn-momo" style="background:#0d7a3a;color:white" onclick="release('${o.id}')">ADMIN: Release to Seller</button>`;
+   }
   }
-
   if(o.status=='completed'){
-   html+=`<p>✅ Completed. You earned ${calc.commission} UGX. Seller got ${calc.sellerPay} UGX.</p>`;
+   html+=`<p style="font-size:13px;margin-top:12px">✅ Order completed.</p>`;
   }
-
   html+=`</div>`;
  });
-
- document.getElementById("orders").innerHTML = html;
- document.getElementById("summary").innerHTML = `
-   <b>📊 VELA Profit Dashboard</b><br>
-   Total Commission Earned (from paid/completed): <span class="profit">${totalCommission} UGX</span><br>
-   <small>This is your profit in Business Wallet ${MOMO_MERCHANT_CODE} - separate, safe from debt!</small>
- `;
+ document.getElementById("orders").innerHTML=html;
 }
 
-function confirmPay(id, amount){
- let calc = calcCommission(amount);
- let tx = prompt(`Enter MoMo Transaction ID for VELA-${id}\nYou paid ${amount} UGX to ${MOMO_MERCHANT_CODE}\nYour profit will be ${calc.commission} UGX, seller gets ${calc.sellerPay} UGX`);
+function confirmPay(id){
+ let tx = prompt("Enter MoMo Transaction ID after paying to 47852783 for VELA-"+id);
  if(tx){
-  alert(`Received TxID ${tx} for VELA-${id}\nVerified: Amount ${amount} UGX\nCommission: ${calc.commission} UGX (yours)\nSeller Pay: ${calc.sellerPay} UGX\nCheck Business Wallet *155#`);
-  // Save to Firebase: orders/id = {txId, amount, commission, sellerPay}
-  // Change status to paid for demo
+  alert("Thank you! TxID "+tx+" received for VELA-"+id+". We will verify and deliver.");
   let order = orders.find(o=>o.id==id);
   if(order) order.status='paid';
   render();
  }
 }
-
-function release(id, sellerPay){
- if(confirm(`Send ${sellerPay} UGX to seller for VELA-${id}?\nYou keep your 5% commission in Business Wallet ${MOMO_MERCHANT_CODE}`)){
-  alert(`Released ${sellerPay} UGX to seller for VELA-${id}\nYour 5% stays in ${MOMO_MERCHANT_CODE} Business Wallet!`);
-  let order = orders.find(o=>o.id==id);
-  if(order) order.status='completed';
-  render();
- }
+function release(id){ 
+ let order = orders.find(o=>o.id==id);
+ if(order){ order.status='completed'; render(); }
 }
 
 render();
 </script>
 
-<div class="footer">
-<b>VELA Official Escrow</b><br>
-MoMo Pay Merchant: <b>*165*3*47852783#</b><br>
-Code: 47852783 - Business Wallet Separate<br>
-Commission: 5% per order - Yours<br>
-Isingiro / Nakivale - Escrow Trust<br>
-<small>Personal backup: 0783663151 (not for customers)</small>
+<div style="background:black;color:#ffcc00;padding:14px;border-radius:12px;text-align:center;margin-top:20px">
+<b>VELA</b><br>MoMo Pay: *165*3*47852783#<br>Code: 47852783<br>Nakivale / Isingiro
 </div>
 
 </body>

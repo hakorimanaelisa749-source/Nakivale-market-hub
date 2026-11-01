@@ -83,7 +83,6 @@ let buyerPhone=o.buyerPhone||"";
 let status=o.status||"";
 let canDeliver = status==="paid";
 sellerHtml+=`<div class="orderCard" style="border-left:4px solid ${canDeliver ? '#22c55e' : '#f59e0b'}"><b>${o.productName}</b> - ${o.qty||1} pcs - ${formatMoney(o.price)} UGX<div style="font-size:11px;margin-top:4px;padding:6px;border-radius:6px;background:${canDeliver ? '#dcfce7' : '#fef9c3'};color:${canDeliver ? '#065f46' : '#92400e'};font-weight:900">${canDeliver ? '✅ PAYMENT CONFIRMED - YOU CAN DELIVER NOW' : status==='pending_verification' ? '🔍 Verifying please wait.... Txn: '+(o.transactionId||'') : '⏳ Awaiting Buyer Payment to VELA - Do NOT deliver yet'}</div><div style="font-size:12px;margin-top:6px;background:#111827;color:white;padding:8px;border-radius:8px"><div>📍 CUSTOMER: <b>${loc}</b></div><div>📞 Phone: <b>${buyerPhone}</b> • ${o.buyerEmail}</div><div style="font-size:11px">${o.buyerDetails||''}</div>${o.transactionId?`<div style="margin-top:4px">MoMo TXN: <b>${o.transactionId}</b> | Code: ${o.ambassadorCode||'DIRECT'}</div>`:''}</div>
-${o.status==="pending_verification"?`<button class="submit" style="background:#111827;color:#facc15" onclick="adminVerifyPayment('${o.id}')">🔐 VERIFY - I Received ${formatMoney(o.price)} to ${MOMO_CODE}</button>`:''}
 ${canDeliver?`<div style="display:flex;gap:6px;margin-top:8px"><a href="https://wa.me/${buyerPhone.replace(/[^0-9]/g,'')}?text=Hi! VELA confirmed payment for ${encodeURIComponent(o.productName)} - I am delivering to ${encodeURIComponent(loc)}" target="_blank" style="flex:1;background:#25D366;color:white;padding:10px;border-radius:8px;text-align:center;text-decoration:none;font-weight:900;font-size:12px">💬 WhatsApp Customer - Deliver Now</a><a href="tel:${buyerPhone}" style="background:#111827;color:white;padding:10px;border-radius:8px;text-decoration:none;font-weight:900;font-size:12px">📞 Call</a></div><button class="submit" style="background:#facc15;color:#111827;margin-top:8px" onclick="markShipped('${o.id}')">🚚 Mark Shipped</button>`:''}
 </div>`;
 });
@@ -107,17 +106,6 @@ loadOrders();
 }catch(e){alert(e.message);}
 }
 
-async function adminVerifyPayment(orderId){
-if(!confirm("Confirm you received money to "+MOMO_CODE+" for this order? Seller will be allowed to deliver."))return;
-try{
-let doc=await db.collection("vela_orders").doc(orderId).get();let o=doc.data();
-await db.collection("vela_orders").doc(orderId).update({status:"paid",paymentStatus:"paid",verifiedAt:Date.now(),verifiedBy:currentUser.uid});
-await db.collection("vela_sellers").doc(o.sellerUid).set({pendingBalance:firebase.firestore.FieldValue.increment(o.sellerEarning),totalCommissionPaid:firebase.firestore.FieldValue.increment(o.commission),totalSales:firebase.firestore.FieldValue.increment(1)},{merge:true});
-await db.collection("vela_platform").doc("stats").set({totalCommission:firebase.firestore.FieldValue.increment(o.commission),totalSales:firebase.firestore.FieldValue.increment(o.price),totalOrders:firebase.firestore.FieldValue.increment(1)},{merge:true});
-alert("✅ Verified! Seller can deliver now.");
-loadOrders();
-}catch(e){alert(e.message);}
-}
 async function loadSellerData(){if(!currentUser)return;try{const snap=await db.collection("vela_sellers").doc(currentUser.uid).get();if(snap.exists){let d=snap.data();document.getElementById("sPending").innerText=formatMoney(d.pendingBalance||0)+" UGX";document.getElementById("sAvailable").innerText=formatMoney(d.availableBalance||0)+" UGX";document.getElementById("wAvailable").innerText=formatMoney(d.availableBalance||0)+" UGX";document.getElementById("sTotalEarn").innerText=formatMoney(d.totalEarnings||0)+" UGX";document.getElementById("sCommission").innerText=formatMoney(d.totalCommissionPaid||0)+" UGX";document.getElementById("sTotalSales").innerText=d.totalSales||0;document.getElementById("sTotalOrders").innerText=d.totalSales||0;}}catch(e){}}
 async function markShipped(id){await db.collection("vela_orders").doc(id).update({status:"shipped"});loadOrders();}
 async function confirmDelivery(id){if(!confirm("Confirm you received product? This releases money to seller."))return;const doc=await db.collection("vela_orders").doc(id).get();let o=doc.data();await db.collection("vela_orders").doc(id).update({status:"completed"});await db.collection("vela_sellers").doc(o.sellerUid).set({pendingBalance:firebase.firestore.FieldValue.increment(-o.sellerEarning),availableBalance:firebase.firestore.FieldValue.increment(o.sellerEarning),totalEarnings:firebase.firestore.FieldValue.increment(o.sellerEarning)},{merge:true});alert(`✅ Confirmed! Seller will receive money.`);loadOrders();loadSellerData();}

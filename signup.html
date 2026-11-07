@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VELA - Sign Up</title>
+<style>
+*{box-sizing:border-box;font-family:Arial}
+body{margin:0;background:#FFF8E1;padding:12px}
+.top{background:#FFC800;padding:14px;border-radius:16px;text-align:center}
+.top h1{margin:0}
+.top a{color:#111;font-weight:bold;text-decoration:none}
+.card-white{background:#fff;padding:14px;border-radius:16px;margin-top:12px;border:2px solid #111}
+.card-yellow{background:#FFC800;padding:14px;border-radius:16px;margin-top:10px;color:#111}
+.card-black{background:#111;color:#fff;padding:14px;border-radius:16px;margin-top:10px}
+.card-black p{color:#FFC800}
+.avatar-wrap{margin:12px auto;position:relative;width:140px;height:140px}
+#avatarImg{width:140px;height:140px;border-radius:50%;border:4px solid #FFC800;object-fit:cover;background:#222;display:block}
+.camera-btn{position:absolute;bottom:4px;right:4px;background:#FFC800;width:40px;height:40px;border-radius:50%;font-size:20px;display:flex;align-items:center;justify-content:center;border:3px solid #111}
+.btn{width:100%;padding:13px;border:none;border-radius:12px;font-weight:bold;font-size:15px;margin-top:10px}
+.yellow{background:#FFC800}.black{background:#111;color:#FFC800}.green{background:#25D366;color:#fff}
+input{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid #ccc}
+.role{display:flex;gap:8px}
+.role button{flex:1;padding:12px;border-radius:12px;border:2px solid #111;background:#fff;font-weight:bold}
+.role .picked{background:#111!important;color:#FFC800!important}
+.profile-head{background:#111;color:#fff;padding:12px;border-radius:16px;display:flex;gap:10px;align-items:center;margin-top:12px}
+.profile-head img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:3px solid #FFC800}
+.small-btn{background:#FFC800;border:none;border-radius:8px;padding:6px 10px;font-weight:bold;margin-left:auto}
+.boxes{display:flex;gap:8px;margin-top:12px}
+.box{flex:1;background:#fff;border:2px solid #FFC800;border-radius:12px;padding:10px;text-align:center}
+.item{background:#fff;padding:10px;border-radius:12px;margin-top:8px;display:flex;justify-content:space-between;align-items:center}
+.badge{background:#FFC800;padding:4px 8px;border-radius:20px;font-size:12px;font-weight:bold}
+.small{color:#666;font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+
+<div class="top"><h1>VELA Uganda</h1><p>Shop Safe with Escrow</p><a href="index.html">🏠 Back to Home</a></div>
+
+<div id="signupBox" class="card-white">
+  <h2>Create Account - Choose Once</h2>
+  <div class="avatar-wrap" onclick="document.getElementById('fileInput').click()">
+    <img id="avatarImg" src="https://via.placeholder.com/150/222222/FFC800?text=No+Photo">
+    <div class="camera-btn">📷</div>
+  </div>
+  <p class="small">Tap circle to upload your photo</p>
+  <input type="file" id="fileInput" accept="image/*" onchange="changeAvatar(event)" style="display:none">
+  <button class="btn yellow" onclick="document.getElementById('fileInput').click()">📷 Tap to upload photo</button>
+  <input id="userName" placeholder="Full Name e.g. Elisa Hakorimana">
+  <input id="userPhone" placeholder="Phone e.g. 0770123456">
+  <input id="userLocation" placeholder="Location e.g. Nakivale / Kampala">
+  <p><b>Who are you? Choose ONE:</b></p>
+  <div class="role">
+    <button id="rBuyer" onclick="pickRole('Buyer')">🛍️ Buyer</button>
+    <button id="rSeller" onclick="pickRole('Seller')">🏪 Seller</button>
+    <button id="rBoth" onclick="pickRole('Both')">🛍️+🏪 Both</button>
+  </div>
+  <p id="rolePicked">You picked: Nothing yet</p>
+  <div id="sellerFields" style="display:none">
+    <input id="shopName" placeholder="Shop Name e.g. Elisa Shop">
+    <input id="momoNum" placeholder="MoMo Number where money goes">
+    <input id="momoName" placeholder="MoMo Registered Name">
+  </div>
+  <button class="btn black" onclick="createAccount()">Continue → Go To My Profile</button>
+  <p id="signupMsg"></p>
+</div>
+
+<div id="dashboard" style="display:none">
+  <div class="profile-head">
+    <img id="dashAvatar" src="https://via.placeholder.com/80/222222/FFC800?text=👤">
+    <div><b id="dashName">Elisa</b><br><small id="dashRole">Buyer</small><br><small id="dashShop"></small></div>
+    <button class="small-btn" onclick="logout()">Log Out</button>
+  </div>
+
+  <div id="buyerFeatures" style="display:none">
+    <h2>🛍️ My Buyer Profile</h2>
+    <div class="card-yellow"><b>🛡️ Escrow Status: Funds Secure</b><p>UGX 120,000 held for Kitenge Dress • Order #VELA-2847</p><button class="btn black" onclick="confirmDelivery()">✅ Confirm Delivery</button><p id="confirmMsg"></p></div>
+    <h3>My Orders</h3>
+    <div class="item"><span>Wireless Earbuds<br><small>Order #VELA-2901</small></span><span class="badge">In Transit</span></div>
+    <div class="item"><span>Kitenge Dress<br><small>Order #VELA-2847</small></span><span class="badge">Escrow Active</span></div>
+    <div class="item"><span>Solar Power Bank<br><small>Order #VELA-2753</small></span><span class="badge">Delivered</span></div>
+    <h3>Saved Items</h3><div class="item"><span>Reusable Water Bottle<br><small>25,000 UGX</small></span><span>♥ Saved</span></div>
+    <h3>Delivery Address</h3><div class="item"><span>Home • Kampala, Kawempe<br><small>House 12B</small></span><span>Change</span></div>
+    <button class="btn green">WhatsApp Support</button>
+  </div>
+
+  <div id="sellerFeatures" style="display:none">
+    <h2>🏪 My Seller Profile</h2>
+    <div class="card-black"><b id="dashShopName">My Shop</b><p>⭐ 4.6 (120 reviews) • Verified Seller ✅</p><p>MoMo: <span id="dashMoMo">-</span></p><p>MoMo Name: <span id="dashMoMoName">-</span></p></div>
+    <div class="boxes"><div class="box">Total Sales<br><b>2,847,000 UGX</b></div><div class="box">Held in Escrow<br><b>320,000 UGX</b></div><div class="box">Available<br><b>1,110,000 UGX</b></div></div>
+    <button class="btn yellow" onclick="withdraw()">Withdraw to MoMo</button><p id="withdrawMsg"></p>
+    <h3>My Products</h3>
+    <div class="item"><span>Shea Butter 500ml<br><small>25,000 UGX • Stock: 34</small></span><span class="badge">Active</span></div>
+    <div class="item"><span>Handwoven Basket<br><small>18,500 UGX • Stock: 12</small></span><span class="badge">Active</span></div>
+    <div id="newProducts"></div>
+    <h3>Add New Product</h3><input id="prodName" placeholder="Product Name"><input id="prodPrice" placeholder="Price in UGX"><button class="btn black" onclick="addProduct()">+ Add Product</button>
+  </div>
+</div>
+
+<script>
+let chosenRole = "";
+let avatarData = "";
+function pickRole(role){
+  chosenRole = role;
+  document.getElementById('rolePicked').innerText = "You picked: " + role;
+  document.getElementById('rBuyer').className = role==='Buyer' ? 'picked' : '';
+  document.getElementById('rSeller').className = role==='Seller' ? 'picked' : '';
+  document.getElementById('rBoth').className = role==='Both' ? 'picked' : '';
+  document.getElementById('sellerFields').style.display = (role==='Seller' || role==='Both') ? 'block' : 'none';
+}
+function changeAvatar(e){
+  let file = e.target.files[0]; if(!file) return;
+  let reader = new FileReader();
+  reader.onload = function(ev){ avatarData = ev.target.result; document.getElementById('avatarImg').src = avatarData; };
+  reader.readAsDataURL(file);
+}
+function createAccount(){
+  let name = document.getElementById('userName').value;
+  let loc = document.getElementById('userLocation').value || "Kampala";
+  let phone = document.getElementById('userPhone').value;
+  if(!name){ alert("Please enter your name"); return; }
+  if(!chosenRole){ alert("Please choose Buyer, Seller or Both"); return; }
+  if((chosenRole==='Seller' || chosenRole==='Both') && !document.getElementById('momoNum').value){ alert("Seller must enter MoMo Number"); return; }
+  document.getElementById('signupBox').style.display = 'none';
+  document.getElementById('dashboard').style.display = 'block';
+  document.getElementById('dashName').innerText = name;
+  document.getElementById('dashRole').innerText = chosenRole + " • " + loc + " • " + phone;
+  if(avatarData) document.getElementById('dashAvatar').src = avatarData;
+  if(chosenRole==='Buyer'){ document.getElementById('buyerFeatures').style.display='block'; document.getElementById('sellerFeatures').style.display='none'; }
+  if(chosenRole==='Seller'){ document.getElementById('buyerFeatures').style.display='none'; document.getElementById('sellerFeatures').style.display='block'; }
+  if(chosenRole==='Both'){ document.getElementById('buyerFeatures').style.display='block'; document.getElementById('sellerFeatures').style.display='block'; }
+  let shop = document.getElementById('shopName').value || name + " Shop";
+  document.getElementById('dashShop').innerText = (chosenRole!=='Buyer') ? "Shop: "+shop : "";
+  document.getElementById('dashShopName').innerText = shop;
+  document.getElementById('dashMoMo').innerText = document.getElementById('momoNum').value || "-";
+  document.getElementById('dashMoMoName').innerText = document.getElementById('momoName').value || "-";
+}
+function confirmDelivery(){ document.getElementById('confirmMsg').innerText = "✅ Thank you! Money released to seller. Escrow closed."; }
+function withdraw(){ document.getElementById('withdrawMsg').innerText = "⏳ Withdraw request sent to VELA Admin (Elisa). You will receive money on MoMo soon."; }
+function addProduct(){ let n=document.getElementById('prodName').value; let p=document.getElementById('prodPrice').value; if(!n||!p){alert("Enter product name and price");return;} document.getElementById('newProducts').innerHTML += '<div class="item"><span>'+n+'<br><small>'+p+' UGX</small></span><span class="badge">Active</span></div>'; }
+function logout(){ document.getElementById('dashboard').style.display='none'; document.getElementById('signupBox').style.display='block'; }
+</script>
+</body>
+</html>

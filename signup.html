@@ -80,10 +80,9 @@ input{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid
   <p class="small">Upload Photo</p>
   <input type="file" id="fileInput" accept="image/*" style="display:none">
   <button type="button" class="btn yellow" onclick="document.getElementById('fileInput').click()">📷 Upload Photo</button>
-  <input id="userName" placeholder="Full Name" value="Hakorimana Elisa">
-  <input id="userPhone" placeholder="Phone" value="0783663151">
-  <input id="userLocation" placeholder="Location" value="Nakivale, Kigali Basecamp">
-
+  <input id="userName" placeholder="Full Name">
+  <input id="userPhone" placeholder="Phone">
+  <input id="userLocation" placeholder="Location">
   <input id="userPass" type="password" placeholder="Password">
   <input id="userPass2" type="password" placeholder="Confirm Password">
   <div class="pass-row">
@@ -93,7 +92,6 @@ input{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid
   <div class="strength"><div id="strengthBar"></div></div>
   <div id="strengthText" class="strength-text"></div>
   <p id="matchText" class="strength-text"></p>
-
   <button type="button" class="btn yellow" onclick="suggestPassword()" style="border:2px solid #111">🔑 Suggest Strong Password</button>
   <div id="suggestBox" class="suggest-box">
     <div>Suggested Password:</div>
@@ -102,7 +100,6 @@ input{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid
     <button type="button" class="btn yellow" onclick="suggestPassword()">Generate Another</button>
     <p class="small">Save this password. You will need it to Sign In.</p>
   </div>
-
   <p style="margin-top:12px"><b>Account Type</b></p>
   <div class="role">
     <button type="button" id="rBuyer" onclick="pickRole('Buyer')">🛍️ Buyer</button>
@@ -226,13 +223,13 @@ function checkStrength(){
   var colors = ['#ef4444','#f97316','#eab308','#22c55e'];
   var labels = ['Weak','Fair','Good','Strong'];
   if(!p){ bar.style.width='0%'; txt.innerText=''; }
-  else { bar.style.width=((score+1)*20)+'%'; bar.style.background=colors[Math.min(score,3)]; txt.innerText='Strength: '+(labels[Math.min(score,3)]||'Weak')+' • Use 8+ characters, 1 Capital, 1 Number, 1 Symbol'; txt.style.color=colors[Math.min(score,3)]; }
+  else { bar.style.width=((score+1)*20)+'%'; bar.style.background=colors[Math.min(score,3)]; txt.innerText='Strength: '+(labels[Math.min(score,3)]||'Weak'); txt.style.color=colors[Math.min(score,3)]; }
   if(!p2){ match.innerText=''; }
   else if(p===p2){ match.innerText='✓ Passwords Match'; match.style.color='#15803d'; }
   else { match.innerText='✗ Passwords Do Not Match'; match.style.color='#b91c1c'; }
 }
 function suggestPassword(){
-  var words = ['Vela','Nakivale','Kampala','Elisa','Shop','Uganda','Market'];
+  var words = ['Vela','Nakivale','Kampala','Shop','Uganda','Market'];
   var w = words[Math.floor(Math.random()*words.length)];
   var num = Math.floor(100+Math.random()*900);
   var syms = ['!','@','#','$','&','*'];
@@ -247,7 +244,6 @@ function useSuggested(){
   document.getElementById('userPass2').value = lastSuggested;
   checkStrength();
   document.getElementById('suggestBox').style.display='none';
-  document.getElementById('signupMsg').innerText='';
 }
 function createAccount(){
   var msg = document.getElementById('signupMsg');
@@ -262,7 +258,7 @@ function createAccount(){
     if(!name){ msg.innerText="Enter Name"; btn.innerText='Create Account'; btn.disabled=false; return; }
     if(!phone){ msg.innerText="Enter Phone"; btn.innerText='Create Account'; btn.disabled=false; return; }
     if(!pass || pass.length < 8){ msg.innerText="Password: Minimum 8 characters"; btn.innerText='Create Account'; btn.disabled=false; return; }
-    if(pass !== pass2){ msg.innerText="Passwords Do Not Match - Type Same Password Twice"; btn.innerText='Create Account'; btn.disabled=false; return; }
+    if(pass !== pass2){ msg.innerText="Passwords Do Not Match"; btn.innerText='Create Account'; btn.disabled=false; return; }
     if(!chosenRole){ msg.innerText="Select Account Type"; btn.innerText='Create Account'; btn.disabled=false; return; }
     if((chosenRole==='Seller' || chosenRole==='Both') && !document.getElementById('momoNum').value){ msg.innerText="Enter MoMo Number"; btn.innerText='Create Account'; btn.disabled=false; return; }
     var user = { name:name, phone:phone, location:loc, password:pass, role:chosenRole, shopName: document.getElementById('shopName').value.trim() || name + " Shop", momoNum: document.getElementById('momoNum').value.trim(), momoName: document.getElementById('momoName').value.trim(), avatar: avatarData || "", products: loadProducts() };

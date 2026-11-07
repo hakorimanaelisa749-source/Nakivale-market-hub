@@ -2,7 +2,10 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VELA - Sign Up</title>
+<title>VELA Uganda - Sign Up | Nakivale, Kampala</title>
+<meta name="description" content="VELA Uganda - Create account to buy and sell safely with MoMo Escrow. Nakivale, Kampala, Mbarara.">
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="canonical" href="https://nakivale-market-hub.vercel.app/signup.html">
 <style>
 *{box-sizing:border-box;font-family:Arial}
 body{margin:0;background:#FFF8E1;padding:12px}
@@ -33,9 +36,19 @@ input{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid
 .prod-img{width:65px;height:65px;border-radius:10px;object-fit:cover;border:2px solid #FFC800;flex-shrink:0}
 .prod-preview{width:100%;height:160px;object-fit:cover;border-radius:12px;border:2px solid #111;background:#FFC800}
 .item span{flex:1}
+.empty{background:#fff;border:2px dashed #ccc;border-radius:12px;padding:16px;text-align:center;color:#666;margin-top:8px}
 </style>
 </head>
 <body>
+
+<div style="background:#FF9900;padding:12px;display:flex;gap:10px;overflow:auto;white-space:nowrap;border-radius:12px;margin-bottom:12px">
+<a href="index.html" style="color:white;font-weight:bold;text-decoration:none">VELA</a>
+<a href="electronics.html" style="color:white;text-decoration:none">Electronics</a>
+<a href="fashion.html" style="color:white;text-decoration:none">Fashion</a>
+<a href="shop.html" style="color:white;text-decoration:none">Shop All Products</a>
+<a href="food.html" style="color:white;text-decoration:none">Food & Home</a>
+<a href="signup.html" style="color:white;font-weight:bold;text-decoration:none">Sign Up</a>
+</div>
 
 <div class="top"><h1>VELA Uganda</h1><p>Shop Safe with Escrow</p><a href="index.html">🏠 Back to Home</a></div>
 
@@ -70,30 +83,30 @@ input{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid
 <div id="dashboard" style="display:none">
   <div class="profile-head">
     <img id="dashAvatar" src="https://via.placeholder.com/80/222222/FFC800?text=👤">
-    <div><b id="dashName">Elisa</b><br><small id="dashRole">Buyer</small><br><small id="dashShop"></small></div>
+    <div><b id="dashName">Your Name</b><br><small id="dashRole">Choose role</small><br><small id="dashShop"></small></div>
     <button class="small-btn" onclick="logout()">Log Out</button>
   </div>
 
   <div id="buyerFeatures" style="display:none">
     <h2>🛍️ My Buyer Profile</h2>
-    <div class="card-yellow"><b>🛡️ Escrow Status: Funds Secure</b><p>UGX 120,000 held for Kitenge Dress • Order #VELA-2847</p><button class="btn black" onclick="confirmDelivery()">✅ Confirm Delivery</button><p id="confirmMsg"></p></div>
+    <div class="card-yellow"><b>🛡️ Escrow Status: No escrow held yet</b><p id="escrowStatusText">You have no active orders yet. When you buy, your money will be held safely by VELA until you confirm delivery.</p><button class="btn black" onclick="confirmDelivery()">✅ Confirm Delivery</button><p id="confirmMsg"></p></div>
     <h3>My Orders</h3>
-    <div class="item"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200" class="prod-img"><span>Wireless Earbuds<br><small>Order #VELA-2901</small></span><span class="badge">In Transit</span></div>
-    <div class="item"><img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=200" class="prod-img"><span>Kitenge Dress<br><small>Order #VELA-2847</small></span><span class="badge">Escrow Active</span></div>
-    <div class="item"><img src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=200" class="prod-img"><span>Solar Power Bank<br><small>Order #VELA-2753</small></span><span class="badge">Delivered</span></div>
-    <h3>Saved Items</h3><div class="item"><img src="https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=200" class="prod-img"><span>Reusable Water Bottle<br><small>25,000 UGX</small></span><span>♥ Saved</span></div>
-    <h3>Delivery Address</h3><div class="item"><span>Home • Kampala, Kawempe<br><small>House 12B</small></span><span>Change</span></div>
-    <button class="btn green">WhatsApp Support</button>
+    <div id="buyerOrdersList"><div class="empty">No orders yet.<br>Go to Home and buy your first product safely with Escrow.</div></div>
+    <h3>Saved Items</h3>
+    <div class="empty">No saved items yet.</div>
+    <h3>Delivery Address</h3>
+    <div class="empty">No delivery address saved yet.<br>Add it when you place your first order.</div>
+    <button class="btn green" onclick="alert('WhatsApp Support: Contact VELA Admin on WhatsApp')">WhatsApp Support</button>
   </div>
 
   <div id="sellerFeatures" style="display:none">
     <h2>🏪 My Seller Profile</h2>
-    <div class="card-black"><b id="dashShopName">My Shop</b><p>⭐ 4.6 (120 reviews) • Verified Seller ✅</p><p>MoMo: <span id="dashMoMo">-</span></p><p>MoMo Name: <span id="dashMoMoName">-</span></p></div>
-    <div class="boxes"><div class="box">Total Sales<br><b>2,847,000 UGX</b></div><div class="box">Held in Escrow<br><b>320,000 UGX</b></div><div class="box">Available<br><b>1,110,000 UGX</b></div></div>
+    <div class="card-black"><b id="dashShopName">My Shop</b><p>New Seller • No reviews yet</p><p>MoMo: <span id="dashMoMo">-</span></p><p>MoMo Name: <span id="dashMoMoName">-</span></p></div>
+    <div class="boxes"><div class="box">Total Sales<br><b id="totalSales">0 UGX</b></div><div class="box">Held in Escrow<br><b id="heldEscrow">0 UGX</b></div><div class="box">Available<br><b id="availableBal">0 UGX</b></div></div>
+    <p class="small" style="margin-top:8px">These numbers are real. They start at 0 and only go up when you make a real sale.</p>
     <button class="btn yellow" onclick="withdraw()">Withdraw to MoMo</button><p id="withdrawMsg"></p>
     <h3>My Products</h3>
-    <div class="item"><img src="https://images.unsplash.com/photo-1601049676869-1a8bbcbc90a3?w=200" class="prod-img"><span>Shea Butter 500ml<br><small>25,000 UGX • Stock: 34</small></span><span class="badge">Active</span></div>
-    <div class="item"><img src="https://images.unsplash.com/photo-1595408076683-5d0c643e7f11?w=200" class="prod-img"><span>Handwoven Basket<br><small>18,500 UGX • Stock: 12</small></span><span class="badge">Active</span></div>
+    <div id="myProductsList"><div class="empty">No products yet.<br>Add your first real product below.</div></div>
     <div id="newProducts"></div>
     <h3>Add New Product</h3>
     <img id="prodPreview" src="https://via.placeholder.com/300x180/FFC800/111111?text=Tap+To+Add+Photo" class="prod-preview" onclick="document.getElementById('prodImageInput').click()">
@@ -132,7 +145,7 @@ function previewProduct(e){
 }
 function createAccount(){
   let name = document.getElementById('userName').value;
-  let loc = document.getElementById('userLocation').value || "Kampala";
+  let loc = document.getElementById('userLocation').value || "Nakivale";
   let phone = document.getElementById('userPhone').value;
   if(!name){ alert("Please enter your name"); return; }
   if(!chosenRole){ alert("Please choose Buyer, Seller or Both"); return; }
@@ -151,21 +164,26 @@ function createAccount(){
   document.getElementById('dashMoMo').innerText = document.getElementById('momoNum').value || "-";
   document.getElementById('dashMoMoName').innerText = document.getElementById('momoName').value || "-";
 }
-function confirmDelivery(){ document.getElementById('confirmMsg').innerText = "✅ Thank you! Money released to seller. Escrow closed."; }
-function withdraw(){ document.getElementById('withdrawMsg').innerText = "⏳ Withdraw request sent to VELA Admin (Elisa). You will receive money on MoMo soon."; }
+function confirmDelivery(){
+  document.getElementById('confirmMsg').innerText = "You have no active escrow to confirm yet. When you buy, come here to confirm delivery.";
+}
+function withdraw(){
+  document.getElementById('withdrawMsg').innerText = "You have 0 UGX available to withdraw. When you make a real sale, your real balance will show here.";
+}
 function addProduct(){
   let n = document.getElementById('prodName').value;
   let p = document.getElementById('prodPrice').value;
   let s = document.getElementById('prodStock').value || "10";
   if(!n || !p){ alert("Enter product name and price"); return; }
   let img = prodImageData || "https://via.placeholder.com/65/FFC800/111111?text=VELA";
+  document.getElementById('myProductsList').style.display = 'none';
   document.getElementById('newProducts').innerHTML += '<div class="item"><img src="'+img+'" class="prod-img"><span>'+n+'<br><small>'+p+' UGX • Stock: '+s+'</small></span><span class="badge">Active</span></div>';
   document.getElementById('prodName').value = "";
   document.getElementById('prodPrice').value = "";
   document.getElementById('prodStock').value = "";
   prodImageData = "";
   document.getElementById('prodPreview').src = "https://via.placeholder.com/300x180/FFC800/111111?text=Tap+To+Add+Photo";
-  alert("✅ Product added with photo!");
+  alert("✅ Real product added!");
 }
 function logout(){ document.getElementById('dashboard').style.display='none'; document.getElementById('signupBox').style.display='block'; }
 </script>

@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VELA Uganda - Sign Up | Nakivale, Kampala</title>
-<meta name="description" content="VELA Uganda - Create account to buy and sell safely with MoMo Escrow. Nakivale, Kampala, Mbarara.">
+<title>VELA Uganda - Sign Up</title>
+<meta name="description" content="VELA Uganda - Create account to buy and sell safely with MoMo Escrow.">
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="canonical" href="https://nakivale-market-hub.vercel.app/signup.html">
 <style>
@@ -37,6 +37,7 @@ input{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid
 .prod-preview{width:100%;height:160px;object-fit:cover;border-radius:12px;border:2px solid #111;background:#FFC800}
 .item span{flex:1}
 .empty{background:#fff;border:2px dashed #ccc;border-radius:12px;padding:16px;text-align:center;color:#666;margin-top:8px}
+.link{color:#111;font-weight:bold;text-decoration:underline;text-align:center;display:block;margin-top:12px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -52,70 +53,82 @@ input{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid
 
 <div class="top"><h1>VELA Uganda</h1><p>Shop Safe with Escrow</p><a href="index.html">🏠 Back to Home</a></div>
 
+<div id="loginBox" class="card-white" style="display:none">
+  <h2>Sign In</h2>
+  <p id="welcomeBackText">Sign In</p>
+  <input id="loginPhone" placeholder="Phone">
+  <input id="loginPass" type="password" placeholder="Password">
+  <button class="btn black" onclick="doLogin()">Sign In</button>
+  <p id="loginMsg"></p>
+  <a class="link" onclick="showCreateNew()">Create Account</a>
+</div>
+
 <div id="signupBox" class="card-white">
-  <h2>Create Account - Choose Once</h2>
+  <h2>Create Account</h2>
   <div class="avatar-wrap" onclick="document.getElementById('fileInput').click()">
     <img id="avatarImg" src="https://via.placeholder.com/150/222222/FFC800?text=No+Photo">
     <div class="camera-btn">📷</div>
   </div>
-  <p class="small">Tap circle to upload your photo</p>
+  <p class="small">Upload Photo</p>
   <input type="file" id="fileInput" accept="image/*" onchange="changeAvatar(event)" style="display:none">
-  <button class="btn yellow" onclick="document.getElementById('fileInput').click()">📷 Tap to upload photo</button>
-  <input id="userName" placeholder="Full Name e.g. Elisa Hakorimana">
-  <input id="userPhone" placeholder="Phone e.g. 0770123456">
-  <input id="userLocation" placeholder="Location e.g. Nakivale / Kampala">
-  <p><b>Who are you? Choose ONE:</b></p>
+  <button class="btn yellow" onclick="document.getElementById('fileInput').click()">📷 Upload Photo</button>
+  <input id="userName" placeholder="Full Name">
+  <input id="userPhone" placeholder="Phone">
+  <input id="userLocation" placeholder="Location">
+  <input id="userPass" type="password" placeholder="Password">
+  <input id="userPass2" type="password" placeholder="Confirm Password">
+  <p><b>Account Type</b></p>
   <div class="role">
     <button id="rBuyer" onclick="pickRole('Buyer')">🛍️ Buyer</button>
     <button id="rSeller" onclick="pickRole('Seller')">🏪 Seller</button>
     <button id="rBoth" onclick="pickRole('Both')">🛍️+🏪 Both</button>
   </div>
-  <p id="rolePicked">You picked: Nothing yet</p>
+  <p id="rolePicked"></p>
   <div id="sellerFields" style="display:none">
-    <input id="shopName" placeholder="Shop Name e.g. Elisa Shop">
-    <input id="momoNum" placeholder="MoMo Number where money goes">
+    <input id="shopName" placeholder="Shop Name">
+    <input id="momoNum" placeholder="MoMo Number">
     <input id="momoName" placeholder="MoMo Registered Name">
   </div>
-  <button class="btn black" onclick="createAccount()">Continue → Go To My Profile</button>
+  <button class="btn black" onclick="createAccount()">Create Account</button>
   <p id="signupMsg"></p>
+  <a class="link" onclick="showLogin()">Sign In</a>
 </div>
 
 <div id="dashboard" style="display:none">
   <div class="profile-head">
     <img id="dashAvatar" src="https://via.placeholder.com/80/222222/FFC800?text=👤">
-    <div><b id="dashName">Your Name</b><br><small id="dashRole">Choose role</small><br><small id="dashShop"></small></div>
+    <div><b id="dashName"></b><br><small id="dashRole"></small><br><small id="dashShop"></small></div>
     <button class="small-btn" onclick="logout()">Log Out</button>
   </div>
 
   <div id="buyerFeatures" style="display:none">
-    <h2>🛍️ My Buyer Profile</h2>
-    <div class="card-yellow"><b>🛡️ Escrow Status: No escrow held yet</b><p id="escrowStatusText">You have no active orders yet. When you buy, your money will be held safely by VELA until you confirm delivery.</p><button class="btn black" onclick="confirmDelivery()">✅ Confirm Delivery</button><p id="confirmMsg"></p></div>
-    <h3>My Orders</h3>
-    <div id="buyerOrdersList"><div class="empty">No orders yet.<br>Go to Home and buy your first product safely with Escrow.</div></div>
+    <h2>🛍️ Buyer</h2>
+    <div class="card-yellow"><b>🛡️ Escrow</b><p id="escrowStatusText">0 UGX</p><button class="btn black" onclick="confirmDelivery()">Confirm Delivery</button><p id="confirmMsg"></p></div>
+    <h3>Orders</h3>
+    <div id="buyerOrdersList"><div class="empty">No Orders</div></div>
     <h3>Saved Items</h3>
-    <div class="empty">No saved items yet.</div>
+    <div class="empty">No Saved Items</div>
     <h3>Delivery Address</h3>
-    <div class="empty">No delivery address saved yet.<br>Add it when you place your first order.</div>
-    <button class="btn green" onclick="alert('WhatsApp Support: Contact VELA Admin on WhatsApp')">WhatsApp Support</button>
+    <div class="empty">No Address</div>
+    <button class="btn green" onclick="alert('WhatsApp Support')">WhatsApp Support</button>
   </div>
 
   <div id="sellerFeatures" style="display:none">
-    <h2>🏪 My Seller Profile</h2>
-    <div class="card-black"><b id="dashShopName">My Shop</b><p>New Seller • No reviews yet</p><p>MoMo: <span id="dashMoMo">-</span></p><p>MoMo Name: <span id="dashMoMoName">-</span></p></div>
-    <div class="boxes"><div class="box">Total Sales<br><b id="totalSales">0 UGX</b></div><div class="box">Held in Escrow<br><b id="heldEscrow">0 UGX</b></div><div class="box">Available<br><b id="availableBal">0 UGX</b></div></div>
-    <p class="small" style="margin-top:8px">These numbers are real. They start at 0 and only go up when you make a real sale.</p>
+    <h2>🏪 Seller</h2>
+    <div class="card-black"><b id="dashShopName">My Shop</b><p>New Seller</p><p>MoMo: <span id="dashMoMo">-</span></p><p>MoMo Name: <span id="dashMoMoName">-</span></p></div>
+    <div class="boxes"><div class="box">Total Sales<br><b>0 UGX</b></div><div class="box">Held in Escrow<br><b>0 UGX</b></div><div class="box">Available<br><b>0 UGX</b></div></div>
     <button class="btn yellow" onclick="withdraw()">Withdraw to MoMo</button><p id="withdrawMsg"></p>
-    <h3>My Products</h3>
-    <div id="myProductsList"><div class="empty">No products yet.<br>Add your first real product below.</div></div>
+    <h3>Products</h3>
+    <div id="myProductsList"><div class="empty">No Products</div></div>
     <div id="newProducts"></div>
-    <h3>Add New Product</h3>
-    <img id="prodPreview" src="https://via.placeholder.com/300x180/FFC800/111111?text=Tap+To+Add+Photo" class="prod-preview" onclick="document.getElementById('prodImageInput').click()">
-    <p class="small">Tap yellow photo above to choose product photo from your phone</p>
+    <h3>Add Product</h3>
+    <img id="prodPreview" src="https://via.placeholder.com/300x180/FFC800/111111?text=Add+Photo" class="prod-preview" onclick="document.getElementById('prodImageInput').click()">
+    <p class="small">Add Product Photo</p>
     <input type="file" id="prodImageInput" accept="image/*" onchange="previewProduct(event)" style="display:none">
     <input id="prodName" placeholder="Product Name">
     <input id="prodPrice" placeholder="Price in UGX">
-    <input id="prodStock" placeholder="Stock e.g. 20">
-    <button class="btn black" onclick="addProduct()">+ Add Product With Photo</button>
+    <input id="prodStock" placeholder="Stock">
+    <button class="btn black" onclick="addProduct()">Add Product</button>
   </div>
 </div>
 
@@ -123,9 +136,66 @@ input{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid
 let chosenRole = "";
 let avatarData = "";
 let prodImageData = "";
+let currentUser = null;
+function saveUser(user){
+  localStorage.setItem('vela_signup_user', JSON.stringify(user));
+  if(user.products) localStorage.setItem('vela_my_products', JSON.stringify(user.products));
+}
+function loadUser(){
+  try{ return JSON.parse(localStorage.getItem('vela_signup_user')||'null'); }catch(e){ return null; }
+}
+function loadProducts(){
+  try{ return JSON.parse(localStorage.getItem('vela_my_products')||'[]'); }catch(e){ return []; }
+}
+function showDashboard(user){
+  currentUser = user;
+  document.getElementById('signupBox').style.display='none';
+  document.getElementById('loginBox').style.display='none';
+  document.getElementById('dashboard').style.display='block';
+  document.getElementById('dashName').innerText = user.name;
+  document.getElementById('dashRole').innerText = user.role + " • " + user.location + " • " + user.phone;
+  if(user.avatar) document.getElementById('dashAvatar').src = user.avatar;
+  if(user.role==='Buyer'){ document.getElementById('buyerFeatures').style.display='block'; document.getElementById('sellerFeatures').style.display='none'; }
+  if(user.role==='Seller'){ document.getElementById('buyerFeatures').style.display='none'; document.getElementById('sellerFeatures').style.display='block'; }
+  if(user.role==='Both'){ document.getElementById('buyerFeatures').style.display='block'; document.getElementById('sellerFeatures').style.display='block'; }
+  let shop = user.shopName || user.name + " Shop";
+  document.getElementById('dashShop').innerText = (user.role!=='Buyer') ? "Shop: "+shop : "";
+  document.getElementById('dashShopName').innerText = shop;
+  document.getElementById('dashMoMo').innerText = user.momoNum || "-";
+  document.getElementById('dashMoMoName').innerText = user.momoName || "-";
+  renderMyProducts();
+}
+function renderMyProducts(){
+  let prods = loadProducts();
+  let wrap = document.getElementById('newProducts');
+  let empty = document.getElementById('myProductsList');
+  if(!prods.length){ empty.style.display='block'; wrap.innerHTML=''; return; }
+  empty.style.display='none';
+  wrap.innerHTML = prods.map(p=>'<div class="item"><img src="'+p.img+'" class="prod-img"><span>'+p.name+'<br><small>'+p.price+' UGX • Stock: '+p.stock+'</small></span><span class="badge">Active</span></div>').join('');
+}
+function showLogin(){
+  let u = loadUser();
+  if(!u){ return; }
+  document.getElementById('signupBox').style.display='none';
+  document.getElementById('loginBox').style.display='block';
+  document.getElementById('welcomeBackText').innerText = u.name;
+  document.getElementById('loginPhone').value = u.phone || "";
+}
+function showCreateNew(){
+  document.getElementById('loginBox').style.display='none';
+  document.getElementById('signupBox').style.display='block';
+}
+window.onload = function(){
+  let u = loadUser();
+  if(u){
+    if(localStorage.getItem('vela_logged_in')==='yes'){ showDashboard(u); }
+    else { showLogin(); }
+  }
+  renderMyProducts();
+};
 function pickRole(role){
   chosenRole = role;
-  document.getElementById('rolePicked').innerText = "You picked: " + role;
+  document.getElementById('rolePicked').innerText = role;
   document.getElementById('rBuyer').className = role==='Buyer' ? 'picked' : '';
   document.getElementById('rSeller').className = role==='Seller' ? 'picked' : '';
   document.getElementById('rBoth').className = role==='Both' ? 'picked' : '';
@@ -144,48 +214,63 @@ function previewProduct(e){
   reader.readAsDataURL(file);
 }
 function createAccount(){
-  let name = document.getElementById('userName').value;
-  let loc = document.getElementById('userLocation').value || "Nakivale";
-  let phone = document.getElementById('userPhone').value;
-  if(!name){ alert("Please enter your name"); return; }
-  if(!chosenRole){ alert("Please choose Buyer, Seller or Both"); return; }
-  if((chosenRole==='Seller' || chosenRole==='Both') && !document.getElementById('momoNum').value){ alert("Seller must enter MoMo Number"); return; }
-  document.getElementById('signupBox').style.display = 'none';
-  document.getElementById('dashboard').style.display = 'block';
-  document.getElementById('dashName').innerText = name;
-  document.getElementById('dashRole').innerText = chosenRole + " • " + loc + " • " + phone;
-  if(avatarData) document.getElementById('dashAvatar').src = avatarData;
-  if(chosenRole==='Buyer'){ document.getElementById('buyerFeatures').style.display='block'; document.getElementById('sellerFeatures').style.display='none'; }
-  if(chosenRole==='Seller'){ document.getElementById('buyerFeatures').style.display='none'; document.getElementById('sellerFeatures').style.display='block'; }
-  if(chosenRole==='Both'){ document.getElementById('buyerFeatures').style.display='block'; document.getElementById('sellerFeatures').style.display='block'; }
-  let shop = document.getElementById('shopName').value || name + " Shop";
-  document.getElementById('dashShop').innerText = (chosenRole!=='Buyer') ? "Shop: "+shop : "";
-  document.getElementById('dashShopName').innerText = shop;
-  document.getElementById('dashMoMo').innerText = document.getElementById('momoNum').value || "-";
-  document.getElementById('dashMoMoName').innerText = document.getElementById('momoName').value || "-";
+  let name = document.getElementById('userName').value.trim();
+  let loc = document.getElementById('userLocation').value.trim() || "Nakivale";
+  let phone = document.getElementById('userPhone').value.trim();
+  let pass = document.getElementById('userPass').value;
+  let pass2 = document.getElementById('userPass2').value;
+  if(!name){ alert("Enter Name"); return; }
+  if(!phone){ alert("Enter Phone"); return; }
+  if(!pass || pass.length < 4){ alert("Password: Minimum 4 characters"); return; }
+  if(pass !== pass2){ alert("Passwords Do Not Match"); return; }
+  if(!chosenRole){ alert("Select Account Type"); return; }
+  if((chosenRole==='Seller' || chosenRole==='Both') && !document.getElementById('momoNum').value){ alert("Enter MoMo Number"); return; }
+  let user = {
+    name: name, phone: phone, location: loc, password: pass, role: chosenRole,
+    shopName: document.getElementById('shopName').value.trim() || name + " Shop",
+    momoNum: document.getElementById('momoNum').value.trim(),
+    momoName: document.getElementById('momoName').value.trim(),
+    avatar: avatarData || "",
+    products: loadProducts()
+  };
+  saveUser(user);
+  localStorage.setItem('vela_logged_in','yes');
+  showDashboard(user);
 }
-function confirmDelivery(){
-  document.getElementById('confirmMsg').innerText = "You have no active escrow to confirm yet. When you buy, come here to confirm delivery.";
+function doLogin(){
+  let phone = document.getElementById('loginPhone').value.trim();
+  let pass = document.getElementById('loginPass').value;
+  let u = loadUser();
+  if(!u){ return; }
+  if(phone !== u.phone){ document.getElementById('loginMsg').innerText = "Incorrect Phone"; return; }
+  if(pass !== u.password){ document.getElementById('loginMsg').innerText = "Incorrect Password"; return; }
+  localStorage.setItem('vela_logged_in','yes');
+  showDashboard(u);
 }
-function withdraw(){
-  document.getElementById('withdrawMsg').innerText = "You have 0 UGX available to withdraw. When you make a real sale, your real balance will show here.";
-}
+function confirmDelivery(){ document.getElementById('confirmMsg').innerText = "No Active Order"; }
+function withdraw(){ document.getElementById('withdrawMsg').innerText = "Available: 0 UGX"; }
 function addProduct(){
-  let n = document.getElementById('prodName').value;
-  let p = document.getElementById('prodPrice').value;
-  let s = document.getElementById('prodStock').value || "10";
-  if(!n || !p){ alert("Enter product name and price"); return; }
+  let n = document.getElementById('prodName').value.trim();
+  let p = document.getElementById('prodPrice').value.trim();
+  let s = document.getElementById('prodStock').value.trim() || "10";
+  if(!n || !p){ alert("Enter Product Name and Price"); return; }
   let img = prodImageData || "https://via.placeholder.com/65/FFC800/111111?text=VELA";
-  document.getElementById('myProductsList').style.display = 'none';
-  document.getElementById('newProducts').innerHTML += '<div class="item"><img src="'+img+'" class="prod-img"><span>'+n+'<br><small>'+p+' UGX • Stock: '+s+'</small></span><span class="badge">Active</span></div>';
+  let prods = loadProducts();
+  prods.push({name:n, price:p, stock:s, img:img});
+  localStorage.setItem('vela_my_products', JSON.stringify(prods));
+  if(currentUser){ currentUser.products = prods; saveUser(currentUser); }
+  renderMyProducts();
   document.getElementById('prodName').value = "";
   document.getElementById('prodPrice').value = "";
   document.getElementById('prodStock').value = "";
   prodImageData = "";
-  document.getElementById('prodPreview').src = "https://via.placeholder.com/300x180/FFC800/111111?text=Tap+To+Add+Photo";
-  alert("✅ Real product added!");
+  document.getElementById('prodPreview').src = "https://via.placeholder.com/300x180/FFC800/111111?text=Add+Photo";
 }
-function logout(){ document.getElementById('dashboard').style.display='none'; document.getElementById('signupBox').style.display='block'; }
+function logout(){
+  localStorage.setItem('vela_logged_in','no');
+  document.getElementById('dashboard').style.display='none';
+  showLogin();
+}
 </script>
 </body>
 </html>

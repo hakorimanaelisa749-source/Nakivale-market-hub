@@ -1,100 +1,191 @@
 <!DOCTYPE html>
-<html><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>VELA - Sign Up</title>
+<html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VELA - Create Account</title>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
-*{box-sizing:border-box;font-family:system-ui} body{background:#f5f7f5;padding:16px}
-.box{background:white;max-width:400px;margin:20px auto;padding:20px;border-radius:16px}
-h2{font-size:22px} h2 span{color:#facc15}
-.inp{width:100%;padding:13px;border:1px solid #ddd;border-radius:10px;margin-top:10px;font-size:15px}
-.btn{width:100%;padding:13px;border:none;border-radius:12px;background:#111827;color:white;font-weight:900;margin-top:12px;font-size:15px}
-.btn:disabled{opacity:.6}
-#msg{text-align:center;margin-top:10px;font-size:14px}
-</style></head><body>
-<div class="box">
-<h2>VELA<span>.</span> Sign Up</h2>
-<p style="font-size:13px;color:#666">Create real VELA account. You will see it in Firebase.</p>
+*{box-sizing:border-box;margin:0;padding:0;font-family:system-ui}
+body{background:#f5f7f5;padding:20px;display:flex;justify-content:center}
+.wrap{width:100%;max-width:420px;background:white;border-radius:20px;padding:22px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.logo{font-size:32px;font-weight:900;letter-spacing:3px;text-align:center}
+.logo span{color:#facc15}
+.sub{text-align:center;font-size:13px;color:#666;margin-top:6px;line-height:1.5}
+.inp{width:100%;padding:13px;border:1px solid #d1d5db;border-radius:12px;margin-top:12px;font-size:15px}
+.submit{background:#111827;color:white;border:none;width:100%;padding:13px;border-radius:12px;font-weight:900;margin-top:12px;font-size:15px;cursor:pointer}
+.submit:disabled{opacity:.6}
+.back{background:#f3f4f6;color:#111827}
+.green{background:#25D366;color:white}
+.yellow{background:#facc15;color:#111827}
+.msg{text-align:center;margin-top:12px;font-size:13px;min-height:18px}
+.step{font-size:12px;font-weight:800;color:#999;letter-spacing:1px;margin-top:6px}
+.progress{height:6px;background:#eee;border-radius:99px;margin-top:10px;overflow:hidden}
+.progress div{height:100%;background:#111827;transition:.3s}
+.small{font-size:12px;color:#666;text-align:center;margin-top:12px;line-height:1.6}
+.hide{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
 
-<input id="suName" class="inp" placeholder="Full Name">
-<input id="suPhone" class="inp" placeholder="Phone 0783663151" type="tel">
-<input id="suEmail" class="inp" placeholder="Email - e.g. elisa@gmail.com" type="email">
-<input id="suPass" class="inp" placeholder="Password 6+ characters" type="password">
+<!-- SCREEN 1 - WELCOME -->
+<div id="step1">
+  <div class="logo">VELA<span>.</span></div>
+  <p class="sub">Buy safe. Sell safe.<br>Pay to VELA <b>47852783</b> only. No scam.</p>
+  <div class="progress"><div style="width:25%"></div></div>
+  <button class="submit" onclick="goStep(2)">Create Account →</button>
+  <button class="submit back" onclick="goStep(5)">Already have account? Sign In</button>
+  <button class="submit green" onclick="joinChannel()">📢 Join VELA WhatsApp Channel</button>
+  <p class="small">Nakivale • Kampala • Mbarara<br>VELA holds money until you get your item.</p>
+</div>
 
-<button id="suBtn" class="btn" onclick="doSignUp()">Create Account</button>
-<button class="btn" style="background:#f3f4f6;color:#111827" onclick="doSignIn()">Already have account? Sign In</button>
-<p id="msg"></p>
-<p id="debug" style="font-size:11px;color:#999;text-align:center"></p>
+<!-- SCREEN 2 - NAME + PHONE -->
+<div id="step2" class="hide">
+  <div class="logo">VELA<span>.</span></div>
+  <p class="step">STEP 1 OF 2</p>
+  <h3 style="margin-top:6px">Who are you?</h3>
+  <div class="progress"><div style="width:50%"></div></div>
+  <input id="suName" class="inp" placeholder="Full Name - e.g. Erick mk">
+  <input id="suPhone" class="inp" placeholder="Phone / WhatsApp 077..." type="tel">
+  <button class="submit" onclick="checkStep2()">Next →</button>
+  <button class="submit back" onclick="goStep(1)">← Back</button>
+</div>
+
+<!-- SCREEN 3 - EMAIL + PASSWORD -->
+<div id="step3" class="hide">
+  <div class="logo">VELA<span>.</span></div>
+  <p class="step">STEP 2 OF 2</p>
+  <h3 style="margin-top:6px">Secure your account</h3>
+  <div class="progress"><div style="width:75%"></div></div>
+  <input id="suEmail" class="inp" placeholder="Email" type="email">
+  <input id="suPass" class="inp" placeholder="Password 6+ characters" type="password">
+  <input id="suPass2" class="inp" placeholder="Confirm Password" type="password">
+  <button class="submit" id="suBtn" onclick="doSignUp()">Create Account ✅</button>
+  <button class="submit back" onclick="goStep(2)">← Back</button>
+  <p id="authMsg" class="msg"></p>
+</div>
+
+<!-- SCREEN 4 - DONE -->
+<div id="step4" class="hide" style="text-align:center">
+  <div style="font-size:54px">✅</div>
+  <h3 style="margin-top:8px">Welcome <span id="welcomeName"></span>!</h3>
+  <p class="sub">Your account is saved in Firebase.<br>You are now logged in.</p>
+  <p id="profileUserInfo" style="font-size:12px;color:green;margin-top:10px"></p>
+  <div class="progress"><div style="width:100%"></div></div>
+  <button class="submit" onclick="alert('Go to Shop - Start Selling!')">➕ Start Selling</button>
+  <button class="submit yellow" onclick="alert('Go to Shop - Start Shopping!')">🛍️ Start Shopping</button>
+  <button class="submit green" onclick="joinChannel()">📢 Join VELA Channel</button>
+  <button class="submit back" onclick="doLogout()">Log Out</button>
+</div>
+
+<!-- SCREEN 5 - SIGN IN -->
+<div id="step5" class="hide">
+  <div class="logo">VELA<span>.</span></div>
+  <h3 style="margin-top:10px">Sign In to VELA</h3>
+  <div class="progress"><div style="width:50%"></div></div>
+  <input id="siEmail" class="inp" placeholder="Email" type="email">
+  <input id="siPass" class="inp" placeholder="Password" type="password">
+  <button class="submit" id="siBtn" onclick="doSignIn()">Sign In</button>
+  <button class="submit back" onclick="goStep(1)">← Back</button>
+  <p id="siMsg" class="msg"></p>
+</div>
+
 </div>
 
 <script>
-// SAME FIREBASE AS YOUR SITE
-const firebaseConfig={apiKey:"AIzaSyCLHrYWH31Nu6hZZyl3fXpdrtbJapAVzdI",authDomain:"vela-search.firebaseapp.com",projectId:"vela-search",storageBucket:"vela-search.firebasestorage.app",messagingSenderId:"713874060645",appId:"1:713874060645:web:44ac156cc34ef3cfee5d8c"};
+// ===== 1. PUT YOUR FIREBASE CONFIG HERE =====
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
 firebase.initializeApp(firebaseConfig);
-const auth=firebase.auth();
-const db=firebase.firestore();
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// ===== 2. STAY LOGGED IN FIX =====
+auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).catch(()=>{});
+
+// When you close and come back, this runs automatically
+auth.onAuthStateChanged(async u=>{
+  if(!u){ return; }
+  // You ARE logged in - load your real data from Firestore
+  try{
+    let snap = await db.collection("vela_sellers").doc(u.uid).get();
+    let s = snap.exists ? snap.data() : {};
+    let name = s.shopName || s.name || u.email;
+    document.getElementById("welcomeName").innerText = name;
+    document.getElementById("profileUserInfo").innerText = "✅ Logged in as: " + name + " | " + u.email;
+    goStep(4);
+  }catch(e){
+    document.getElementById("welcomeName").innerText = u.email;
+    goStep(4);
+  }
+});
+
+function goStep(n){
+  for(let i=1;i<=5;i++){
+    let el=document.getElementById("step"+i);
+    if(el) el.style.display = (i===n?"block":"none");
+  }
+}
+
+function checkStep2(){
+  let name=document.getElementById("suName").value.trim();
+  let phone=document.getElementById("suPhone").value.trim();
+  if(!name){ alert("Please fill your Full Name"); return; }
+  if(!phone || phone.length < 9){ alert("Please fill your Phone / WhatsApp"); return; }
+  goStep(3);
+}
 
 async function doSignUp(){
-  const name=document.getElementById("suName").value.trim();
-  const phone=document.getElementById("suPhone").value.trim();
-  const email=document.getElementById("suEmail").value.trim();
-  const pass=document.getElementById("suPass").value;
-  const msg=document.getElementById("msg");
-  const btn=document.getElementById("suBtn");
-
-  if(!name||!phone||!email||pass.length<6){
-    msg.style.color="red";
-    msg.innerText="❌ Fill all: Name, Phone, Email, Password 6+";
-    return;
-  }
-  btn.disabled=true; btn.innerText="Creating..."; msg.innerText="";
-
+  let name=document.getElementById("suName").value.trim();
+  let phone=document.getElementById("suPhone").value.trim();
+  let email=document.getElementById("suEmail").value.trim();
+  let pass=document.getElementById("suPass").value;
+  let pass2=document.getElementById("suPass2").value;
+  let msg=document.getElementById("authMsg");
+  if(!email || pass.length<6){ msg.innerText="❌ Fill Email + Password 6+"; return; }
+  if(pass!==pass2){ msg.innerText="❌ Passwords do not match"; return; }
+  let btn=document.getElementById("suBtn");
+  btn.innerText="Creating..."; btn.disabled=true;
   try{
-    // 1. REAL FIREBASE AUTH - THIS APPEARS IN AUTHENTICATION TAB
-    const cred = await auth.createUserWithEmailAndPassword(email, pass);
-    const uid = cred.user.uid;
-
-    // 2. REAL FIRESTORE DATA - THIS APPEARS IN FIRESTORE TAB
-    await db.collection("vela_users").doc(uid).set({
-      name: name,
-      phone: phone,
-      email: email,
-      created: Date.now(),
-      verified: true
-    });
-
-    msg.style.color="green";
-    msg.innerText="✅ SUCCESS! UID: "+uid+" - Check Firebase now";
-    document.getElementById("debug").innerText="Email: "+email+" | UID: "+uid;
-    btn.innerText="✅ Account Created";
-
+    let cred=await auth.createUserWithEmailAndPassword(email,pass);
+    // Save to BOTH collections - this is what you saw in Firebase
+    await db.collection("vela_users").doc(cred.user.uid).set({name,phone,email,created:Date.now()});
+    await db.collection("vela_sellers").doc(cred.user.uid).set({shopName:name,wa:phone,phone:phone,email,location:"Nakivale",role:"buyer",created:Date.now()},{merge:true});
+    document.getElementById("welcomeName").innerText=name;
+    document.getElementById("profileUserInfo").innerText="✅ Logged in as: "+name+" | "+email;
+    goStep(4);
   }catch(e){
-    btn.disabled=false; btn.innerText="Create Account";
-    msg.style.color="red";
-    // Show REAL Firebase error, not fake message
-    msg.innerText="❌ Firebase says: "+e.message;
-    document.getElementById("debug").innerText="Error code: "+e.code;
+    msg.innerText="❌ "+e.message;
+    btn.innerText="Create Account ✅"; btn.disabled=false;
   }
 }
 
 async function doSignIn(){
-  const email=document.getElementById("suEmail").value.trim();
-  const pass=document.getElementById("suPass").value;
-  const msg=document.getElementById("msg");
+  let email=document.getElementById("siEmail").value.trim();
+  let pass=document.getElementById("siPass").value;
+  let msg=document.getElementById("siMsg");
   try{
-    const cred=await auth.signInWithEmailAndPassword(email, pass);
-    msg.style.color="green";
-    msg.innerText="✅ Signed in! UID: "+cred.user.uid;
-  }catch(e){
-    msg.style.color="red";
-    msg.innerText="❌ Firebase says: "+e.message;
-  }
+    await auth.signInWithEmailAndPassword(email,pass);
+    // onAuthStateChanged will take you to Step 4 automatically
+  }catch(e){ msg.innerText="❌ "+e.message; }
 }
 
-// This proves if someone is logged in
-auth.onAuthStateChanged(u=>{
-  if(u) document.getElementById("debug").innerText="Logged in as: "+u.email+" | UID: "+u.uid;
-});
-</script></body></html>
+async function doLogout(){
+  await auth.signOut();
+  goStep(1);
+}
+
+function joinChannel(){
+  // REPLACE WITH YOUR REAL CHANNEL LINK
+  window.open("https://whatsapp.com/channel/0029...YOUR_LINK","_blank");
+}
+</script>
+</body></html>

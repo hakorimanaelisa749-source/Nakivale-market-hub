@@ -27,6 +27,7 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .modal-bg.open{display:flex}.modal{background:white;width:100%;max-height:93vh;overflow:auto;border-radius:20px 20px 0 0;padding:18px}
 .inp{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:10px;margin-top:10px}
 .submit{background:#111827;color:white;border:none;width:100%;padding:12px;border-radius:12px;font-weight:900;margin-top:10px}
+.submit:disabled{opacity:.6}
 .closeX{background:#f3f4f6;border:none;padding:6px 10px;border-radius:8px;float:right}
 #productViewBg{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:60;display:none;overflow:auto}
 #productViewBg.open{display:flex;flex-direction:column}
@@ -39,7 +40,6 @@ header h1{font-size:28px;font-weight:900;letter-spacing:3px} header h1 span{colo
 .cart-bar.show{display:flex}
 .payBox{background:#f0fdf4;border:2px solid #22c55e;border-radius:12px;padding:12px;margin-top:12px}
 footer{background:#111827;color:#fff;padding:18px 14px 90px;text-align:center;margin-top:20px;font-size:12px;line-height:1.7}
-/* HAMBURGER */
 .sideMenu{position:fixed;top:0;left:-300px;width:280px;height:100%;background:white;z-index:90;transition:.3s;overflow:auto;box-shadow:2px 0 20px rgba(0,0,0,.2)}
 .sideMenu.open{left:0}
 .sideOverlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:80;display:none}
@@ -47,13 +47,11 @@ footer{background:#111827;color:#fff;padding:18px 14px 90px;text-align:center;ma
 .menuHead{background:#111827;color:white;padding:16px;display:flex;justify-content:space-between;align-items:center}
 .menuItem{width:100%;text-align:left;border:none;background:none;padding:14px 16px;font-size:15px;color:#111827;display:flex;gap:10px;align-items:center;border-bottom:1px solid #f3f4f6;cursor:pointer}
 .menuItem:active{background:#fef9c3}
-/* CATEGORIES ON TOP */
 .catRow{display:flex;gap:8px;overflow-x:auto;padding:10px;white-space:nowrap;scrollbar-width:none;background:white;position:sticky;top:58px;z-index:15}
 .catRow::-webkit-scrollbar{display:none}
 .catBtn{flex:0 0 auto;padding:9px 14px;border-radius:20px;border:1px solid #e5e7eb;background:#f9fafb;font-weight:800;font-size:13px;cursor:pointer}
 .catBtn.active{background:#111827;color:white;border-color:#111827}
 .catBtn.sale{background:#111827;color:#facc15;border-color:#111827}
-/* BLACK FRIDAY */
 .bfBanner{margin:10px;border-radius:16px;padding:16px;background:#111827;color:white}
 .bfBanner h2{font-size:20px;font-weight:900}
 .bfBanner h2 span{color:#facc15}
@@ -61,6 +59,7 @@ footer{background:#111827;color:#fff;padding:18px 14px 90px;text-align:center;ma
 .bfBanner button{margin-top:10px;background:#facc15;color:#111827;border:none;padding:9px 16px;border-radius:8px;font-weight:900}
 .christmasTag{position:absolute;top:8px;left:8px;background:#dc2626;color:white;font-size:10px;font-weight:900;padding:4px 8px;border-radius:6px;z-index:2}
 .saleTag{position:absolute;top:8px;right:8px;background:#facc15;color:#111827;font-size:10px;font-weight:900;padding:4px 8px;border-radius:6px;z-index:2}
+.searchBig{width:100%;padding:16px 16px 16px 44px;border-radius:14px;border:2px solid #111827;font-size:16px;background:white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23111827' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16' y2='16'/%3E%3C/svg%3E") no-repeat 14px center;box-shadow:0 4px 14px rgba(0,0,0,.08)}
 </style></head><body>
 
 <div class="sideOverlay" id="sideOverlay" onclick="toggleMenu()"></div>
@@ -71,7 +70,7 @@ footer{background:#111827;color:#fff;padding:18px 14px 90px;text-align:center;ma
   <button class="menuItem" onclick="toggleMenu();showPage('SellerOrders')">📋 Orders To Deliver</button>
   <button class="menuItem" onclick="toggleMenu();showPage('About')">🛡️ Escrow Protection</button>
   <button class="menuItem" onclick="toggleMenu();showPage('MyProducts')">📦 My Products</button>
-  <button class="menuItem" onclick="toggleMenu();openProfile()">👤 My Profile / Sell on VELA</button>
+  <button class="menuItem" onclick="toggleMenu();onAvatarClick()">👤 My Profile / Sign Up</button>
   <button class="menuItem" onclick="toggleMenu();showPage('Cart')">🛒 My Cart</button>
 </div>
 
@@ -80,10 +79,9 @@ footer{background:#111827;color:#fff;padding:18px 14px 90px;text-align:center;ma
 <h1>VELA<span>.</span></h1>
 <div style="display:flex;align-items:center;gap:12px">
 <button onclick="showPage('Cart')" style="background:none;border:none;color:white;font-size:22px">🛒 <span id="headerCartCount">0</span></button>
-<button onclick="openProfile()" style="background:#facc15;border:none;width:32px;height:32px;border-radius:50%;font-weight:900">👤</button>
+<button onclick="onAvatarClick()" style="background:#facc15;border:none;width:32px;height:32px;border-radius:50%;font-weight:900">👤</button>
 </div></header>
 
-<!-- TOP = ONLY CATEGORIES -->
 <div class="catRow" id="catRow">
   <button class="catBtn active" onclick="filterCat('All',this)">All</button>
   <button class="catBtn sale" onclick="filterCat('Christmas',this)">🎄 Black Friday</button>
@@ -95,14 +93,14 @@ footer{background:#111827;color:#fff;padding:18px 14px 90px;text-align:center;ma
 </div>
 
 <div id="pageHome" class="page active">
-  <!-- BLACK FRIDAY FOR CHRISTMAS -->
+  <!-- SEARCH - BIGGER + ABOVE BLACK FRIDAY -->
+  <div style="padding:12px 12px 4px"><input id="search" class="searchBig" placeholder="Search products in Nakivale..." oninput="render()"></div>
   <div class="bfBanner" id="bfBanner">
     <div style="font-size:11px;letter-spacing:2px;color:#facc15;font-weight:900">🎄 VELA BLACK FRIDAY • CHRISTMAS SALE</div>
     <h2>CHRISTMAS CLOTHES <span>UP TO 30% OFF</span></h2>
     <p>Jackets, Dresses, Shoes for Nakivale, Kampala, Mbarara. Pay to VELA 47852783 only. No scam.</p>
     <button onclick="filterCat('Christmas',document.querySelectorAll('.catBtn')[1])">Shop Christmas Now →</button>
   </div>
-  <div style="padding:0 12px 12px"><input id="search" placeholder="Search products in Nakivale..." oninput="render()" style="width:100%;padding:12px;border-radius:12px;border:1px solid #d1d5db"></div>
   <div class="grid" id="grid"></div>
 </div>
 
@@ -123,9 +121,39 @@ footer{background:#111827;color:#fff;padding:18px 14px 90px;text-align:center;ma
 
 <div class="modal-bg" id="modalBg"><div class="modal"><button class="closeX" onclick="closeModal()">✕</button><h3>➕ Add Product</h3><input id="pName" class="inp" placeholder="Product Name - e.g. Christmas Jacket"><select id="pCat" class="inp"><option>Phones & Tablets</option><option>Supermarket</option><option>Home & Office</option><option>Electronics</option><option>Fashion</option><option>Christmas</option></select><input id="pPrice" class="inp" type="number" placeholder="Price UGX"><input id="pFile" type="file" accept="image/*" hidden onchange="previewFile(this)"><label style="display:block;background:#f3f4f6;padding:12px;text-align:center;border-radius:10px;margin-top:10px" onclick="document.getElementById('pFile').click()">📷 Photo</label><img id="preview" style="width:100%;height:140px;object-fit:cover;border-radius:10px;margin-top:10px;display:none"><input id="pLink" class="inp" placeholder="Or paste image link"><button id="submitBtn" class="submit" onclick="submitProduct()">Submit</button></div></div>
 
-<div class="modal-bg" id="loginBg"><div class="modal"><button class="closeX" onclick="closeLogin()">✕</button><h3>Sign In</h3><input id="emailInput" class="inp" placeholder="Email" type="email"><input id="passInput" class="inp" placeholder="Password 6+" type="password"><button class="submit" onclick="signInEmail()">Sign In / Create</button><p id="loginMsg" style="text-align:center;margin-top:10px"></p></div></div>
+<!-- REAL SIGN-UP / SIGN-IN -->
+<div class="modal-bg" id="authBg"><div class="modal">
+<button class="closeX" onclick="closeAuth()">✕</button>
+<h3 id="authTitle">Create VELA Account</h3>
+<p style="font-size:12px;color:#666;margin-top:4px">One account to buy & sell. Pay to VELA 47852783.</p>
+<div id="step1">
+<input id="suName" class="inp" placeholder="Full Name - e.g. Elisa Hakorimana">
+<input id="suPhone" class="inp" placeholder="Phone / WhatsApp 0783663151" type="tel">
+<input id="suPass" class="inp" placeholder="Create Password 6+ characters" type="password">
+<input id="suPass2" class="inp" placeholder="Confirm Password" type="password">
+<input id="suShop" class="inp" placeholder="Shop Name (if seller) - e.g. Muhire sales">
+<select id="suLoc" class="inp"><option>Nakivale Base Camp</option><option>Nakivale Juru</option><option>Kampala</option><option>Mbarara</option><option>Other</option></select>
+<button class="submit" id="suBtn" onclick="doSignUp()">Create Account → Send Code</button>
+<button class="submit" style="background:#f3f4f6;color:#111827" onclick="showSignIn()">Already have account? Sign In</button>
+<p id="authMsg" style="text-align:center;font-size:13px;margin-top:10px;color:#b45309"></p>
+</div>
+<div id="step2" style="display:none">
+<p style="font-size:13px;margin-top:10px">We sent a 6-digit code to WhatsApp <b id="verifyPhoneText"></b><br>Enter it below to activate your account.</p>
+<input id="verifyCodeInput" class="inp" placeholder="Enter 6-digit code" type="number" maxlength="6" style="text-align:center;font-size:22px;letter-spacing:5px;font-weight:900">
+<button class="submit" onclick="verifyCode()">Verify & Start Selling</button>
+<button class="submit" style="background:#f3f4f6;color:#111827" onclick="resendCode()">Resend Code via WhatsApp</button>
+<p id="verifyMsg" style="text-align:center;font-size:13px;margin-top:10px"></p>
+</div>
+<div id="stepSignIn" style="display:none">
+<input id="siPhone" class="inp" placeholder="Phone 078..." type="tel">
+<input id="siPass" class="inp" placeholder="Password" type="password">
+<button class="submit" onclick="doSignIn()">Sign In</button>
+<button class="submit" style="background:#f3f4f6;color:#111827" onclick="showSignUp()">No account? Create Account</button>
+<p id="siMsg" style="text-align:center;font-size:13px;margin-top:10px"></p>
+</div>
+</div></div>
 
-<div class="modal-bg" id="profileBg"><div class="modal"><button class="closeX" onclick="closeProfile()">✕</button><h3>👤 My Profile - Sell on VELA</h3><input id="sShop" class="inp" placeholder="Shop Name"><input id="sWa" class="inp" placeholder="WhatsApp 256..."><select id="sLoc" class="inp"><option>Nakivale Base Camp</option><option>Kampala</option><option>Mbarara</option></select><button class="submit" onclick="saveSellerProfile()">Save & Start Selling</button><button class="submit" style="background:#f3f4f6;color:#111827" onclick="showPage('MyProducts');closeProfile()">📦 My Products</button><p id="profileMsg" style="text-align:center;color:green;margin-top:8px"></p></div></div>
+<div class="modal-bg" id="profileBg"><div class="modal"><button class="closeX" onclick="closeProfile()">✕</button><h3>👤 My Profile</h3><p id="profileUserInfo" style="font-size:12px;color:#666;margin-top:6px"></p><input id="sShop" class="inp" placeholder="Shop Name"><input id="sWa" class="inp" placeholder="WhatsApp 256..."><select id="sLoc" class="inp"><option>Nakivale Base Camp</option><option>Kampala</option><option>Mbarara</option></select><button class="submit" onclick="saveSellerProfile()">Save & Start Selling</button><button class="submit" style="background:#f3f4f6;color:#111827" onclick="showPage('MyProducts');closeProfile()">📦 My Products</button><button class="submit" style="background:#fee2e2;color:#991b1b" onclick="doSignOut()">Log Out</button><p id="profileMsg" style="text-align:center;color:green;margin-top:8px"></p></div></div>
 
 <div id="productViewBg"><img id="pvImg" class="pv-img"><div class="pv-body"><button class="closeX" onclick="closeProductView()">✕</button><div id="pvTitle" style="font-weight:900;font-size:18px"></div><div id="pvPrice" style="font-weight:900;margin-top:6px"></div><div id="pvShop" style="font-size:13px;margin-top:6px;font-weight:800"></div><button id="pvBuyBtn" class="pv-btn buy">💳 Buy Now - Pay to VELA</button><button id="pvCartBtn" class="pv-btn cart">🛒 Add to Cart</button><button id="pvCallBtn" class="pv-btn call">💬 Chat Seller</button><button class="pv-btn" style="background:#f3f4f6" onclick="closeProductView()">Close</button></div></div>
 
@@ -137,29 +165,90 @@ firebase.initializeApp(firebaseConfig);const auth=firebase.auth();const db=fireb
 let compressedImageData=null,currentViewProductId=null,currentUser=null,products=[];
 let cart=JSON.parse(localStorage.getItem('vela_cart')||'[]');
 let activeCat='All';
+let pendingUser=null,pendingCode="",pendingPhone="";
 function toggleMenu(){document.getElementById("sideMenu").classList.toggle("open");document.getElementById("sideOverlay").classList.toggle("open");}
 function filterCat(cat,btn){activeCat=cat;document.querySelectorAll('.catBtn').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');let bf=document.getElementById('bfBanner');if(bf)bf.style.display=(cat==='All'||cat==='Christmas')?'block':'none';document.getElementById('search').value='';render();showPage('Home');}
 function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));let el=document.getElementById('page'+name);if(el)el.classList.add('active');window.scrollTo(0,0);}
-function openLogin(){document.getElementById("loginBg").classList.add("open");}function closeLogin(){document.getElementById("loginBg").classList.remove("open");}
-function openProfile(){if(!currentUser){openLogin();return;}document.getElementById("profileBg").classList.add("open");}
+
+// ===== REAL AUTH =====
+function openAuth(){document.getElementById("authBg").classList.add("open");showSignUp();}
+function closeAuth(){document.getElementById("authBg").classList.remove("open");}
+function showSignUp(){document.getElementById("authTitle").innerText="Create VELA Account";document.getElementById("step1").style.display="block";document.getElementById("step2").style.display="none";document.getElementById("stepSignIn").style.display="none";}
+function showSignIn(){document.getElementById("authTitle").innerText="Sign In to VELA";document.getElementById("step1").style.display="none";document.getElementById("step2").style.display="none";document.getElementById("stepSignIn").style.display="block";}
+function cleanPhone(p){p=String(p||"").replace(/[^0-9]/g,'');if(p.startsWith("0"))p="256"+p.slice(1);return p;}
+async function doSignUp(){
+  let name=document.getElementById("suName").value.trim();
+  let phoneRaw=document.getElementById("suPhone").value.trim();
+  let pass=document.getElementById("suPass").value;
+  let pass2=document.getElementById("suPass2").value;
+  let shop=document.getElementById("suShop").value.trim()||name;
+  let loc=document.getElementById("suLoc").value;
+  let msg=document.getElementById("authMsg");
+  let phone=cleanPhone(phoneRaw);
+  if(!name||phone.length<12){msg.innerText="❌ Enter full name & correct phone 078...";return;}
+  if(pass.length<6){msg.innerText="❌ Password must be 6+ characters";return;}
+  if(pass!==pass2){msg.innerText="❌ Passwords do not match";return;}
+  let email=phone+"@vela.ug";
+  let btn=document.getElementById("suBtn");btn.innerText="Creating...";btn.disabled=true;
+  try{
+    let cred=await auth.createUserWithEmailAndPassword(email,pass);
+    let uid=cred.user.uid;
+    pendingCode=String(Math.floor(100000+Math.random()*900000));
+    pendingPhone=phone;
+    pendingUser={uid,name,phone,shop,loc,email};
+    await db.collection("vela_users").doc(uid).set({name,phone,shopName:shop,location:loc,email,verified:false,role:"both",created:Date.now(),lastLogin:Date.now()});
+    await db.collection("vela_sellers").doc(uid).set({shopName:shop,wa:phone,location:loc,email,verified:false,created:Date.now()},{merge:true});
+    await db.collection("vela_verifications").doc(uid).set({phone,code:pendingCode,created:Date.now()});
+    msg.innerText="✅ Account created! Code sent to WhatsApp...";
+    document.getElementById("verifyPhoneText").innerText="+"+phone;
+    document.getElementById("step1").style.display="none";
+    document.getElementById("step2").style.display="block";
+    window.open("https://wa.me/"+phone+"?text="+encodeURIComponent("Your VELA verification code is: "+pendingCode+" - Pay to VELA 47852783 only."),"_blank");
+  }catch(e){
+    if(e.code==="auth/email-already-in-use"){msg.innerText="❌ This phone already has account. Please Sign In.";showSignIn();}
+    else msg.innerText="❌ "+e.message;
+  }
+  btn.innerText="Create Account → Send Code";btn.disabled=false;
+}
+function resendCode(){if(!pendingPhone)return;window.open("https://wa.me/"+pendingPhone+"?text="+encodeURIComponent("Your VELA code is: "+pendingCode),"_blank");document.getElementById("verifyMsg").innerText="Code resent to WhatsApp";}
+async function verifyCode(){
+  let entered=document.getElementById("verifyCodeInput").value.trim();
+  let msg=document.getElementById("verifyMsg");
+  if(entered===pendingCode){
+    await db.collection("vela_users").doc(pendingUser.uid).update({verified:true});
+    await db.collection("vela_sellers").doc(pendingUser.uid).update({verified:true});
+    msg.innerText="✅ Verified! Welcome "+pendingUser.name;msg.style.color="green";
+    setTimeout(()=>{closeAuth();openProfile();},800);
+  }else{msg.innerText="❌ Wrong code. Try again.";msg.style.color="red";}
+}
+async function doSignIn(){
+  let phone=cleanPhone(document.getElementById("siPhone").value.trim());
+  let pass=document.getElementById("siPass").value;
+  let msg=document.getElementById("siMsg");
+  try{await auth.signInWithEmailAndPassword(phone+"@vela.ug",pass);msg.innerText="✅ Welcome back!";setTimeout(closeAuth,600);}
+  catch(e){msg.innerText="❌ Wrong phone or password";}
+}
+function doSignOut(){auth.signOut();closeProfile();alert("Logged out");}
+function onAvatarClick(){if(currentUser)openProfile();else openAuth();}
+function openProfile(){if(!currentUser){openAuth();return;}document.getElementById("profileUserInfo").innerText="Logged in as: "+(currentUser.email||"")+" | UID: "+currentUser.uid;document.getElementById("profileBg").classList.add("open");}
 function closeProfile(){document.getElementById("profileBg").classList.remove("open");}
-function signInEmail(){let email=document.getElementById("emailInput").value.trim();let pass=document.getElementById("passInput").value.trim();if(!email||pass.length<6){alert("Enter email & password 6+");return;}auth.signInWithEmailAndPassword(email,pass).catch(e=>{if(e.code==='auth/user-not-found'||e.code==='auth/invalid-credential'){auth.createUserWithEmailAndPassword(email,pass).then(()=>closeLogin()).catch(err=>alert(err.message));}else alert(e.message);});}
+
 function saveCart(){localStorage.setItem('vela_cart',JSON.stringify(cart));updateCartUI();}
 function updateCartUI(){let count=cart.reduce((s,i)=>s+(i.qty||1),0);let total=cart.reduce((s,i)=>s+(i.price||0)*(i.qty||1),0);document.getElementById('headerCartCount').innerText=count;let bar=document.getElementById('cartBar');if(count>0){bar.classList.add('show');document.getElementById('cartBarCount').innerText=count+' items';document.getElementById('cartBarTotal').innerText=formatMoney(total)+' UGX';}else bar.classList.remove('show');renderCart();}
 function addToCart(id){const p=products.find(x=>x.docId===id);if(!p)return;let priceNum=parseInt(String(p.price).replace(/[^0-9]/g,''))||0;let it=cart.find(i=>i.docId===id);if(it)it.qty++;else cart.push({docId:p.docId,name:p.name,price:priceNum,img:p.img,sellerUid:p.ownerUid,sellerShop:p.shop,shopWa:p.shopWa,qty:1});saveCart();alert(p.name+" added!");}
 function removeFromCart(id){cart=cart.filter(i=>i.docId!==id);saveCart();}
 function changeQty(id,d){let it=cart.find(i=>i.docId===id);if(!it)return;it.qty+=d;if(it.qty<=0)removeFromCart(id);else saveCart();}
 function renderCart(){let list=document.getElementById('cartList');if(!list)return;if(cart.length===0){list.innerHTML='<p style="text-align:center;padding:20px;color:#999">Cart empty</p>';document.getElementById('checkoutBtn').style.display='none';document.getElementById('deliveryBox').style.display='none';document.getElementById('cartTotal').innerText='';return;}let total=cart.reduce((s,i)=>s+(i.price||0)*(i.qty||1),0);list.innerHTML=cart.map(i=>`<div style="display:flex;gap:10px;padding:10px 0;border-bottom:1px solid #eee"><img src="${i.img}" style="width:60px;height:60px;border-radius:8px;object-fit:cover"><div style="flex:1"><b>${i.name}</b><div>${formatMoney(i.price)} UGX</div><button onclick="changeQty('${i.docId}',-1)">-</button> ${i.qty} <button onclick="changeQty('${i.docId}',1)">+</button> <button onclick="removeFromCart('${i.docId}')" style="color:red;border:none;background:none">Remove</button></div></div>`).join('');document.getElementById('cartTotal').innerText='Total to Pay to VELA: '+formatMoney(total)+' UGX';document.getElementById('checkoutBtn').style.display='block';document.getElementById('deliveryBox').style.display='block';}
-async function checkoutCart(){if(!currentUser){openLogin();return;}let phone=document.getElementById('buyerPhoneInput').value.trim();let zone=document.getElementById('buyerZoneInput').value;let details=document.getElementById('buyerDetailsInput').value.trim();if(!phone||!zone||!details){alert("Fill phone, zone, house");return;}let total=cart.reduce((s,i)=>s+(i.price||0)*(i.qty||1),0);if(!confirm("Pay "+formatMoney(total)+" UGX to VELA "+MOMO_CODE+" ?"))return;for(let item of cart){await db.collection("vela_orders").add({productId:item.docId,productName:item.name,productImg:item.img,price:item.price,commission:Math.round(item.price*0.05),sellerEarning:item.price-Math.round(item.price*0.05),buyerUid:currentUser.uid,buyerPhone:phone,buyerZone:zone,buyerDetails:details,sellerUid:item.sellerUid,sellerShop:item.sellerShop,status:"awaiting_payment",created:Date.now(),qty:item.qty});}cart=[];saveCart();alert("✅ Order Created! Now Pay to VELA "+MOMO_CODE);showPage('BuyerOrders');}
+async function checkoutCart(){if(!currentUser){openAuth();return;}let phone=document.getElementById('buyerPhoneInput').value.trim();let zone=document.getElementById('buyerZoneInput').value;let details=document.getElementById('buyerDetailsInput').value.trim();if(!phone||!zone||!details){alert("Fill phone, zone, house");return;}let total=cart.reduce((s,i)=>s+(i.price||0)*(i.qty||1),0);if(!confirm("Pay "+formatMoney(total)+" UGX to VELA "+MOMO_CODE+" ?"))return;for(let item of cart){await db.collection("vela_orders").add({productId:item.docId,productName:item.name,productImg:item.img,price:item.price,commission:Math.round(item.price*0.05),sellerEarning:item.price-Math.round(item.price*0.05),buyerUid:currentUser.uid,buyerPhone:phone,buyerZone:zone,buyerDetails:details,sellerUid:item.sellerUid,sellerShop:item.sellerShop,status:"awaiting_payment",created:Date.now(),qty:item.qty});}cart=[];saveCart();alert("✅ Order Created! Now Pay to VELA "+MOMO_CODE);showPage('BuyerOrders');}
 function isChristmas(p){let t=((p.category||"")+" "+(p.name||"")).toLowerCase();return p.category==='Christmas'||t.includes('christmas')||t.includes('jacket')||t.includes('dress')||t.includes('shoe');}
-function render(){let q=(document.getElementById("search")?.value||"").toLowerCase();let list=products.filter(p=>{let matchCat=true;if(activeCat==='Christmas')matchCat=isChristmas(p);else if(activeCat!=='All')matchCat=(p.category===activeCat)||(p.name||"").toLowerCase().includes(activeCat.toLowerCase());let matchQ=!q||p.name.toLowerCase().includes(q)||(p.shop||"").toLowerCase().includes(q);return matchCat&&matchQ;});let el=document.getElementById("grid");if(!list.length){el.innerHTML='<p style="padding:20px;text-align:center">No products in this category yet. Tap + to add first product.</p>';return;}el.innerHTML=list.map(p=>{let xmas=isChristmas(p);return `<div class="card">${xmas?'<span class="christmasTag">🎄 CHRISTMAS</span><span class="saleTag">-30%</span>':''}<img src="${p.img}" onclick="openProductView('${p.docId}')"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${formatMoney(p.price)} UGX</div><div class="card-shop">${p.shop}</div><div class="card-actions"><button class="btn-view" onclick="openProductView('${p.docId}')">View</button><button class="btn-cart" onclick="addToCart('${p.docId}')">Add</button></div></div></div>`}).join('');}
+function render(){let q=(document.getElementById("search")?.value||"").toLowerCase();let list=products.filter(p=>{let matchCat=true;if(activeCat==='Christmas')matchCat=isChristmas(p);else if(activeCat!=='All')matchCat=(p.category===activeCat)||(p.name||"").toLowerCase().includes(activeCat.toLowerCase());let matchQ=!q||p.name.toLowerCase().includes(q)||(p.shop||"").toLowerCase().includes(q);return matchCat&&matchQ;});let el=document.getElementById("grid");if(!list.length){el.innerHTML='<p style="padding:20px;text-align:center">No products in this category yet. Tap + to add first product.</p>';return;}el.innerHTML=list.map(p=>{let xmas=isChristmas(p);return `<div class="card">${xmas?'<span class="christmasTag">🎄 CHRISTMAS</span><span class="saleTag">-30%</span>':''}<img src="${p.img}" onclick="openProductView('${p.docId}')"><div class="card-body"><div class="card-title">${p.name}</div><div class="card-price">${formatMoney(p.price)} UGX</div><div class="card-shop">${p.shop}</div><div class="card-actions"><button class="btn-view" onclick="openProductView('${p.docId}')">View</button><button class="btn-cart" onclick="addToCart('${p.docId}')">Add</button></div></div></div>`).join('');}
 function openProductView(id){const p=products.find(x=>x.docId===id);if(!p)return;currentViewProductId=id;document.getElementById("pvImg").src=p.img;document.getElementById("pvTitle").innerText=p.name;document.getElementById("pvPrice").innerText=formatMoney(p.price)+" UGX";document.getElementById("pvShop").innerText=p.shop||"";document.getElementById("pvBuyBtn").onclick=()=>{addToCart(p.docId);showPage('Cart');closeProductView();};document.getElementById("pvCartBtn").onclick=()=>addToCart(p.docId);document.getElementById("pvCallBtn").onclick=()=>{let wa=p.shopWa||'';if(!wa){alert('No WhatsApp');return;}window.open('https://wa.me/'+wa.replace(/[^0-9]/g,''),'_blank');};document.getElementById("productViewBg").classList.add("open");}
 function closeProductView(){document.getElementById("productViewBg").classList.remove("open");}
-function openModal(){if(!currentUser){openLogin();return;}document.getElementById("modalBg").classList.add("open");}function closeModal(){document.getElementById("modalBg").classList.remove("open");}
+function openModal(){if(!currentUser){openAuth();return;}document.getElementById("modalBg").classList.add("open");}function closeModal(){document.getElementById("modalBg").classList.remove("open");}
 function previewFile(input){if(input.files&&input.files[0]){const r=new FileReader();r.onload=e=>{compressedImageData=e.target.result;document.getElementById('preview').src=compressedImageData;document.getElementById('preview').style.display='block';};r.readAsDataURL(input.files[0]);}}
-async function submitProduct(){if(!currentUser){openLogin();return;}let name=document.getElementById('pName').value.trim();let cat=document.getElementById('pCat').value;let price=document.getElementById('pPrice').value.trim();let img=compressedImageData||document.getElementById('pLink').value.trim();if(!name||!price||!img){alert('Fill name, price, photo');return;}let snap=await db.collection("vela_sellers").doc(currentUser.uid).get();let s=snap.exists?snap.data():{};await db.collection("vela_products").add({name,category:cat,price,img,shop:s.shopName||'Shop',shopWa:s.wa||'',ownerUid:currentUser.uid,created:Date.now()});alert('✅ Posted!');closeModal();document.getElementById('pName').value='';document.getElementById('pPrice').value='';document.getElementById('pLink').value='';document.getElementById('preview').style.display='none';compressedImageData=null;}
-async function saveSellerProfile(){let shop=document.getElementById("sShop").value.trim();let wa=document.getElementById("sWa").value.trim();let loc=document.getElementById("sLoc").value;if(!shop||!wa){alert("Fill shop & WhatsApp");return;}await db.collection("vela_sellers").doc(currentUser.uid).set({shopName:shop,wa,location:loc,email:currentUser.email,updated:Date.now()},{merge:true});document.getElementById("profileMsg").innerText="✅ Saved! You can now sell.";}
-auth.onAuthStateChanged(u=>{currentUser=u;if(u){closeLogin();}});
+async function submitProduct(){if(!currentUser){openAuth();return;}let name=document.getElementById('pName').value.trim();let cat=document.getElementById('pCat').value;let price=document.getElementById('pPrice').value.trim();let img=compressedImageData||document.getElementById('pLink').value.trim();if(!name||!price||!img){alert('Fill name, price, photo');return;}let snap=await db.collection("vela_sellers").doc(currentUser.uid).get();let s=snap.exists?snap.data():{};await db.collection("vela_products").add({name,category:cat,price,img,shop:s.shopName||'Shop',shopWa:s.wa||'',ownerUid:currentUser.uid,created:Date.now()});alert('✅ Posted!');closeModal();document.getElementById('pName').value='';document.getElementById('pPrice').value='';document.getElementById('pLink').value='';document.getElementById('preview').style.display='none';compressedImageData=null;}
+async function saveSellerProfile(){if(!currentUser){openAuth();return;}let shop=document.getElementById("sShop").value.trim();let wa=document.getElementById("sWa").value.trim();let loc=document.getElementById("sLoc").value;if(!shop||!wa){alert("Fill shop & WhatsApp");return;}await db.collection("vela_sellers").doc(currentUser.uid).set({shopName:shop,wa,location:loc,email:currentUser.email,updated:Date.now()},{merge:true});await db.collection("vela_users").doc(currentUser.uid).set({shopName:shop,phone:wa,location:loc},{merge:true});document.getElementById("profileMsg").innerText="✅ Saved! You can now sell.";}
+auth.onAuthStateChanged(async u=>{currentUser=u;if(u){closeAuth();let snap=await db.collection("vela_users").doc(u.uid).get();if(snap.exists){let d=snap.data();document.getElementById("sShop").value=d.shopName||"";document.getElementById("sWa").value=d.phone||"";document.getElementById("sLoc").value=d.location||"Nakivale Base Camp";}}});
 db.collection("vela_products").orderBy("created","desc").onSnapshot(snap=>{let np=[];snap.forEach(doc=>{let d=doc.data();d.docId=doc.id;np.push(d);});products=np;render();});
 render();updateCartUI();
 </script></body></html>

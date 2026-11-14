@@ -1,326 +1,100 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VELA Uganda - Sign Up</title>
-<link rel="icon" type="image/png" href="logo.png">
+<html><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VELA - Sign Up</title>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <style>
-*{box-sizing:border-box;font-family:Arial}
-body{margin:0;background:#FFF8E1;padding:12px}
-.top{background:#FFC800;padding:14px;border-radius:16px;text-align:center}
-.top h1{margin:0}
-.top a{color:#111;font-weight:bold;text-decoration:none}
-.card-white{background:#fff;padding:14px;border-radius:16px;margin-top:12px;border:2px solid #111}
-.card-yellow{background:#FFC800;padding:14px;border-radius:16px;margin-top:10px;color:#111}
-.card-black{background:#111;color:#fff;padding:14px;border-radius:16px;margin-top:10px}
-.card-black p{color:#FFC800}
-.avatar-wrap{margin:12px auto;position:relative;width:140px;height:140px}
-#avatarImg{width:140px;height:140px;border-radius:50%;border:4px solid #FFC800;object-fit:cover;background:#222;display:block}
-.camera-btn{position:absolute;bottom:4px;right:4px;background:#FFC800;width:40px;height:40px;border-radius:50%;font-size:20px;display:flex;align-items:center;justify-content:center;border:3px solid #111}
-.btn{width:100%;padding:13px;border:none;border-radius:12px;font-weight:bold;font-size:15px;margin-top:10px}
-.yellow{background:#FFC800}.black{background:#111;color:#FFC800}.green{background:#25D366;color:#fff}
-input{width:100%;padding:12px;margin-top:8px;border-radius:10px;border:1px solid #ccc}
-.role{display:flex;gap:8px}
-.role button{flex:1;padding:12px;border-radius:12px;border:2px solid #111;background:#fff;font-weight:bold}
-.role .picked{background:#111!important;color:#FFC800!important}
-.profile-head{background:#111;color:#fff;padding:12px;border-radius:16px;display:flex;gap:10px;align-items:center;margin-top:12px}
-.profile-head img{width:60px;height:60px;border-radius:50%;object-fit:cover;border:3px solid #FFC800}
-.small-btn{background:#FFC800;border:none;border-radius:8px;padding:6px 10px;font-weight:bold;margin-left:auto}
-.boxes{display:flex;gap:8px;margin-top:12px}
-.box{flex:1;background:#fff;border:2px solid #FFC800;border-radius:12px;padding:10px;text-align:center}
-.item{background:#fff;padding:10px;border-radius:12px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.badge{background:#FFC800;padding:4px 8px;border-radius:20px;font-size:12px;font-weight:bold;white-space:nowrap}
-.small{color:#666;font-size:13px;text-align:center}
-.prod-img{width:65px;height:65px;border-radius:10px;object-fit:cover;border:2px solid #FFC800;flex-shrink:0}
-.prod-preview{width:100%;height:160px;object-fit:cover;border-radius:12px;border:2px solid #111;background:#FFC800}
-.item span{flex:1}
-.empty{background:#fff;border:2px dashed #ccc;border-radius:12px;padding:16px;text-align:center;color:#666;margin-top:8px}
-.link{color:#111;font-weight:bold;text-decoration:underline;text-align:center;display:block;margin-top:12px;cursor:pointer}
-.msg{color:#b91c1c;font-weight:bold;text-align:center;margin-top:10px}
-.msg.ok{color:#15803d}
-.pass-row{display:flex;gap:8px;margin-top:8px}
-.pass-row button{flex:1;padding:10px;border-radius:10px;border:2px solid #111;background:#fff;font-weight:bold;font-size:13px}
-.strength{height:8px;background:#eee;border-radius:10px;margin-top:8px;overflow:hidden}
-.strength div{height:100%;width:0%;background:#ef4444;transition:.3s}
-.strength-text{font-size:12px;font-weight:bold;margin-top:4px;text-align:left}
-.suggest-box{background:#FFF8E1;border:2px dashed #111;border-radius:12px;padding:10px;margin-top:8px;display:none}
-.suggest-box b{font-size:16px;letter-spacing:1px}
-</style>
-</head>
-<body>
+*{box-sizing:border-box;font-family:system-ui} body{background:#f5f7f5;padding:16px}
+.box{background:white;max-width:400px;margin:20px auto;padding:20px;border-radius:16px}
+h2{font-size:22px} h2 span{color:#facc15}
+.inp{width:100%;padding:13px;border:1px solid #ddd;border-radius:10px;margin-top:10px;font-size:15px}
+.btn{width:100%;padding:13px;border:none;border-radius:12px;background:#111827;color:white;font-weight:900;margin-top:12px;font-size:15px}
+.btn:disabled{opacity:.6}
+#msg{text-align:center;margin-top:10px;font-size:14px}
+</style></head><body>
+<div class="box">
+<h2>VELA<span>.</span> Sign Up</h2>
+<p style="font-size:13px;color:#666">Create real VELA account. You will see it in Firebase.</p>
 
-<div style="background:#FF9900;padding:12px;display:flex;gap:10px;overflow:auto;white-space:nowrap;border-radius:12px;margin-bottom:12px">
-<a href="index.html" style="color:white;font-weight:bold;text-decoration:none">VELA</a>
-<a href="electronics.html" style="color:white;text-decoration:none">Electronics</a>
-<a href="fashion.html" style="color:white;text-decoration:none">Fashion</a>
-<a href="shop.html" style="color:white;text-decoration:none">Shop All Products</a>
-<a href="food.html" style="color:white;text-decoration:none">Food & Home</a>
-<a href="signup.html" style="color:white;font-weight:bold;text-decoration:none">Sign Up</a>
-</div>
+<input id="suName" class="inp" placeholder="Full Name">
+<input id="suPhone" class="inp" placeholder="Phone 0783663151" type="tel">
+<input id="suEmail" class="inp" placeholder="Email - e.g. elisa@gmail.com" type="email">
+<input id="suPass" class="inp" placeholder="Password 6+ characters" type="password">
 
-<div class="top"><h1>VELA Uganda</h1><p>Shop Safe with Escrow</p><a href="index.html">🏠 Back to Home</a></div>
-
-<div id="loginBox" class="card-white" style="display:none">
-  <h2>Sign In</h2>
-  <p id="welcomeBackText">Sign In</p>
-  <input id="loginPhone" placeholder="Phone">
-  <input id="loginPass" type="password" placeholder="Password">
-  <div class="pass-row"><button type="button" onclick="togglePass('loginPass',this)">Show</button></div>
-  <button type="button" class="btn black" id="loginBtn">Sign In</button>
-  <p id="loginMsg" class="msg"></p>
-  <a class="link" onclick="showCreateNew()">Create Account</a>
-</div>
-
-<div id="signupBox" class="card-white">
-  <h2>Create Account</h2>
-  <div class="avatar-wrap" onclick="document.getElementById('fileInput').click()">
-    <img id="avatarImg" src="https://via.placeholder.com/150/222222/FFC800?text=No+Photo">
-    <div class="camera-btn">📷</div>
-  </div>
-  <p class="small">Upload Photo</p>
-  <input type="file" id="fileInput" accept="image/*" style="display:none">
-  <button type="button" class="btn yellow" onclick="document.getElementById('fileInput').click()">📷 Upload Photo</button>
-  <input id="userName" placeholder="Full Name">
-  <input id="userPhone" placeholder="Phone">
-  <input id="userLocation" placeholder="Location">
-  <input id="userPass" type="password" placeholder="Password">
-  <input id="userPass2" type="password" placeholder="Confirm Password">
-  <div class="pass-row">
-    <button type="button" onclick="togglePass('userPass',this)">Show Password</button>
-    <button type="button" onclick="togglePass('userPass2',this)">Show Confirm</button>
-  </div>
-  <div class="strength"><div id="strengthBar"></div></div>
-  <div id="strengthText" class="strength-text"></div>
-  <p id="matchText" class="strength-text"></p>
-  <button type="button" class="btn yellow" onclick="suggestPassword()" style="border:2px solid #111">🔑 Suggest Strong Password</button>
-  <div id="suggestBox" class="suggest-box">
-    <div>Suggested Password:</div>
-    <b id="suggestedPass"></b>
-    <button type="button" class="btn black" onclick="useSuggested()">Use This Password</button>
-    <button type="button" class="btn yellow" onclick="suggestPassword()">Generate Another</button>
-    <p class="small">Save this password. You will need it to Sign In.</p>
-  </div>
-  <p style="margin-top:12px"><b>Account Type</b></p>
-  <div class="role">
-    <button type="button" id="rBuyer" onclick="pickRole('Buyer')">🛍️ Buyer</button>
-    <button type="button" id="rSeller" onclick="pickRole('Seller')">🏪 Seller</button>
-    <button type="button" id="rBoth" onclick="pickRole('Both')">🛍️+🏪 Both</button>
-  </div>
-  <p id="rolePicked"></p>
-  <div id="sellerFields" style="display:none">
-    <input id="shopName" placeholder="Shop Name">
-    <input id="momoNum" placeholder="MoMo Number">
-    <input id="momoName" placeholder="MoMo Registered Name">
-  </div>
-  <button type="button" class="btn black" id="createBtn">Create Account</button>
-  <p id="signupMsg" class="msg"></p>
-  <a class="link" onclick="showLogin()">Sign In</a>
-</div>
-
-<div id="dashboard" style="display:none">
-  <div class="profile-head">
-    <img id="dashAvatar" src="https://via.placeholder.com/80/222222/FFC800?text=👤">
-    <div><b id="dashName"></b><br><small id="dashRole"></small><br><small id="dashShop"></small></div>
-    <button type="button" class="small-btn" onclick="logout()">Log Out</button>
-  </div>
-  <div id="buyerFeatures" style="display:none">
-    <h2>🛍️ Buyer</h2>
-    <div class="card-yellow"><b>🛡️ Escrow</b><p>0 UGX</p><button type="button" class="btn black" onclick="confirmDelivery()">Confirm Delivery</button><p id="confirmMsg"></p></div>
-    <h3>Orders</h3><div class="empty">No Orders</div>
-    <h3>Saved Items</h3><div class="empty">No Saved Items</div>
-    <h3>Delivery Address</h3><div class="empty">No Address</div>
-    <button type="button" class="btn green">WhatsApp Support</button>
-  </div>
-  <div id="sellerFeatures" style="display:none">
-    <h2>🏪 Seller</h2>
-    <div class="card-black"><b id="dashShopName">My Shop</b><p>New Seller</p><p>MoMo: <span id="dashMoMo">-</span></p><p>MoMo Name: <span id="dashMoMoName">-</span></p></div>
-    <div class="boxes"><div class="box">Total Sales<br><b>0 UGX</b></div><div class="box">Held in Escrow<br><b>0 UGX</b></div><div class="box">Available<br><b>0 UGX</b></div></div>
-    <button type="button" class="btn yellow" onclick="withdraw()">Withdraw to MoMo</button><p id="withdrawMsg"></p>
-    <h3>Products</h3>
-    <div id="myProductsList"><div class="empty">No Products</div></div>
-    <div id="newProducts"></div>
-    <h3>Add Product</h3>
-    <img id="prodPreview" src="https://via.placeholder.com/300x180/FFC800/111111?text=Add+Photo" class="prod-preview" onclick="document.getElementById('prodImageInput').click()">
-    <p class="small">Add Product Photo</p>
-    <input type="file" id="prodImageInput" accept="image/*" style="display:none">
-    <input id="prodName" placeholder="Product Name">
-    <input id="prodPrice" placeholder="Price in UGX">
-    <input id="prodStock" placeholder="Stock">
-    <button type="button" class="btn black" onclick="addProduct()">Add Product</button>
-  </div>
+<button id="suBtn" class="btn" onclick="doSignUp()">Create Account</button>
+<button class="btn" style="background:#f3f4f6;color:#111827" onclick="doSignIn()">Already have account? Sign In</button>
+<p id="msg"></p>
+<p id="debug" style="font-size:11px;color:#999;text-align:center"></p>
 </div>
 
 <script>
-var chosenRole = "Buyer";
-var avatarData = "";
-var prodImageData = "";
-var currentUser = null;
-var lastSuggested = "";
-function saveUser(u){ try{ localStorage.setItem('vela_signup_user', JSON.stringify(u)); }catch(e){} if(u.products){ try{ localStorage.setItem('vela_my_products', JSON.stringify(u.products)); }catch(e){} } }
-function loadUser(){ try{ return JSON.parse(localStorage.getItem('vela_signup_user')||'null'); }catch(e){ return null; } }
-function loadProducts(){ try{ return JSON.parse(localStorage.getItem('vela_my_products')||'[]'); }catch(e){ return []; } }
-function showDashboard(user){
-  currentUser = user;
-  document.getElementById('signupBox').style.display='none';
-  document.getElementById('loginBox').style.display='none';
-  document.getElementById('dashboard').style.display='block';
-  document.getElementById('dashName').innerText = user.name;
-  document.getElementById('dashRole').innerText = user.role + " • " + user.location + " • " + user.phone;
-  if(user.avatar) document.getElementById('dashAvatar').src = user.avatar;
-  if(user.role==='Buyer'){ document.getElementById('buyerFeatures').style.display='block'; document.getElementById('sellerFeatures').style.display='none'; }
-  if(user.role==='Seller'){ document.getElementById('buyerFeatures').style.display='none'; document.getElementById('sellerFeatures').style.display='block'; }
-  if(user.role==='Both'){ document.getElementById('buyerFeatures').style.display='block'; document.getElementById('sellerFeatures').style.display='block'; }
-  var shop = user.shopName || user.name + " Shop";
-  document.getElementById('dashShop').innerText = (user.role!=='Buyer') ? "Shop: "+shop : "";
-  document.getElementById('dashShopName').innerText = shop;
-  document.getElementById('dashMoMo').innerText = user.momoNum || "-";
-  document.getElementById('dashMoMoName').innerText = user.momoName || "-";
-  renderMyProducts();
-}
-function renderMyProducts(){
-  var prods = loadProducts();
-  var wrap = document.getElementById('newProducts');
-  var empty = document.getElementById('myProductsList');
-  if(!prods.length){ empty.style.display='block'; wrap.innerHTML=''; return; }
-  empty.style.display='none';
-  wrap.innerHTML = prods.map(function(p){ return '<div class="item"><img src="'+p.img+'" class="prod-img"><span>'+p.name+'<br><small>'+p.price+' UGX • Stock: '+p.stock+'</small></span><span class="badge">Active</span></div>'; }).join('');
-}
-function showLogin(){
-  var u = loadUser();
-  if(!u){ document.getElementById('signupMsg').innerText="Create Account First"; return; }
-  document.getElementById('signupBox').style.display='none';
-  document.getElementById('loginBox').style.display='block';
-  document.getElementById('welcomeBackText').innerText = u.name;
-  document.getElementById('loginPhone').value = u.phone || "";
-}
-function showCreateNew(){
-  document.getElementById('loginBox').style.display='none';
-  document.getElementById('signupBox').style.display='block';
-}
-function pickRole(role){
-  chosenRole = role;
-  document.getElementById('rolePicked').innerText = role;
-  document.getElementById('rBuyer').className = role==='Buyer' ? 'picked' : '';
-  document.getElementById('rSeller').className = role==='Seller' ? 'picked' : '';
-  document.getElementById('rBoth').className = role==='Both' ? 'picked' : '';
-  document.getElementById('sellerFields').style.display = (role==='Seller' || role==='Both') ? 'block' : 'none';
-}
-function togglePass(id, btn){
-  var el = document.getElementById(id);
-  if(el.type==='password'){ el.type='text'; btn.innerText='Hide'; } else { el.type='password'; btn.innerText='Show'; }
-}
-function checkStrength(){
-  var p = document.getElementById('userPass').value;
-  var p2 = document.getElementById('userPass2').value;
-  var bar = document.getElementById('strengthBar');
-  var txt = document.getElementById('strengthText');
-  var match = document.getElementById('matchText');
-  var score = 0;
-  if(p.length>=8) score++;
-  if(/[A-Z]/.test(p)) score++;
-  if(/[0-9]/.test(p)) score++;
-  if(/[^A-Za-z0-9]/.test(p)) score++;
-  var colors = ['#ef4444','#f97316','#eab308','#22c55e'];
-  var labels = ['Weak','Fair','Good','Strong'];
-  if(!p){ bar.style.width='0%'; txt.innerText=''; }
-  else { bar.style.width=((score+1)*20)+'%'; bar.style.background=colors[Math.min(score,3)]; txt.innerText='Strength: '+(labels[Math.min(score,3)]||'Weak'); txt.style.color=colors[Math.min(score,3)]; }
-  if(!p2){ match.innerText=''; }
-  else if(p===p2){ match.innerText='✓ Passwords Match'; match.style.color='#15803d'; }
-  else { match.innerText='✗ Passwords Do Not Match'; match.style.color='#b91c1c'; }
-}
-function suggestPassword(){
-  var words = ['Vela','Nakivale','Kampala','Shop','Uganda','Market'];
-  var w = words[Math.floor(Math.random()*words.length)];
-  var num = Math.floor(100+Math.random()*900);
-  var syms = ['!','@','#','$','&','*'];
-  var s = syms[Math.floor(Math.random()*syms.length)];
-  lastSuggested = w + '-' + num + s + 'Ug';
-  document.getElementById('suggestedPass').innerText = lastSuggested;
-  document.getElementById('suggestBox').style.display='block';
-}
-function useSuggested(){
-  if(!lastSuggested) suggestPassword();
-  document.getElementById('userPass').value = lastSuggested;
-  document.getElementById('userPass2').value = lastSuggested;
-  checkStrength();
-  document.getElementById('suggestBox').style.display='none';
-}
-function createAccount(){
-  var msg = document.getElementById('signupMsg');
-  msg.className='msg'; msg.innerText='Please Wait...';
-  var btn = document.getElementById('createBtn'); btn.innerText='Please Wait...'; btn.disabled=true;
-  setTimeout(function(){
-    var name = document.getElementById('userName').value.trim();
-    var loc = document.getElementById('userLocation').value.trim() || "Nakivale";
-    var phone = document.getElementById('userPhone').value.trim();
-    var pass = document.getElementById('userPass').value;
-    var pass2 = document.getElementById('userPass2').value;
-    if(!name){ msg.innerText="Enter Name"; btn.innerText='Create Account'; btn.disabled=false; return; }
-    if(!phone){ msg.innerText="Enter Phone"; btn.innerText='Create Account'; btn.disabled=false; return; }
-    if(!pass || pass.length < 8){ msg.innerText="Password: Minimum 8 characters"; btn.innerText='Create Account'; btn.disabled=false; return; }
-    if(pass !== pass2){ msg.innerText="Passwords Do Not Match"; btn.innerText='Create Account'; btn.disabled=false; return; }
-    if(!chosenRole){ msg.innerText="Select Account Type"; btn.innerText='Create Account'; btn.disabled=false; return; }
-    if((chosenRole==='Seller' || chosenRole==='Both') && !document.getElementById('momoNum').value){ msg.innerText="Enter MoMo Number"; btn.innerText='Create Account'; btn.disabled=false; return; }
-    var user = { name:name, phone:phone, location:loc, password:pass, role:chosenRole, shopName: document.getElementById('shopName').value.trim() || name + " Shop", momoNum: document.getElementById('momoNum').value.trim(), momoName: document.getElementById('momoName').value.trim(), avatar: avatarData || "", products: loadProducts() };
-    saveUser(user);
-    try{ localStorage.setItem('vela_logged_in','yes'); }catch(e){}
-    msg.className='msg ok'; msg.innerText='Account Created';
-    showDashboard(user);
-  }, 200);
-}
-function doLogin(){
-  var msg = document.getElementById('loginMsg'); msg.innerText='Please Wait...';
-  var phone = document.getElementById('loginPhone').value.trim();
-  var pass = document.getElementById('loginPass').value;
-  var u = loadUser();
-  if(!u){ msg.innerText="No Account Found. Create Account First."; return; }
-  if(phone !== u.phone){ msg.innerText="Incorrect Phone"; return; }
-  if(pass !== u.password){ msg.innerText="Incorrect Password"; return; }
-  try{ localStorage.setItem('vela_logged_in','yes'); }catch(e){}
-  showDashboard(u);
-}
-function confirmDelivery(){ document.getElementById('confirmMsg').innerText = "No Active Order"; }
-function withdraw(){ document.getElementById('withdrawMsg').innerText = "Available: 0 UGX"; }
-function addProduct(){
-  var n = document.getElementById('prodName').value.trim();
-  var p = document.getElementById('prodPrice').value.trim();
-  var s = document.getElementById('prodStock').value.trim() || "10";
-  if(!n || !p){ return; }
-  var img = prodImageData || "https://via.placeholder.com/65/FFC800/111111?text=VELA";
-  var prods = loadProducts();
-  prods.push({name:n, price:p, stock:s, img:img});
-  try{ localStorage.setItem('vela_my_products', JSON.stringify(prods)); }catch(e){}
-  if(currentUser){ currentUser.products = prods; saveUser(currentUser); }
-  renderMyProducts();
-  document.getElementById('prodName').value=""; document.getElementById('prodPrice').value=""; document.getElementById('prodStock').value="";
-  prodImageData=""; document.getElementById('prodPreview').src="https://via.placeholder.com/300x180/FFC800/111111?text=Add+Photo";
-}
-function logout(){
-  try{ localStorage.setItem('vela_logged_in','no'); }catch(e){}
-  document.getElementById('dashboard').style.display='none';
-  showLogin();
-}
-document.getElementById('createBtn').addEventListener('click', createAccount);
-document.getElementById('loginBtn').addEventListener('click', doLogin);
-document.getElementById('userPass').addEventListener('input', checkStrength);
-document.getElementById('userPass2').addEventListener('input', checkStrength);
-document.getElementById('fileInput').addEventListener('change', function(e){
-  var file=e.target.files[0]; if(!file) return;
-  var r=new FileReader(); r.onload=function(ev){ avatarData=ev.target.result; document.getElementById('avatarImg').src=avatarData; }; r.readAsDataURL(file);
-});
-document.getElementById('prodImageInput').addEventListener('change', function(e){
-  var file=e.target.files[0]; if(!file) return;
-  var r=new FileReader(); r.onload=function(ev){ prodImageData=ev.target.result; document.getElementById('prodPreview').src=prodImageData; }; r.readAsDataURL(file);
-});
-pickRole('Buyer');
-(function(){
-  var u = loadUser();
-  if(u){
-    if(localStorage.getItem('vela_logged_in')==='yes'){ showDashboard(u); }
-    else { showLogin(); }
+// SAME FIREBASE AS YOUR SITE
+const firebaseConfig={apiKey:"AIzaSyCLHrYWH31Nu6hZZyl3fXpdrtbJapAVzdI",authDomain:"vela-search.firebaseapp.com",projectId:"vela-search",storageBucket:"vela-search.firebasestorage.app",messagingSenderId:"713874060645",appId:"1:713874060645:web:44ac156cc34ef3cfee5d8c"};
+firebase.initializeApp(firebaseConfig);
+const auth=firebase.auth();
+const db=firebase.firestore();
+
+async function doSignUp(){
+  const name=document.getElementById("suName").value.trim();
+  const phone=document.getElementById("suPhone").value.trim();
+  const email=document.getElementById("suEmail").value.trim();
+  const pass=document.getElementById("suPass").value;
+  const msg=document.getElementById("msg");
+  const btn=document.getElementById("suBtn");
+
+  if(!name||!phone||!email||pass.length<6){
+    msg.style.color="red";
+    msg.innerText="❌ Fill all: Name, Phone, Email, Password 6+";
+    return;
   }
-  renderMyProducts();
-})();
-</script>
-</body>
-</html>
+  btn.disabled=true; btn.innerText="Creating..."; msg.innerText="";
+
+  try{
+    // 1. REAL FIREBASE AUTH - THIS APPEARS IN AUTHENTICATION TAB
+    const cred = await auth.createUserWithEmailAndPassword(email, pass);
+    const uid = cred.user.uid;
+
+    // 2. REAL FIRESTORE DATA - THIS APPEARS IN FIRESTORE TAB
+    await db.collection("vela_users").doc(uid).set({
+      name: name,
+      phone: phone,
+      email: email,
+      created: Date.now(),
+      verified: true
+    });
+
+    msg.style.color="green";
+    msg.innerText="✅ SUCCESS! UID: "+uid+" - Check Firebase now";
+    document.getElementById("debug").innerText="Email: "+email+" | UID: "+uid;
+    btn.innerText="✅ Account Created";
+
+  }catch(e){
+    btn.disabled=false; btn.innerText="Create Account";
+    msg.style.color="red";
+    // Show REAL Firebase error, not fake message
+    msg.innerText="❌ Firebase says: "+e.message;
+    document.getElementById("debug").innerText="Error code: "+e.code;
+  }
+}
+
+async function doSignIn(){
+  const email=document.getElementById("suEmail").value.trim();
+  const pass=document.getElementById("suPass").value;
+  const msg=document.getElementById("msg");
+  try{
+    const cred=await auth.signInWithEmailAndPassword(email, pass);
+    msg.style.color="green";
+    msg.innerText="✅ Signed in! UID: "+cred.user.uid;
+  }catch(e){
+    msg.style.color="red";
+    msg.innerText="❌ Firebase says: "+e.message;
+  }
+}
+
+// This proves if someone is logged in
+auth.onAuthStateChanged(u=>{
+  if(u) document.getElementById("debug").innerText="Logged in as: "+u.email+" | UID: "+u.uid;
+});
+</script></body></html>

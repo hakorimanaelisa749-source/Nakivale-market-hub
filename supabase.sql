@@ -46,3 +46,23 @@ create table orders (
 -- Storage for images
 -- Go to Supabase Dashboard > Storage > Create Bucket: product-images, Public = ON
 -- Enable RLS for all tables in Dashboard > Authentication > Policies > Enable for anon
+-- VELA APPROVAL SYSTEM - Add to products
+alter table products add column if not exists status text default 'pending';
+alter table products add column if not exists approved_by text;
+alter table products add column if not exists approved_at timestamp;
+alter table products add column if not exists rejection_reason text;
+
+-- Approvers table
+create table if not exists approvers (
+  id uuid primary key default gen_random_uuid(),
+  email text unique not null,
+  name text not null, -- Aristide, Najibu, Everylene
+  created_at timestamp default now()
+);
+
+-- Insert your 3 approvers - replace with their real emails
+insert into approvers (email, name) values
+('aristide@gmail.com', 'Aristide'),
+('najibu@gmail.com', 'Najibu'),
+('everylene@gmail.com', 'Everylene')
+on conflict (email) do nothing;

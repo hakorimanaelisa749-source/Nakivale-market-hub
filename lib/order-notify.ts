@@ -87,3 +87,38 @@ async function sendSellerWhatsApp(sellerId: string, productName: string, quantit
     })
   })
 }
+// Seller Accept / Reject - Buyer sees instantly
+export async function respondToOrder(orderId: string, decision: 'accepted' | 'rejected') {
+  await supabase.from('orders').update({
+    status: decision,
+    responded_at: new Date().toISOString()
+  }).eq('id', orderId)
+}
+
+// Buyer listens - put this in Buyer Orders page
+export function listenForOrderStatus(buyerId: string, onUpdate: (order: any) => void) {
+  const channel = supabase
+    .channel(`buyer-orders-${buyerId}`)
+    .on('postgres_changes', {
+      event: 'UPDATE',
+      schema: 'public',
+      table: 'orders',
+      filter: `buyer_id=eq.${buyerId}`
+    }, (payload) => {
+      onUpdate(payload.new)
+      if (payload.new.status === 'accepted') {
+        new Audio('/accepted-sound.mp3').play().catch(() => {})
+        if (Notification.permission === 'granted') {
+          new Notification('Order Accepted!', { body: `${payload.new.product_name} is being prepared` })
+        }
+      }
+      if (payload.new.status === 'rejected') {
+        if (Notification.permission === 'granted') {
+          new Notification('Order Rejected', { body: `Seller could not fulfill ${payload.new.product_name}` })
+        }
+      }
+    })
+    .subscribe()
+
+  return () => { supabase.removeChannel(channel) }
+}

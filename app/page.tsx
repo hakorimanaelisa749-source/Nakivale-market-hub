@@ -8,7 +8,7 @@ const CATEGORIES = ['All', 'Christmas', 'Fashion', 'Phones & Tablets', 'Electron
 
 export default function Home() {
   const [products, setProducts] = useState<any[]>([]);
-  const [cart, setCart] = useState<any[]>(() => JSON.parse(localStorage.getItem('vela_cart') || '[]'));
+  const [cart, setCart] = useState<any[]>([]);
   const [activeCat, setActiveCat] = useState('All');
   const [search, setSearch] = useState('');
   const [user, setUser] = useState<any>(null);
@@ -21,6 +21,11 @@ export default function Home() {
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`).then(r => r.json()).then(d => setProducts(d.products || []));
     supabase.auth.getUser().then(({ data }) => setUser(data.user));
+  }, []);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('vela_cart');
+    if (saved) setCart(JSON.parse(saved));
   }, []);
 
   useEffect(() => { localStorage.setItem('vela_cart', JSON.stringify(cart)); }, [cart]);
@@ -61,13 +66,10 @@ export default function Home() {
       <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search products in Nakivale..." className="inp" style={{margin:12}} />
       <div className="grid">{filtered.map(p => <ProductCard key={p.id} p={p} onView={setViewProduct} onAdd={(prod:any)=>{ const ex=cart.find(i=>i.id===prod.id); if(ex) setCart(cart.map(i=>i.id===prod.id?{...i,qty:i.qty+1}:i)); else setCart([...cart,{...prod,qty:1}]); }} />)}</div>
 
-      {/* Cart + Checkout - same as your old pageCart */}
       <div className="box"><h2>🛒 My Cart</h2>{cart.map(i=><div key={i.id}>{i.name} - {i.price} UGX x {i.qty}</div>)}<button className="submit" onClick={checkout}>🔒 Place Order - Pay to VELA First</button><input id="buyerPhone" className="inp" placeholder="Your Phone 078..." /><select id="buyerZone" className="inp"><option>Nakivale Base Camp</option><option>Kampala</option><option>Mbarara</option></select><input id="buyerDetails" className="inp" placeholder="House description" /></div>
 
-      {/* Login Modal - 3 steps, same as before */}
       {showLogin && <div className="modal-bg open"><div className="modal"><button className="closeX" onClick={()=>setShowLogin(false)}>✕</button>{authStep===1 && <><h3>Welcome to VELA 👋</h3><input className="inp" placeholder="Your Email" value={email} onChange={e=>setEmail(e.target.value)} /><button className="submit" onClick={()=> email.includes('@') ? setAuthStep(2) : alert('Enter valid email')}>Next →</button></>}{authStep===2 && <><h3>Create Password 🔒</h3><input className="inp" type="password" placeholder="Password 6+" value={password} onChange={e=>setPassword(e.target.value)} /><button className="submit" onClick={authFinish}>Create Account / Sign In</button></>}{authStep===3 && <><h3>✅ You are in!</h3><button className="submit" onClick={()=>setShowLogin(false)}>Go Shopping →</button></>}</div></div>}
 
-      {/* Product View */}
       {viewProduct && <div id="productViewBg" className="open"><img src={viewProduct.img} className="pv-img" /><div className="pv-body"><button className="closeX" onClick={()=>setViewProduct(null)}>✕</button><div style={{fontWeight:900}}>{viewProduct.name}</div><div>{Number(viewProduct.price).toLocaleString()} UGX</div><button className="pv-btn buy" onClick={()=>{ setCart([...cart,{...viewProduct,qty:1}]); setViewProduct(null); }}>💳 Buy Now</button><button className="pv-btn call" onClick={()=>window.open(`https://wa.me/${viewProduct.shop_wa}`)}>💬 Chat Seller</button></div></div>}
 
       <footer>VELA Uganda<br/>Pay Only To 47852783 - Name: VELA<br/>Nakivale • Kampala • Mbarara</footer>

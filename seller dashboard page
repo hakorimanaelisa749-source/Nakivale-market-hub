@@ -1,0 +1,25 @@
+// In your seller dashboard component
+useEffect(() => {
+  setSellerOnline(seller.id, true)
+  Notification.requestPermission()
+
+  const stop = listenForOrders(seller.id, (order) => {
+    alert(`New Order! ${order.product_name} x${order.quantity}`)
+    // Refresh orders list here
+  })
+
+  return () => { setSellerOnline(seller.id, false); stop() }
+}, [])
+// Buyer Orders Page
+useEffect(() => {
+  const stop = listenForOrderStatus(buyer.id, (order) => {
+    if (order.status === 'accepted') {
+      alert(`✅ Accepted! ${order.product_name} is being prepared`)
+    }
+    if (order.status === 'rejected') {
+      alert(`❌ Rejected. Seller cannot fulfill ${order.product_name}. Try another seller.`)
+    }
+    // Refresh buyer orders list here
+  })
+  return stop
+}, [])

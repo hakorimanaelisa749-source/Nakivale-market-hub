@@ -1,8 +1,6 @@
 "use client";
 import { useState } from "react";
 
-const BACKEND = "https://vela-shop-online.onrender.com";
-
 export default function Signup() {
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
